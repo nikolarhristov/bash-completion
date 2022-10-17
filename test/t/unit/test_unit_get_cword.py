@@ -1,6 +1,5 @@
 import pexpect  # type: ignore[import]
 import pytest
-
 from conftest import PS1, TestUnitBase, assert_bash_exec
 
 

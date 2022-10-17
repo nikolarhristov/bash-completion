@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import assert_bash_exec, bash_env_saved
 
 

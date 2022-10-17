@@ -5,7 +5,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from conftest import assert_bash_exec, assert_complete
 
 

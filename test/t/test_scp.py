@@ -1,7 +1,6 @@
 from itertools import chain
 
 import pytest
-
 from conftest import assert_bash_exec
 
 LIVE_HOST = "bash_completion"

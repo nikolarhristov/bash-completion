@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import TestUnitBase, assert_bash_exec, assert_complete
 
 

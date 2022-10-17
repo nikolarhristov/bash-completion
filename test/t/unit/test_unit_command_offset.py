@@ -1,7 +1,6 @@
 from shlex import quote
 
 import pytest
-
 from conftest import assert_bash_exec, assert_complete
 
 

@@ -1,11 +1,6 @@
 import pytest
-
-from conftest import (
-    assert_bash_exec,
-    assert_complete,
-    is_bash_type,
-    prepare_fixture_dir,
-)
+from conftest import (assert_bash_exec, assert_complete, is_bash_type,
+                      prepare_fixture_dir)
 
 
 @pytest.mark.bashcomp(

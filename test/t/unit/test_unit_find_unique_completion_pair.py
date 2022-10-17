@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import find_unique_completion_pair
 
 

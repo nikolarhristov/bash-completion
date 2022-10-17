@@ -3,13 +3,13 @@
 _btdownload()
 {
     local cur prev words cword
-    _init_completion || return
+    _init_completion | | return
 
     case $prev in
         --responsefile | --saveas)
             _filedir
             return
-            ;;
+            ; ;
     esac
 
     if [[ $cur == -* ]]; then

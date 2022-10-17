@@ -1,7 +1,6 @@
 import sys
 
 import pytest
-
 from conftest import assert_bash_exec
 
 

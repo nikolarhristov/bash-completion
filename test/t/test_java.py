@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import is_bash_type
 
 

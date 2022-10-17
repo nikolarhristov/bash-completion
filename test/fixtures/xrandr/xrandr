@@ -2,8 +2,8 @@
 
 if [ "$1" = --help ]; then
 
-    # xrandr 1.5.1 help
-    cat <<EOF
+	# xrandr 1.5.1 help
+	cat <<EOF
 usage: xrandr [options]
   where options are:
   --display <display> or -d <display>
@@ -69,20 +69,20 @@ usage: xrandr [options]
 EOF
 
 elif
-    [ "$1" = --listmonitors ]
+	[ "$1" = --listmonitors ]
 then
 
-    cat <<EOF
+	cat <<EOF
 Monitors: 2
  0: +*eDP-1-1 1920/344x1080/193+0+1080  eDP-1-1
  1: +HDMI-0 1920/477x1080/268+0+0  HDMI-0
 EOF
 
 elif
-    [ "$1" = --listproviders ]
+	[ "$1" = --listproviders ]
 then
 
-    cat <<EOF
+	cat <<EOF
 Providers: number : 2
 Provider 0: id: 0x1b8 cap: 0x1, Source Output crtcs: 4 outputs: 5 associated providers: 1 name:NVIDIA-0
 Provider 1: id: 0x1fe cap: 0xf, Source Output, Sink Output, Source Offload, Sink Offload crtcs: 3 outputs: 1 associated providers: 1 name:modesetting
@@ -90,7 +90,7 @@ EOF
 
 else
 
-    cat <<EOF
+	cat <<EOF
 Screen 0: minimum 8 x 8, current 1920 x 2160, maximum 32767 x 32767
 DP-0 disconnected (normal left inverted right x axis y axis)
 DP-1 disconnected (normal left inverted right x axis y axis)

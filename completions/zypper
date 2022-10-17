@@ -107,7 +107,7 @@ _zypper() {
 		;;
 	esac
 	unset prev
-	
+
 	if [[ "$command" =~ "zypper" ]]; then
 		opts=(${ZYPPER_CMDLIST[*]}$(echo; LC_ALL=POSIX $ZYPPER -q help 2>&1 | \
 			sed -n '/[Oo]ptions:$/,/[Cc]ommands:$/ s/^[[:blank:]]*\(--[^[:blank:],[]*\).*/\1/p'))

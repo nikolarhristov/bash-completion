@@ -10,17 +10,8 @@ import time
 from enum import Enum
 from pathlib import Path
 from types import TracebackType
-from typing import (
-    Callable,
-    Dict,
-    Iterable,
-    Iterator,
-    List,
-    Optional,
-    TextIO,
-    Tuple,
-    Type,
-)
+from typing import (Callable, Dict, Iterable, Iterator, List, Optional, TextIO,
+                    Tuple, Type)
 
 import pexpect  # type: ignore[import]
 import pytest

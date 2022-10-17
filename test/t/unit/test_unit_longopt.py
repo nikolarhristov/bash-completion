@@ -1,7 +1,6 @@
 # Based on work by Stephen Gildea, October 2010.
 
 import pytest
-
 from conftest import assert_bash_exec
 
 

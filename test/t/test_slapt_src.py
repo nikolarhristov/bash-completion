@@ -2,7 +2,6 @@ import os
 from tempfile import mkstemp
 
 import pytest
-
 from conftest import assert_complete, is_bash_type
 
 

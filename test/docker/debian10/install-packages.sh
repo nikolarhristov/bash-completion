@@ -12,14 +12,14 @@ apt-get update
 apt-get -y upgrade
 
 apt-get -y --no-install-recommends install \
-    apt-file \
-    software-properties-common
+	apt-file \
+	software-properties-common
 
 apt-add-repository contrib
 apt-add-repository non-free
 
 apt-get -y --no-install-recommends install \
-    npm
+	npm
 
 npm install -g jshint
 npm cache clean --force
@@ -27,7 +27,7 @@ npm cache clean --force
 apt-file update
 
 excluded=$(
-    cat <<\EOF
+	cat <<\EOF
 arping
 bcron
 bison++
@@ -51,26 +51,26 @@ EOF
 
 # https://github.com/moby/moby/issues/1297
 echo "resolvconf resolvconf/linkify-resolvconf boolean false" |
-    debconf-set-selections
+	debconf-set-selections
 
 while read -r file; do
-    case $file in
-        /*) printf "%s\n" "$file" ;;
-        *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
-    esac
+	case $file in
+	/*) printf "%s\n" "$file" ;;
+	*) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
+	esac
 done |
-    apt-file -lFf search - |
-    grep -vF "$excluded" |
-    xargs apt-get -y --no-install-recommends install
+	apt-file -lFf search - |
+	grep -vF "$excluded" |
+	xargs apt-get -y --no-install-recommends install
 
 # Required but not pulled in by dependencies:
 apt-get -y --no-install-recommends install \
-    postgresql-client
+	postgresql-client
 
 # Build some *BSD tools for testing
 
 apt-get -y --no-install-recommends install \
-    build-essential
+	build-essential
 
 install -dm 755 /usr/local/lib/bsd-bin
 apt-get -y --no-install-recommends install bison libbsd-dev subversion
@@ -79,7 +79,7 @@ svn co https://svn.freebsd.org/base/release/11.1.0/usr.bin/sed bsd-sed
 cd bsd-sed
 sed -i -e 's,^__FBSDID.*,#include <bsd/bsd.h>,' ./*.c
 cc -O2 -g -Wall -Wno-unused-const-variable -D_GNU_SOURCE ./*.c \
-    -lbsd -o /usr/local/lib/bsd-bin/sed
+	-lbsd -o /usr/local/lib/bsd-bin/sed
 cd ..
 rm -r bsd-sed
 
@@ -95,12 +95,12 @@ rm -r one-true-awk
 
 cd /
 curl --fail https://software.jaos.org/slackpacks/slackware64-14.2/slapt-get/slapt-get-0.11.3-x86_64-1.txz |
-    tar xvJ
+	tar xvJ
 bash -x install/doinst.sh
 mkdir -p var/lib/pkgtools/packages # 0.11.3 --available empty without this dir
 rm -r install
 curl --fail https://software.jaos.org/slackpacks/slackware64-14.2/slapt-src/slapt-src-0.3.6-x86_64-1.txz |
-    tar xvJ
+	tar xvJ
 bash -x install/doinst.sh
 rm -r install
 cp -a usr/lib64/* usr/lib/
