@@ -1,18 +1,17 @@
 # mailman withlist completion                              -*- shell-script -*-
 
-_withlist()
-{
-    local cur prev words cword
-    _init_completion || return
+_withlist() {
+	local cur prev words cword
+	_init_completion || return
 
-    if [[ $cur == -* ]]; then
-        COMPREPLY=($(compgen -W '--lock --interactive --run --all --quiet
+	if [[ $cur == -* ]]; then
+		COMPREPLY=($(compgen -W '--lock --interactive --run --all --quiet
             --help' -- "$cur"))
-    else
-        _comp_xfunc list_lists mailman_lists
-    fi
+	else
+		_comp_xfunc list_lists mailman_lists
+	fi
 
 } &&
-    complete -F _withlist withlist
+	complete -F _withlist withlist
 
 # ex: filetype=sh
