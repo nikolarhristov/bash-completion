@@ -3,9 +3,10 @@
 # Use of this file is deprecated on Linux systems whose chsh is from
 # util-linux. Upstream completion is in util-linux >= 2.23, use that instead.
 
-_chsh() {
-	local cur prev words cword
-	_init_completion || return
+_chsh()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local word chroot
 	for word in "${words[@]}"; do

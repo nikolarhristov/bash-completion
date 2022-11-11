@@ -1,8 +1,9 @@
 # querybts completion                                      -*- shell-script -*-
 
-_querybts() {
-	local cur prev words cword split
-	_init_completion -s || return
+_querybts()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--bts | -!(-*)B)

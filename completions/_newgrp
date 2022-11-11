@@ -3,9 +3,10 @@
 # Use of this file is deprecated on Linux.  Upstream completion is
 # available in util-linux >= 2.23, use that instead.
 
-_newgrp() {
-	local cur prev words cword
-	_init_completion || return
+_newgrp()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == "-" ]]; then
 		COMPREPLY=(-)

@@ -76,14 +76,15 @@ actually occurs: when only one completion is available in `COMPREPLY`.
 
 ## `$split && return`
 
-Should be used in completions using the `-s` flag of `_init_completion`, or
-other similar cases where `_split_longopt` has been invoked, after `$prev` has
-been managed but before `$cur` is considered. If `$cur` of the form `--foo=bar`
-was split into `prev=--foo` and `cur=bar`, and the `$prev` block did not process
-the option argument completion, it makes sense to return immediately after the
-$prev block because`--foo` obviously takes an argument and the remainder of the
-completion function is unlikely to provide meaningful results for the required
-argument. Think of this as a catch-all for unknown options requiring an
+Should be used in completions using the `-s` flag of `_comp_initialize`,
+or other similar cases where `_split_longopt` has been invoked, after
+`$prev` has been managed but before `$cur` is considered. If `$cur` of the
+form `--foo=bar` was split into `prev=--foo` and `cur=bar`, and the `$prev`
+block did not process the option argument completion, it makes sense to return
+immediately after the $prev block because`--foo` obviously
+takes an argument and the remainder of the completion function is
+unlikely to provide meaningful results for the required argument.
+Think of this as a catch-all for unknown options requiring an
 argument.
 
 Note that even when using this, options that are known to require an argument

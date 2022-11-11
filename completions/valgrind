@@ -1,8 +1,9 @@
 # valgrind(1) completion                                   -*- shell-script -*-
 
-_valgrind() {
-	local cur prev words cword split
-	_init_completion -s || return
+_valgrind()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	local i
 	# Note: intentionally using COMP_WORDS and COMP_CWORD instead of

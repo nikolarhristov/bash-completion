@@ -1,8 +1,9 @@
 # freeciv-server completion                                -*- shell-script -*-
 
-_civserver() {
-	local cur prev words cword
-	_init_completion || return
+_civserver()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-f | -g | -l | -r | --file | --log | --gamelog | --read)

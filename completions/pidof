@@ -1,8 +1,9 @@
 # pidof(8) completion                                      -*- shell-script -*-
 
-_pidof() {
-	local cur prev words cword
-	_init_completion || return
+_pidof()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | -V | --version | -!(-*)[hV]*)

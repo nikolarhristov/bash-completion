@@ -1,8 +1,9 @@
 # idn(1) completion                                        -*- shell-script -*-
 
-_idn() {
-	local cur prev words cword split
-	_init_completion -s || return
+_idn()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)[hV])

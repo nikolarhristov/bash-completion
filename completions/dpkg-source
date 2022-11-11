@@ -1,8 +1,9 @@
 # Debian dpkg-source completion                            -*- shell-script -*-
 
-_dpkg_source() {
-	local cur prev words cword
-	_init_completion || return
+_dpkg_source()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local options word action packopts unpackopts fields
 

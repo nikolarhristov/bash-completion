@@ -1,8 +1,9 @@
 # groupmems(8) completion                                  -*- shell-script -*-
 
-_groupmems() {
-	local cur prev words cword
-	_init_completion || return
+_groupmems()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-a | --add | -d | --delete)

@@ -1,8 +1,9 @@
 # bash completion for sbopkg(8)                            -*- shell-script -*-
 
-_sbopkg() {
-	local cur prev words cword
-	_init_completion || return
+_sbopkg()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_help "$1" -h)' -- "$cur"))

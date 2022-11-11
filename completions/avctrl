@@ -1,8 +1,9 @@
 # avctrl completion                                        -*- shell-script -*-
 
-_avctrl() {
-	local cur prev words cword
-	_init_completion || return
+_avctrl()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '--help --quiet' -- "$cur"))

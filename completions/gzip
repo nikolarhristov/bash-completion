@@ -1,8 +1,9 @@
 # bash completion for gzip                                 -*- shell-script -*-
 
-_gzip() {
-	local cur prev words cword
-	_init_completion || return
+_gzip()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--blocksize | --suffix | --help | --version | --alias | --comment | \

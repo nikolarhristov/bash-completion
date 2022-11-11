@@ -1,12 +1,13 @@
 # Slackware Linux removepkg completion                     -*- shell-script -*-
 
-_removepkg() {
-	local cur prev words cword
-	_init_completion || return
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '-copy -keep -preserve -warn' -- "$cur"))
-		return
-	fi
+_removepkg()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
+    if [[ $cur == -* ]]; then
+        COMPREPLY=($(compgen -W '-copy -keep -preserve -warn' -- "$cur"))
+        return
+    fi
 
 	if _comp_looks_like_path "$cur"; then
 		_filedir

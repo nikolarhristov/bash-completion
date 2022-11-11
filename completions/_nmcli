@@ -29,9 +29,10 @@ _nmcli_ab_bssid() {
 		tail -n +2 | awk -F ' {2,}' '{print $2}')" -- "$cur"))
 }
 
-_nmcli() {
-	local cur prev words cword
-	_init_completion || return
+_nmcli()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-m | --mode)

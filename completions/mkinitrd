@@ -1,8 +1,9 @@
 # bash completion for mkinitrd                             -*- shell-script -*-
 
-_mkinitrd() {
-	local cur prev words cword split
-	_init_completion -s || return
+_mkinitrd()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--preload | --with | --builtin)

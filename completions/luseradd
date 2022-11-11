@@ -1,8 +1,9 @@
 # luseradd(1) and lusermod(1) completion                   -*- shell-script -*-
 
-_luseradd() {
-	local cur prev words cword split
-	_init_completion -s || return
+_luseradd()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --usage | --gecos | --uid | --login | --plainpassword | --password | \

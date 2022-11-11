@@ -1,8 +1,9 @@
 # bash shell function completion                           -*- shell-script -*-
 
-_function() {
-	local cur prev words cword
-	_init_completion || return
+_function()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -A function -- "$cur"))

@@ -2,9 +2,10 @@
 #
 # Copyright (C) 2004 Servilio Afre Puentes <servilio@gmail.com>
 
-_update_rc_d() {
-	local cur prev words cword
-	_init_completion || return
+_update_rc_d()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local sysvdir services options
 

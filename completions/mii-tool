@@ -1,8 +1,9 @@
 # mii-tool(8) completion                                   -*- shell-script -*-
 
-_mii_tool() {
-	local cur prev words cword split
-	_init_completion -s || return
+_mii_tool()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--force | -!(-*)F)

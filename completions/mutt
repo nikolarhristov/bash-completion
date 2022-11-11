@@ -141,9 +141,10 @@ _muttfiledir() {
 	_filedir
 }
 
-_mutt() {
-	local cur prev words cword
-	_init_completion -n =+! || return
+_mutt()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n =+! -- "$@" || return
 
 	case $cur in
 	-*)

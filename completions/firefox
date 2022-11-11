@@ -1,8 +1,9 @@
 # firefox completion                                       -*- shell-script -*-
 
-_firefox() {
-	local cur prev words cword split
-	_init_completion -s || return
+_firefox()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	[[ $cur == -MOZ_LOG*=* ]] && prev=${cur%%=*} cur=${cur#*=}
 

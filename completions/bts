@@ -14,9 +14,10 @@ _src_packages_with_prefix() {
 		-- "$ppn"
 }
 
-_bts() {
-	local cur prev words cword split
-	_init_completion -s || return
+_bts()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	show | bugs)

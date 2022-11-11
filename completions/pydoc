@@ -1,8 +1,9 @@
 # pydoc completion                                         -*- shell-script -*-
 
-_pydoc() {
-	local cur prev words cword
-	_init_completion || return
+_pydoc()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-k | -p)

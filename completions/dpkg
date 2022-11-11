@@ -9,21 +9,23 @@ if _comp_have_command grep-status; then
 		grep-status -P -e "^${1-}" -a -FStatus 'ok installed' -o -FStatus 'ok config-files' -n -s Package
 	}
 else
-	_comp_xfunc_dpkg_installed_packages() {
-		command grep -A 1 "Package: ${1-}" /var/lib/dpkg/status 2>/dev/null |
-			command grep -B 1 -Ee "ok installed|half-installed|unpacked| \
-            half-configured" \
-				-Ee "^Essential: yes" |
-			awk "/Package: ${1-}/ { print \$2 }" 2>/dev/null
-	}
+    _comp_xfunc_dpkg_installed_packages()
+    {
+        command awk -F '\n' -v RS='' "
+            index(\$1, \"Package: ${1-}\") == 1 &&
+            \$2 ~ /ok installed|half-installed|unpacked|half-configured|^Essential: yes/ {
+                print(substr(\$1, 10));
+            }" /var/lib/dpkg/status 2>/dev/null
+    }
 
-	_comp_xfunc_dpkg_purgeable_packages() {
-		command grep -A 1 "Package: ${1-}" /var/lib/dpkg/status 2>/dev/null |
-			command grep -B 1 -Ee "ok installed|half-installed|unpacked| \
-            half-configured|config-files" \
-				-Ee "^Essential: yes" |
-			awk "/Package: ${1-}/ { print \$2 }" 2>/dev/null
-	}
+    _comp_xfunc_dpkg_purgeable_packages()
+    {
+        command awk -F '\n' -v RS='' "
+            index(\$1, \"Package: ${1-}\") == 1 &&
+            \$2 ~ /ok installed|half-installed|unpacked|half-configured|config-files|^Essential: yes/ {
+                print(substr(\$1, 10));
+            }" /var/lib/dpkg/status 2>/dev/null
+    }
 fi
 
 _comp_deprecate_func _comp_dpkg_installed_packages _comp_xfunc_dpkg_installed_packages
@@ -31,9 +33,10 @@ _comp_deprecate_func _comp_dpkg_purgeable_packages _comp_xfunc_dpkg_purgeable_pa
 
 # Debian dpkg(1) completion
 #
-_dpkg() {
-	local cur prev words cword split
-	_init_completion -s || return
+_dpkg()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	local i=$cword
 
@@ -119,9 +122,10 @@ _dpkg() {
 
 # Debian GNU dpkg-reconfigure(8) completion
 #
-_dpkg_reconfigure() {
-	local cur prev words cword
-	_init_completion || return
+_dpkg_reconfigure()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local opt
 

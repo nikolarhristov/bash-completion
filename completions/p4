@@ -1,9 +1,10 @@
 # Perforce completion                                      -*- shell-script -*-
 # by Frank Cusack <frank@google.com>
 
-_p4() {
-	local cur prev words cword
-	_init_completion || return
+_p4()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local p4commands p4filetypes
 

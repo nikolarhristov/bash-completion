@@ -1,8 +1,9 @@
 # bash complete completion                                 -*- shell-script -*-
 
-_complete() {
-	local cur prev words cword
-	_init_completion || return
+_complete()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-*o)

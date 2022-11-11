@@ -1,8 +1,9 @@
 # kcov(1) completion                                       -*- shell-script -*-
 
-_kcov() {
-	local cur prev words cword split
-	_init_completion -s -n : || return
+_kcov()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -n : -- "$@" || return
 
 	case "$prev" in
 	--pid | -p)

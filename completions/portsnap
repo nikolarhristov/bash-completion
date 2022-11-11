@@ -2,9 +2,10 @@
 
 [[ $OSTYPE == *freebsd* ]] || return 1
 
-_portsnap() {
-	local cur prev words cword
-	_init_completion || return
+_portsnap()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-d | -p)

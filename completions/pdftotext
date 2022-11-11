@@ -1,8 +1,9 @@
 # bash completion for pdftotext(1)                         -*- shell-script -*-
 
-_pdftotext() {
-	local cur prev words cword
-	_init_completion || return
+_pdftotext()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-h | -help | --help | -'?' | -f | -l | -r | -x | -y | -W | -H | \

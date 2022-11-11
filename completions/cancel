@@ -1,8 +1,9 @@
 # cancel(1) completion                                     -*- shell-script -*-
 
-_cancel() {
-	local cur prev words cword
-	_init_completion || return
+_cancel()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-h)

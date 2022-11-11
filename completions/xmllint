@@ -1,8 +1,9 @@
 # bash completion for xmllint(1)                           -*- shell-script -*-
 
-_xmllint() {
-	local cur prev words cword
-	_init_completion || return
+_xmllint()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-o | --output)

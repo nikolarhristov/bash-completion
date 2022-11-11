@@ -1,8 +1,9 @@
 # filefrag(8) completion                                   -*- shell-script -*-
 
-_filefrag() {
-	local cur prev words cword
-	_init_completion || return
+_filefrag()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1")' -- "$cur"))

@@ -1,8 +1,9 @@
 # xxd(1) completion                                        -*- shell-script -*-
 
-_xxd() {
-	local cur prev words cword
-	_init_completion || return
+_xxd()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-h | -help | -c | -cols | -g | -groupsize | -l | -len | -s | -seek | \

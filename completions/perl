@@ -7,9 +7,10 @@ _perl_helper() {
 	[[ $1 == functions ]] || __ltrim_colon_completions "$prefix$cur"
 }
 
-_perl() {
-	local cur prev words cword
-	_init_completion -n : || return
+_perl()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n : -- "$@" || return
 
 	local prefix="" temp optPrefix optSuffix
 
@@ -90,9 +91,10 @@ _perl() {
 } &&
 	complete -F _perl perl
 
-_perldoc() {
-	local cur prev words cword
-	_init_completion -n : || return
+_perldoc()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n : -- "$@" || return
 
 	local prefix="" temp
 

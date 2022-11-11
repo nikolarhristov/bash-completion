@@ -1,9 +1,10 @@
 # isql completion                                          -*- shell-script -*-
 # by Victor Bogado da Silva Lins <victor@bogado.net>
 
-_isql() {
-	local cur prev words cword
-	_init_completion || return
+_isql()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	[[ -f $ODBCINI ]] &&
 		COMPREPLY=($(command grep "\[$cur" "$ODBCINI" | tr -d \[\]))

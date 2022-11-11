@@ -1,8 +1,9 @@
 # vipw(8) and vigr completion                              -*- shell-script -*-
 
-_vipw() {
-	local cur prev words cword
-	_init_completion || return
+_vipw()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | -!(-*)h)

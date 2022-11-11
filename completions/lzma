@@ -1,9 +1,10 @@
 # lzma(1) completion                                       -*- shell-script -*-
 # by Per Øyvind Karlsen <peroyvind@mandriva.org>
 
-_lzma() {
-	local cur prev words cword split
-	_init_completion -s || return
+_lzma()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	$split && return
 

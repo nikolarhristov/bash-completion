@@ -3,9 +3,10 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # util-linux >= 2.23, use that instead.
 
-_ionice() {
-	local cur prev words cword
-	_init_completion || return
+_ionice()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local offset=0 i
 	for ((i = 1; i <= cword; i++)); do

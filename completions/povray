@@ -1,9 +1,10 @@
 # povray completion                                        -*- shell-script -*-
 # by "David Necas (Yeti)" <yeti@physics.muni.cz>
 
-_povray() {
-	local cur prev words cword
-	_init_completion || return
+_povray()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local povcur=$cur pfx oext defoext
 	defoext=png # default output extension, if cannot be determined FIXME

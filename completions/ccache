@@ -1,8 +1,9 @@
 # ccache(1) completion                                     -*- shell-script -*-
 
-_ccache() {
-	local cur prev words cword split
-	_init_completion -s || return
+_ccache()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	local i
 	for ((i = 1; i <= COMP_CWORD; i++)); do

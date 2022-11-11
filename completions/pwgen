@@ -1,8 +1,9 @@
 # pwgen(1) completion                                      -*- shell-script -*-
 
-_pwgen() {
-	local cur prev words cword split
-	_init_completion -s || return
+_pwgen()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--num-passwords | --help | -!(-*)[Nh])

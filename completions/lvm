@@ -57,9 +57,10 @@ _lvm_count_args() {
 	done
 }
 
-_lvmdiskscan() {
-	local cur prev words cword
-	_init_completion || return
+_lvmdiskscan()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -67,9 +68,10 @@ _lvmdiskscan() {
 } &&
 	complete -F _lvmdiskscan lvmdiskscan
 
-_pvscan() {
-	local cur prev words cword
-	_init_completion || return
+_pvscan()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -77,9 +79,10 @@ _pvscan() {
 } &&
 	complete -F _pvscan pvscan
 
-_pvs() {
-	local cur prev words cword
-	_init_completion || return
+_pvs()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--options | --sort | -!(-*)[oO])
@@ -101,9 +104,10 @@ _pvs() {
 } &&
 	complete -F _pvs pvs
 
-_pvdisplay() {
-	local cur prev words cword
-	_init_completion || return
+_pvdisplay()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--units)
@@ -120,9 +124,10 @@ _pvdisplay() {
 } &&
 	complete -F _pvdisplay pvdisplay
 
-_pvchange() {
-	local cur prev words cword
-	_init_completion || return
+_pvchange()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | --allocatable | -!(-*)[Ax])
@@ -139,9 +144,10 @@ _pvchange() {
 } &&
 	complete -F _pvchange pvchange
 
-_pvcreate() {
-	local cur prev words cword
-	_init_completion || return
+_pvcreate()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--restorefile)
@@ -170,9 +176,10 @@ _pvcreate() {
 } &&
 	complete -F _pvcreate pvcreate
 
-_pvmove() {
-	local cur prev words cword
-	_init_completion || return
+_pvmove()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -193,9 +200,10 @@ _pvmove() {
 } &&
 	complete -F _pvmove pvmove
 
-_pvremove() {
-	local cur prev words cword
-	_init_completion || return
+_pvremove()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -205,9 +213,10 @@ _pvremove() {
 } &&
 	complete -F _pvremove pvremove
 
-_vgscan() {
-	local cur prev words cword
-	_init_completion || return
+_vgscan()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -215,9 +224,10 @@ _vgscan() {
 } &&
 	complete -F _vgscan vgscan
 
-_vgs() {
-	local cur prev words cword
-	_init_completion || return
+_vgs()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--options | --sort | -!(-*)[oO])
@@ -241,9 +251,10 @@ _vgs() {
 } &&
 	complete -F _vgs vgs
 
-_vgdisplay() {
-	local cur prev words cword
-	_init_completion || return
+_vgdisplay()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--units)
@@ -260,9 +271,10 @@ _vgdisplay() {
 } &&
 	complete -F _vgdisplay vgdisplay
 
-_vgchange() {
-	local cur prev words cword
-	_init_completion || return
+_vgchange()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--available | --autobackup | --resizeable | -!(-*)[aAx])
@@ -279,9 +291,10 @@ _vgchange() {
 } &&
 	complete -F _vgchange vgchange
 
-_vgcreate() {
-	local cur prev words cword
-	_init_completion || return
+_vgcreate()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -312,9 +325,10 @@ _vgcreate() {
 } &&
 	complete -F _vgcreate vgcreate
 
-_vgremove() {
-	local cur prev words cword
-	_init_completion || return
+_vgremove()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -324,9 +338,10 @@ _vgremove() {
 } &&
 	complete -F _vgremove vgremove
 
-_vgrename() {
-	local cur prev words cword
-	_init_completion || return
+_vgrename()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -343,9 +358,10 @@ _vgrename() {
 } &&
 	complete -F _vgrename vgrename
 
-_vgreduce() {
-	local cur prev words cword
-	_init_completion || return
+_vgreduce()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -369,9 +385,10 @@ _vgreduce() {
 } &&
 	complete -F _vgreduce vgreduce
 
-_vgextend() {
-	local cur prev words cword
-	_init_completion || return
+_vgextend()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -398,9 +415,10 @@ _vgextend() {
 } &&
 	complete -F _vgextend vgextend
 
-_vgport() {
-	local cur prev words cword
-	_init_completion || return
+_vgport()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -410,9 +428,10 @@ _vgport() {
 } &&
 	complete -F _vgport vgimport vgexport
 
-_vgck() {
-	local cur prev words cword
-	_init_completion || return
+_vgck()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -422,9 +441,10 @@ _vgck() {
 } &&
 	complete -F _vgck vgck
 
-_vgconvert() {
-	local cur prev words cword
-	_init_completion || return
+_vgconvert()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--metadatatype | -!(-*)M)
@@ -449,9 +469,10 @@ _vgconvert() {
 } &&
 	complete -F _vgconvert vgconvert
 
-_vgcfgbackup() {
-	local cur prev words cword
-	_init_completion || return
+_vgcfgbackup()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--file | -!(-*)f)
@@ -468,9 +489,10 @@ _vgcfgbackup() {
 } &&
 	complete -F _vgcfgbackup vgcfgbackup
 
-_vgcfgrestore() {
-	local cur prev words cword
-	_init_completion || return
+_vgcfgrestore()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--file | -!(-*)f)
@@ -495,9 +517,10 @@ _vgcfgrestore() {
 } &&
 	complete -F _vgcfgrestore vgcfgrestore
 
-_vgmerge() {
-	local cur prev words cword
-	_init_completion || return
+_vgmerge()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -514,9 +537,10 @@ _vgmerge() {
 } &&
 	complete -F _vgmerge vgmerge
 
-_vgsplit() {
-	local cur prev words cword
-	_init_completion || return
+_vgsplit()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -543,9 +567,10 @@ _vgsplit() {
 } &&
 	complete -F _vgsplit vgsplit
 
-_vgmknodes() {
-	local cur prev words cword
-	_init_completion || return
+_vgmknodes()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -555,9 +580,10 @@ _vgmknodes() {
 } &&
 	complete -F _vgmknodes vgmknodes
 
-_lvscan() {
-	local cur prev words cword
-	_init_completion || return
+_lvscan()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
@@ -565,9 +591,10 @@ _lvscan() {
 } &&
 	complete -F _lvscan lvscan
 
-_lvs() {
-	local cur prev words cword
-	_init_completion || return
+_lvs()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--options | --sort | -!(-*)[oO])
@@ -590,9 +617,10 @@ _lvs() {
 } &&
 	complete -F _lvs lvs
 
-_lvdisplay() {
-	local cur prev words cword
-	_init_completion || return
+_lvdisplay()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--units)
@@ -609,9 +637,10 @@ _lvdisplay() {
 } &&
 	complete -F _lvdisplay lvdisplay
 
-_lvchange() {
-	local cur prev words cword
-	_init_completion || return
+_lvchange()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--available | --autobackup | --contiguous | --persistent | -!(-*)[aACM])
@@ -632,9 +661,10 @@ _lvchange() {
 } &&
 	complete -F _lvchange lvchange
 
-_lvcreate() {
-	local cur prev words cword
-	_init_completion || return
+_lvcreate()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | --contiguous | --persistent | --zero | -!(-*)[ACMZ])
@@ -669,9 +699,10 @@ _lvcreate() {
 } &&
 	complete -F _lvcreate lvcreate
 
-_lvremove() {
-	local cur prev words cword
-	_init_completion || return
+_lvremove()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -688,9 +719,10 @@ _lvremove() {
 } &&
 	complete -F _lvremove lvremove
 
-_lvrename() {
-	local cur prev words cword
-	_init_completion || return
+_lvrename()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -707,9 +739,10 @@ _lvrename() {
 } &&
 	complete -F _lvrename lvrename
 
-_lvreduce() {
-	local cur prev words cword
-	_init_completion || return
+_lvreduce()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -730,9 +763,10 @@ _lvreduce() {
 } &&
 	complete -F _lvreduce lvreduce
 
-_lvresize() {
-	local cur prev words cword
-	_init_completion || return
+_lvresize()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -759,9 +793,10 @@ _lvresize() {
 } &&
 	complete -F _lvresize lvresize
 
-_lvextend() {
-	local cur prev words cword
-	_init_completion || return
+_lvextend()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--autobackup | -!(-*)A)
@@ -788,9 +823,10 @@ _lvextend() {
 } &&
 	complete -F _lvextend lvextend
 
-_lvm() {
-	local cur prev words cword
-	_init_completion || return
+_lvm()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -W 'dumpconfig help lvchange lvcreate lvdisplay

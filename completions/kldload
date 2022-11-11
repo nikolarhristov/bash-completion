@@ -2,9 +2,10 @@
 
 [[ $OSTYPE == *freebsd* ]] || return 1
 
-_kldload() {
-	local cur prev words cword
-	_init_completion || return
+_kldload()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if _comp_looks_like_path "$cur"; then
 		_filedir ko

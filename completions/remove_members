@@ -1,8 +1,9 @@
 # mailman remove_members completion                        -*- shell-script -*-
 
-_remove_members() {
-	local cur prev words cword split
-	_init_completion -s || return
+_remove_members()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-f | --file)

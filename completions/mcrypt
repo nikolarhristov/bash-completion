@@ -1,9 +1,10 @@
 # mcrypt(1) completion                                     -*- shell-script -*-
 # by Ariel Fermani <the_end@bbs.frc.utn.edu.ar>
 
-_mcrypt() {
-	local cur prev words cword
-	_init_completion || return
+_mcrypt()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-g | --openpgp-z)

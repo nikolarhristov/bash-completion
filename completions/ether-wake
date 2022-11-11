@@ -1,8 +1,9 @@
 # ether-wake(8) completion                                 -*- shell-script -*-
 
-_ether_wake() {
-	local cur prev words cword
-	_init_completion -n : || return
+_ether_wake()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n : -- "$@" || return
 
 	case $prev in
 	-i)

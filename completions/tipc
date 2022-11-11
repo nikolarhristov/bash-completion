@@ -73,9 +73,10 @@ _tipc_link() {
 	fi
 }
 
-_tipc() {
-	local cur prev words cword optind i p
-	_init_completion || return
+_tipc()
+{
+    local cur prev words cword comp_args optind i p
+    _comp_initialize -- "$@" || return
 
 	optind=1
 	COMPREPLY=()

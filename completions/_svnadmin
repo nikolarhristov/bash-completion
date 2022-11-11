@@ -3,9 +3,10 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # subversion >= 0.12.0, use that instead.
 
-_svnadmin() {
-	local cur prev words cword
-	_init_completion || return
+_svnadmin()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local commands
 	commands='create deltify dump help ? hotcopy list-dblogs list-unused-dblogs

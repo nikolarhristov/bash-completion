@@ -2,9 +2,10 @@
 
 [[ $OSTYPE == *linux* ]] || return 1
 
-_route() {
-	local cur prev words cword
-	_init_completion || return
+_route()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	if [[ $prev == dev ]]; then
 		_available_interfaces

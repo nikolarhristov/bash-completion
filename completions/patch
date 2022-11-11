@@ -1,8 +1,9 @@
 # patch(1) completion                                      -*- shell-script -*-
 
-_patch() {
-	local cur prev words cword split
-	_init_completion -s || return
+_patch()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--strip | --ifdef | --prefix | --basename-prefix | --suffix | --get | \

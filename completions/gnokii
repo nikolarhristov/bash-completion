@@ -5,9 +5,10 @@ _gnokii_memory_type() {
 	COMPREPLY=($(compgen -W "IN OU SM ME MT" -- "$cur"))
 }
 
-_gnokii() {
-	local cur prev words cword pprev tprev fprev
-	_init_completion || return
+_gnokii()
+{
+    local cur prev words cword comp_args pprev tprev fprev
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--config)

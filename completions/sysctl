@@ -1,8 +1,9 @@
 # bash completion for sysctl                               -*- shell-script -*-
 
-_sysctl() {
-	local cur prev words cword
-	_init_completion || return
+_sysctl()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --version | --pattern | -!(-*)[hVr])

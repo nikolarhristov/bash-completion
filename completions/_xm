@@ -14,9 +14,10 @@ _xen_domain_ids() {
 		awk '!/Name|Domain-0/ { print $2 }')" -- "$cur"))
 }
 
-_xm() {
-	local cur prev words cword
-	_init_completion || return
+_xm()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	# TODO: _split_longopt
 

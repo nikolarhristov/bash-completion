@@ -1,8 +1,9 @@
 # man(1) completion                                        -*- shell-script -*-
 
-_man() {
-	local cur prev words cword split
-	_init_completion -s -n : || return
+_man()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -n : -- "$@" || return
 
 	local comprsuffix=".@([glx]z|bz2|lzma|Z|zst)"
 	local manext="@([0-9]*([a-z])|[lnp]|man)?($comprsuffix)"

@@ -1,8 +1,9 @@
 # tox completion                                           -*- shell-script -*-
 
-_tox() {
-	local cur prev words cword
-	_init_completion || return
+_tox()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	# Complete defaults following a "--"
 	if [[ "${words[*]:0:cword} " == *\ --\ * && $cur != -- ]]; then

@@ -1,8 +1,9 @@
 # bash completion for nsupdate(1)                          -*- shell-script -*-
 
-_nsupdate() {
-	local cur prev words cword
-	_init_completion || return
+_nsupdate()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-*[VLprtu])

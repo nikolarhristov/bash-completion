@@ -2,9 +2,10 @@
 #
 # Copyright 2006 Yann Rouillard <yann@opencsw.org>
 
-_pkgadd() {
-	local cur prev words cword
-	_init_completion -n : || return
+_pkgadd()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n : -- "$@" || return
 
 	# if a device directory was given
 	# we must complete with the package

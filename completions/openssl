@@ -33,9 +33,10 @@ _openssl_digests() {
 	printf "%s\n" "${digests[@]/#/-}"
 }
 
-_openssl() {
-	local cur prev words cword
-	_init_completion || return
+_openssl()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local commands command options formats
 

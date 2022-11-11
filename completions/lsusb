@@ -1,8 +1,9 @@
 # lsusb(8) completion                                      -*- shell-script -*-
 
-_lsusb() {
-	local cur prev words cword
-	_init_completion || return
+_lsusb()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)@([sD]|[hV]*))

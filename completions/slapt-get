@@ -1,8 +1,9 @@
 # slapt-get(8) completion                                  -*- shell-script -*-
 
-_slapt_get() {
-	local cur prev words cword
-	_init_completion || return
+_slapt_get()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case "$prev" in
 	--config | -c)

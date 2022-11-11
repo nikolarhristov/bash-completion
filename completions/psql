@@ -16,9 +16,10 @@ _pg_users() {
 
 # createdb(1) completion
 #
-_createdb() {
-	local cur prev words cword split
-	_init_completion -s || return
+_createdb()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--host | -!(-*)h)
@@ -48,9 +49,10 @@ _createdb() {
 
 # createuser(1) completion
 #
-_createuser() {
-	local cur prev words cword split
-	_init_completion -s || return
+_createuser()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | --port | --connection-limit | -!(-*)[pc])
@@ -77,9 +79,10 @@ _createuser() {
 
 # dropdb(1) completion
 #
-_dropdb() {
-	local cur prev words cword split
-	_init_completion -s || return
+_dropdb()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--host | -!(-*)h)
@@ -108,9 +111,10 @@ _dropdb() {
 
 # dropuser(1) completion
 #
-_dropuser() {
-	local cur prev words cword split
-	_init_completion -s || return
+_dropuser()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | --port | -!(-*)p)
@@ -139,9 +143,10 @@ _dropuser() {
 
 # psql(1) completion
 #
-_psql() {
-	local cur prev words cword split
-	_init_completion -s || return
+_psql()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--host | -!(-*)h)

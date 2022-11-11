@@ -1,8 +1,9 @@
 # bash completion for pyvenv                               -*- shell-script -*-
 
-_pyvenv() {
-	local cur prev words cword split
-	_init_completion -s || return
+_pyvenv()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-h | --help)
@@ -12,10 +13,10 @@ _pyvenv() {
 
 	$split && return
 
-	if [[ $cur == -* ]]; then
-		_longopt "$1"
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _longopt "$@"
+        return
+    fi
 
 	_filedir -d
 } &&

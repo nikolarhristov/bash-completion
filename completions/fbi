@@ -1,8 +1,9 @@
 # bash completion for fbi(1)                               -*- shell-script -*-
 
-_fbi() {
-	local cur prev words cword
-	_init_completion || return
+_fbi()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case "$prev" in
 	-l | --list)

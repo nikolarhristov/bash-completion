@@ -3,9 +3,10 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # systemd >= 196, use that instead.
 
-_udevadm() {
-	local cur prev words cword split
-	_init_completion -s || return
+_udevadm()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	local i udevcmd
 	for ((i = 1; i < cword; i++)); do

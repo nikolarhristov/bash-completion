@@ -1,8 +1,9 @@
 # macof completion                                         -*- shell-script -*-
 
-_macof() {
-	local cur prev words cword
-	_init_completion || return
+_macof()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-i)

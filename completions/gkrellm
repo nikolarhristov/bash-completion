@@ -1,8 +1,9 @@
 # gkrellm(1) completion                                    -*- shell-script -*-
 
-_gkrellm() {
-	local cur prev words cword
-	_init_completion || return
+_gkrellm()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-t | --theme)

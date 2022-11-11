@@ -15,9 +15,10 @@ _aspell_dictionary() {
 		COMPREPLY=($(compgen -X '\*' -W '"${COMPREPLY[@]}"' -- "$cur"))
 }
 
-_aspell() {
-	local cur prev words cword split
-	_init_completion -s || return
+_aspell()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-c | -p | check | --conf | --personal | --repl | --per-conf)

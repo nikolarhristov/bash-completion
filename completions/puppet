@@ -54,9 +54,10 @@ _puppet_subcmd_opts() {
 			'$(_parse_usage "$1" "help $2")' -- "$cur"))
 }
 
-_puppet() {
-	local cur prev words cword
-	_init_completion || return
+_puppet()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local subcommand action
 

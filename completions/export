@@ -1,8 +1,9 @@
 # bash export completion                                   -*- shell-script -*-
 
-_export() {
-	local cur prev words cword
-	_init_completion -n := || return
+_export()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n := -- "$@" || return
 
 	local i action=variable remove=false
 	for ((i = 1; i < cword; i++)); do

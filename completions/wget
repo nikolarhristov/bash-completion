@@ -1,8 +1,9 @@
 # wget(1) completion                                       -*- shell-script -*-
 
-_wget() {
-	local cur prev words cword split
-	_init_completion -s || return
+_wget()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--version | --help | -!(-*)[hV])

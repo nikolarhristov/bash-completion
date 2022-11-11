@@ -9,9 +9,10 @@ _adb_command_usage() {
             | command sed -e "s/[]|[]/\n/g" | _parse_help -)' -- "$cur"))
 }
 
-_adb() {
-	local cur prev words cword
-	_init_completion || return
+_adb()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-s | -p | --algo | --key | --iv)

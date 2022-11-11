@@ -5,9 +5,10 @@ _ipmitool_singleline_help() {
 		command sed -ne 's/[,\r]//g' -e 's/^.*[Cc]ommands://p')" -- "$cur"))
 }
 
-_ipmitool() {
-	local cur prev words cword
-	_init_completion || return
+_ipmitool()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-*[hVpUekyPmbtBTl])

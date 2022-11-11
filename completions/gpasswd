@@ -1,8 +1,9 @@
 # gpasswd(1) completion                                    -*- shell-script -*-
 
-_gpasswd() {
-	local cur prev words cword
-	_init_completion || return
+_gpasswd()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	--add | --delete | --administrators | --members | -!(-*)[adAM])

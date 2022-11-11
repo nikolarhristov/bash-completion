@@ -1,8 +1,9 @@
 # bash completion for qemu                                 -*- shell-script -*-
 
-_qemu() {
-	local cur prev words cword
-	_init_completion || return
+_qemu()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-fd[ab] | -hd[abcd] | -cdrom | -option-rom | -kernel | -initrd | \

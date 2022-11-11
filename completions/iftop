@@ -1,8 +1,9 @@
 # iftop(8) completion                                      -*- shell-script -*-
 
-_iftop() {
-	local cur prev words cword
-	_init_completion || return
+_iftop()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-h | -f | -F | -m)

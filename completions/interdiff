@@ -1,8 +1,9 @@
 # interdiff(1) completion                                  -*- shell-script -*-
 
-_interdiff() {
-	local cur prev words cword split
-	_init_completion -s || return
+_interdiff()
+{
+    local cur prev words cword split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--unified | --strip-match | --drop-context | -!(-*)[Upd])
