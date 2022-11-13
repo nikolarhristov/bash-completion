@@ -1,9 +1,8 @@
 # strings(1) completion                                    -*- shell-script -*-
 
-_strings()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_strings() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | --bytes | --output-separator | -arch | \

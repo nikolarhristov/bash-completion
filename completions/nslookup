@@ -21,10 +21,9 @@ _bind_querytype() {
 	COMPREPLY+=($(compgen -W '${types[@]}' -- "$cur"))
 }
 
-_nslookup()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_nslookup() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	case $cur in
 	-class=* | -cl=*)
@@ -59,10 +58,9 @@ _nslookup()
 } &&
 	complete -F _nslookup nslookup
 
-_host()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_host() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-c)

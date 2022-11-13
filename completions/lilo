@@ -6,10 +6,9 @@ _lilo_labels() {
 		-- "$cur"))
 }
 
-_lilo()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lilo() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-C | -i | -m | -s | -S)

@@ -1,9 +1,8 @@
 # mdtool completion                                        -*- shell-script -*-
 
-_mdtool()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_mdtool() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local command i
 

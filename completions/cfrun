@@ -1,9 +1,8 @@
 # cfrun completion                                         -*- shell-script -*-
 
-_cfrun()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_cfrun() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local i section=1
 	for ((i = 1; i < cword; i++)); do

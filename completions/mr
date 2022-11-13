@@ -1,9 +1,8 @@
 # mr completion                                            -*- shell-script -*-
 
-_mr()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_mr() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local help commands options
 

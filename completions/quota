@@ -33,10 +33,9 @@ _filesystems() {
 		-- "$cur"))
 }
 
-_quota()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_quota() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | --format)
@@ -58,10 +57,9 @@ _quota()
 } &&
 	complete -F _quota -o default quota
 
-_setquota()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_setquota() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | --format)
@@ -98,10 +96,9 @@ _setquota()
 } &&
 	complete -F _setquota -o default setquota
 
-_edquota()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_edquota() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | --format)
@@ -131,10 +128,9 @@ _edquota()
 } &&
 	complete -F _edquota -o default edquota
 
-_quotacheck()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_quotacheck() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | --format)
@@ -156,10 +152,9 @@ _quotacheck()
 } &&
 	complete -F _quotacheck -o default quotacheck repquota
 
-_quotaon()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_quotaon() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | --format)

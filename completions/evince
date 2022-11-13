@@ -1,9 +1,8 @@
 # evince(1) completion                                     -*- shell-script -*-
 
-_evince()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_evince() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help* | --sm-client-id | --class | --name | --screen | --gdk-debug | \

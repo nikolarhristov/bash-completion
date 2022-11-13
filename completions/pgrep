@@ -1,9 +1,8 @@
 # pgrep(1) and pkill(1) completion                         -*- shell-script -*-
 
-_pgrep()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_pgrep() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--delimiter | --pgroup | --session | --terminal | -!(-*)[cdgJMNstTz])

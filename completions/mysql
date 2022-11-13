@@ -12,10 +12,9 @@ _comp_xfunc_mysql_character_sets() {
 
 _comp_deprecate_func _mysql_character_sets _comp_xfunc_mysql_character_sets
 
-_mysql()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_mysql() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--user | -!(-*)u)

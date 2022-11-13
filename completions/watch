@@ -2,10 +2,9 @@
 
 [[ $OSTYPE == *@(linux|darwin)* ]] || return 1
 
-_watch()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_watch() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local offset=0 i
 	for ((i = 1; i <= cword; i++)); do

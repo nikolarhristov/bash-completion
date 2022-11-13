@@ -1,9 +1,8 @@
 # iwconfig completion                                      -*- shell-script -*-
 
-_iwconfig()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_iwconfig() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	mode)

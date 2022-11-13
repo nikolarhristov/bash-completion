@@ -1,9 +1,8 @@
 # bash completion for sysbench                             -*- shell-script -*-
 
-_sysbench()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_sysbench() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--num-threads | --max-requests | --max-time | --thread-stack-size | \

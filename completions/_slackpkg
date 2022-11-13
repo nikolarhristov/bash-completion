@@ -4,10 +4,9 @@
 # Use of this file is deprecated.
 # Upstream completion is available in slackpkg >= 15.0.4, use that instead.
 
-_slackpkg()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_slackpkg() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	local split=false
 	if [[ $cur == -?*=* ]]; then

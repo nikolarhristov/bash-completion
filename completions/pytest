@@ -7,10 +7,9 @@ _pytest_option_choice_args() {
 	COMPREPLY+=($(compgen -W '$modes' -- "$cur"))
 }
 
-_pytest()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -n : -- "$@" || return
+_pytest() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -n : -- "$@" || return
 
 	case $prev in
 	--help | --maxfail | --report | --junit-prefix | --doctest-glob | \

@@ -1,10 +1,9 @@
 # makepkg completion                                       -*- shell-script -*-
 
 # Slackware Linux variant
-_makepkg_slackware()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_makepkg_slackware() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	-l | --linkadd | -c | --chown)
@@ -38,9 +37,9 @@ _makepkg_bootstrap() {
 		;;
 	esac
 
-    unset -f _makepkg_bootstrap
-    complete -F $fname makepkg
-    $fname "$@"
+	unset -f _makepkg_bootstrap
+	complete -F $fname makepkg
+	$fname "$@"
 } &&
 	complete -F _makepkg_bootstrap makepkg
 

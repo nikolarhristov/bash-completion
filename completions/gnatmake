@@ -1,10 +1,9 @@
 # Gnatmake completion                                      -*- shell-script -*-
 # by Ralf_Schroth@t-online.de (Ralf Schroth)
 
-_gnatmake()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_gnatmake() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		# relevant (and less relevant ;-) )options completion

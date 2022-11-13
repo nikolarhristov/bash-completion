@@ -20,10 +20,9 @@ _screen_sessions() {
 		COMPREPLY=($(compgen -W '$tmp' -- "$cur"))
 	fi
 } &&
-    _screen()
-    {
-        local cur prev words cword comp_args
-        _comp_initialize -- "$@" || return
+	_screen() {
+		local cur prev words cword comp_args
+		_comp_initialize -- "$@" || return
 
 		if ((cword == 1)); then
 			if [[ $cur == /dev* ]]; then

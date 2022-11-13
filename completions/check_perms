@@ -1,9 +1,8 @@
 # mailman check_perms completion                           -*- shell-script -*-
 
-_check_perms()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_check_perms() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '-f -v -h' -- "$cur"))

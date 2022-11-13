@@ -1,9 +1,8 @@
 # jps(1) completion                                        -*- shell-script -*-
 
-_jps()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_jps() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-J* | -help)

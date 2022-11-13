@@ -1,9 +1,8 @@
 # prelink(8) completion                                    -*- shell-script -*-
 
-_prelink()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_prelink() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-'?' | --help | --usage | -V | --version | -r | --reloc-only)

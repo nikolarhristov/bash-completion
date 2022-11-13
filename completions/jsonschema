@@ -1,9 +1,8 @@
 # bash completion for jsonschema                           -*- shell-script -*-
 
-_jsonschema()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_jsonschema() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --error-format | --validator | -[hFV])

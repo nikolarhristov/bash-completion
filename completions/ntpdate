@@ -1,9 +1,8 @@
 # bash completion for ntpdate                              -*- shell-script -*-
 
-_ntpdate()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ntpdate() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*k)

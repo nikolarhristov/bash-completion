@@ -1,10 +1,9 @@
 # mtx completion                                           -*- shell-script -*-
 # by Jon Middleton <jjm@ixtab.org.uk>
 
-_mtx()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_mtx() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local options tapes drives
 

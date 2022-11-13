@@ -68,10 +68,9 @@ _lintian_infos() {
 	fi
 }
 
-_lintian()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lintian() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local lint_actions general_opts behaviour_opts configuration_opts
 
@@ -145,10 +144,9 @@ _lintian()
 } &&
 	complete -F _lintian lintian
 
-_lintian_info()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lintian_info() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	--help | --profile)

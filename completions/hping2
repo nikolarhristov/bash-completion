@@ -1,9 +1,8 @@
 # bash completion for hping2                               -*- shell-script -*-
 
-_hping2()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_hping2() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--interface | -!(-*)I)

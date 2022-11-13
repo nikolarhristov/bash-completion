@@ -126,10 +126,9 @@ _ImageMagick() {
 	return 1
 }
 
-_convert()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_convert() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -145,10 +144,9 @@ _convert()
 } &&
 	complete -F _convert convert
 
-_mogrify()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_mogrify() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -163,10 +161,9 @@ _mogrify()
 } &&
 	complete -F _mogrify mogrify
 
-_display()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_display() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -181,10 +178,9 @@ _display()
 } &&
 	complete -F _display display
 
-_animate()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_animate() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -199,10 +195,9 @@ _animate()
 } &&
 	complete -F _animate animate
 
-_identify()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_identify() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -216,10 +211,9 @@ _identify()
 } &&
 	complete -F _identify identify
 
-_montage()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_montage() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -234,10 +228,9 @@ _montage()
 } &&
 	complete -F _montage montage
 
-_composite()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_composite() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -252,10 +245,9 @@ _composite()
 } &&
 	complete -F _composite composite
 
-_compare()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_compare() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -269,10 +261,9 @@ _compare()
 } &&
 	complete -F _compare compare
 
-_conjure()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_conjure() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -286,10 +277,9 @@ _conjure()
 } &&
 	complete -F _conjure conjure
 
-_import()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_import() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 
@@ -303,10 +293,9 @@ _import()
 } &&
 	complete -F _import import
 
-_stream()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_stream() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_ImageMagick && return
 

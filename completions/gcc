@@ -1,9 +1,8 @@
 # gcc(1) completion                                        -*- shell-script -*-
 
-_gcc()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_gcc() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	# Test that GCC is recent enough and if not fallback to
 	# parsing of --completion option.
@@ -21,11 +20,11 @@ _gcc()
 		return
 	fi
 
-    local prev2 argument prefix prefix_length
-    # extract also for situations like: -fsanitize=add
-    if ((cword > 2)); then
-        prev2="${COMP_WORDS[cword - 2]}"
-    fi
+	local prev2 argument prefix prefix_length
+	# extract also for situations like: -fsanitize=add
+	if ((cword > 2)); then
+		prev2="${COMP_WORDS[cword - 2]}"
+	fi
 
 	# sample: -fsan
 	if [[ $cur == -* ]]; then

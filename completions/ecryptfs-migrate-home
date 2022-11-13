@@ -1,9 +1,8 @@
 # ecryptfs-migrate-home(8) completion                      -*- shell-script -*-
 
-_ecryptfs_migrate_home()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ecryptfs_migrate_home() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help)

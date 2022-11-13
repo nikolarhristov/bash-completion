@@ -1,9 +1,8 @@
 # bash completion for medusa                               -*- shell-script -*-
 
-_medusa()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_medusa() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)

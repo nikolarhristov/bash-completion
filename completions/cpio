@@ -1,9 +1,8 @@
 # bash completion for cpio                                 -*- shell-script -*-
 
-_cpio()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -n : -- "$@" || return
+_cpio() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -n : -- "$@" || return
 
 	# --name value style option
 	case $prev in

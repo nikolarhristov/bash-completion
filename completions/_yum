@@ -34,10 +34,9 @@ _yum_plugins() {
 		command sed -ne 's|.*/\([^./]*\)\.py[co]\{0,1\}$|\1|p' | sort -u
 }
 
-_yum()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_yum() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local special i
 	for ((i = 1; i < ${#words[@]} - 1; i++)); do

@@ -1,9 +1,8 @@
 # lftpget(1) completion                                    -*- shell-script -*-
 
-_lftpget()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lftpget() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '-c -d -v' -- "$cur"))

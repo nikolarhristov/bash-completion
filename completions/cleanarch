@@ -1,9 +1,8 @@
 # mailman cleanarch completion                             -*- shell-script -*-
 
-_cleanarch()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_cleanarch() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '--status --dry-run --quiet --help' \

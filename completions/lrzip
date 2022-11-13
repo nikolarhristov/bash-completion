@@ -1,9 +1,8 @@
 # lrzip(1) completion                                      -*- shell-script -*-
 
-_lrzip()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lrzip() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local xspec="*.lrz"
 

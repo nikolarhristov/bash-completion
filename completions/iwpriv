@@ -1,9 +1,8 @@
 # iwpriv completion                                        -*- shell-script -*-
 
-_iwpriv()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_iwpriv() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	roam)

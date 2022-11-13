@@ -96,10 +96,9 @@ _smf_complete_fmri() {
 	done
 }
 
-_svcadm()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n : -- "$@" || return
+_svcadm() {
+	local cur prev words cword comp_args
+	_comp_initialize -n : -- "$@" || return
 
 	local command_list="enable disable restart refresh clear mark milestone"
 	local command i

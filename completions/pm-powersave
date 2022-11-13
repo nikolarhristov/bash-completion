@@ -1,9 +1,8 @@
 # pm-powersave(8) completion                               -*- shell-script -*-
 
-_pm_powersave()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_pm_powersave() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	COMPREPLY=($(compgen -W "true false" -- "$cur"))
 } &&

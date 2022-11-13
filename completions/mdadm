@@ -63,10 +63,9 @@ _mdadm_update_flag() {
         byteorder super-minor' -- "$cur"))
 }
 
-_mdadm()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_mdadm() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--config | --bitmap | --backup-file | -!(-*)[cb])

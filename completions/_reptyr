@@ -3,10 +3,9 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # reptyr > 0.6.2, use that instead.
 
-_reptyr()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_reptyr() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-l)

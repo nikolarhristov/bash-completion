@@ -1,9 +1,8 @@
 # bash completion for yp-tools                             -*- shell-script -*-
 
-_ypmatch()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ypmatch() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local map cmd=${1##*/}
 

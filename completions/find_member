@@ -1,9 +1,8 @@
 # mailman find_member completion                           -*- shell-script -*-
 
-_find_member()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_find_member() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-l | -x | --listname | --exclude)

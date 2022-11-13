@@ -1,9 +1,8 @@
 # bash completion for k3b                                  -*- shell-script -*-
 
-_k3b()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_k3b() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help* | --author | -v | --version | --license | --lang)

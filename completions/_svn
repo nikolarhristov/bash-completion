@@ -3,10 +3,9 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # subversion >= 0.12.0, use that instead.
 
-_svn()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_svn() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local commands
 	commands='add blame praise annotate ann cat checkout co cleanup commit \

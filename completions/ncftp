@@ -1,9 +1,8 @@
 # bash completion for ncftp                                -*- shell-script -*-
 
-_ncftp()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ncftp() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-u | -p | -P | -j | -F)

@@ -13,10 +13,9 @@ _ipsec_connections() {
 		COMPREPLY=($(compgen -W '"${COMPREPLY[@]}"' -- "$cur"))
 }
 
-_ipsec_freeswan()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ipsec_freeswan() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -W 'auto barf eroute klipsdebug look manual
@@ -46,10 +45,9 @@ _ipsec_freeswan()
 	esac
 }
 
-_ipsec_strongswan()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ipsec_strongswan() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -W 'down irdumm leases listaacerts listacerts

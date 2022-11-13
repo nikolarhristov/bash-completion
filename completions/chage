@@ -1,9 +1,8 @@
 # chage(1) completion                                      -*- shell-script -*-
 
-_chage()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_chage() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--lastday | --expiredate | --help | --inactive | --mindays | --maxdays | \

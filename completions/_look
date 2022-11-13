@@ -3,10 +3,9 @@
 # Use of this file is deprecated on Linux.  Upstream completion is
 # available in util-linux >= 2.23, use that instead.
 
-_look()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_look() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -W '$(look "$cur" 2>/dev/null)' -- "$cur"))

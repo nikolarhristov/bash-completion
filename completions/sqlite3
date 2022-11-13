@@ -1,9 +1,8 @@
 # sqlite3(1) completion                                    -*- shell-script -*-
 
-_sqlite3()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_sqlite3() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local dbexts='@(sqlite?(3)|?(s?(3))db)'
 

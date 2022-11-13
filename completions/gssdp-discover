@@ -1,9 +1,8 @@
 # bash completion for gssdp-discover/device-sniffer        -*- shell-script -*-
 
-_gssdp_discover()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_gssdp_discover() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --target | --timeout | --rescan-interval | -[htnr])

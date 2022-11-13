@@ -1,9 +1,8 @@
 # pngfix completion                                        -*- shell-script -*-
 
-_pngfix()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_pngfix() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--suffix | --prefix)

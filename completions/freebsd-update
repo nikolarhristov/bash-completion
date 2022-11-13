@@ -2,10 +2,9 @@
 
 [[ $OSTYPE == *freebsd* ]] || return 1
 
-_freebsd_update()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_freebsd_update() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-b | -d)

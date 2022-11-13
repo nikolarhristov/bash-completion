@@ -2,10 +2,9 @@
 #
 # Copyright 2006 Yann Rouillard <yann@opencsw.org>
 
-_pkgrm()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_pkgrm() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	# if a spool directory was given
 	# we must complete with the package

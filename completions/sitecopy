@@ -3,10 +3,9 @@
 #           2011 Raphaël Droz <raphael.droz+floss@gmail.com>
 # License: GNU GPL v2 or later
 
-_sitecopy()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_sitecopy() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--debug | -!(-*)d)

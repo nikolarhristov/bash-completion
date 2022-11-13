@@ -1,9 +1,8 @@
 # badblocks(8) completion                                  -*- shell-script -*-
 
-_badblocks()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_badblocks() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*[bcedpt])

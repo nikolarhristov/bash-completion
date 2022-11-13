@@ -1,9 +1,8 @@
 # dot(1) completion                                        -*- shell-script -*-
 
-_dot()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n := -- "$@" || return
+_dot() {
+	local cur prev words cword comp_args
+	_comp_initialize -n := -- "$@" || return
 
 	[[ $prev == -[V?] ]] && return
 

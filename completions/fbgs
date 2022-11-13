@@ -1,9 +1,8 @@
 # bash completion for fbgs(1)                              -*- shell-script -*-
 
-_fbgs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_fbgs() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	-f | --font)

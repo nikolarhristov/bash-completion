@@ -1,9 +1,8 @@
 # postconf(1) completion                                   -*- shell-script -*-
 
-_postconf()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_postconf() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local eqext
 

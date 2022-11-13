@@ -1,9 +1,8 @@
 # bash completion for strace                               -*- shell-script -*-
 
-_strace()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_strace() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	# check if we're still completing strace
 	local offset=0 i

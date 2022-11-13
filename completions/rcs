@@ -1,9 +1,8 @@
 # bash completion for rcs                                  -*- shell-script -*-
 
-_rcs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_rcs() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local file dir i
 

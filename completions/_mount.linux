@@ -3,10 +3,9 @@
 # Use of this file is deprecated on Linux.  Upstream completion is
 # available in util-linux >= 2.28, use that instead.
 
-_mount()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n =: -- "$@" || return
+_mount() {
+	local cur prev words cword comp_args
+	_comp_initialize -n =: -- "$@" || return
 
 	local split=false
 	case "$prev" in

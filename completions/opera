@@ -1,9 +1,8 @@
 # opera(1) completion                                      -*- shell-script -*-
 
-_opera()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_opera() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	?(-)-widget | ?(-)-urllist | ?(-)-uiparserlog | ?(-)-uiwidgetsparserlog | \

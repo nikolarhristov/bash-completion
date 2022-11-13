@@ -1,9 +1,8 @@
 # autorpm(8) completion                                    -*- shell-script -*-
 
-_autorpm()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_autorpm() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	COMPREPLY=($(compgen -W '--notty --debug --help --version auto add
         fullinfo info help install list remove set' -- "$cur"))

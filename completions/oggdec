@@ -1,9 +1,8 @@
 # bash completion for oggdec(1)                            -*- shell-script -*-
 
-_oggdec()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_oggdec() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)[hV]*)

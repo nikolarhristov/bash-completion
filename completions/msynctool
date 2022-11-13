@@ -1,9 +1,8 @@
 # bash completion for msynctool                            -*- shell-script -*-
 
-_msynctool()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_msynctool() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $words in
 	--configure)

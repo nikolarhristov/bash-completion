@@ -1,9 +1,8 @@
 # bash completion for (Debian) reportbug                   -*- shell-script -*-
 
-_reportbug()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_reportbug() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--class | --header | --pseudo-header | --mirror | --list-cc | \

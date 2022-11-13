@@ -1,9 +1,8 @@
 # svk(1) completion                                        -*- shell-script -*-
 
-_svk()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_svk() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local commands options command
 

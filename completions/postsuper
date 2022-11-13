@@ -1,9 +1,8 @@
 # postsuper(1) completion                                  -*- shell-script -*-
 
-_postsuper()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_postsuper() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local pval len
 

@@ -1,9 +1,8 @@
 # e2freefrag(8) completion                                 -*- shell-script -*-
 
-_e2freefrag()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_e2freefrag() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-c | -h)

@@ -1,9 +1,8 @@
 # lzip(1) completion                                       -*- shell-script -*-
 
-_lzip()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_lzip() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local decompress=false
 

@@ -1,9 +1,8 @@
 # pack200(1) completion                                    -*- shell-script -*-
 
-_pack200()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_pack200() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-S | --segment-limit | -P | --pass-file | -C | --class-attribute | \

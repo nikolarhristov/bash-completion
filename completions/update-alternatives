@@ -15,10 +15,9 @@ _installed_alternatives() {
 	COMPREPLY=($(compgen -W '$(command ls $admindir)' -- "$cur"))
 }
 
-_update_alternatives()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_update_alternatives() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--altdir | --admindir)

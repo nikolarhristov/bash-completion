@@ -6,10 +6,9 @@ _comp_xfunc_list_lists_mailman_lists() {
 
 _comp_deprecate_func _mailman_lists _comp_xfunc_list_lists_mailman_lists
 
-_list_lists()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_list_lists() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '--advertised --virtual-host-overview --bare

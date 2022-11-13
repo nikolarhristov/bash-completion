@@ -1,9 +1,8 @@
 # mailman change_pw completion                             -*- shell-script -*-
 
-_change_pw()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_change_pw() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-l | --listname)

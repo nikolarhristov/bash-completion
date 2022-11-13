@@ -16,10 +16,9 @@ _heimdal_encodings() {
         aes256-cts-hmac-sha1-96' -- "$cur"))
 }
 
-_ktutil()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_ktutil() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local command commands i options
 

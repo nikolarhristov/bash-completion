@@ -1,9 +1,8 @@
 # uscan completion                                      -*- shell-script -*-
 
-_uscan()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_uscan() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--package)

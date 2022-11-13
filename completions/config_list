@@ -1,9 +1,8 @@
 # mailman config_list completion                           -*- shell-script -*-
 
-_config_list()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_config_list() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-i | -o | --inputfile | --outputfile)

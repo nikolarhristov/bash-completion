@@ -1,9 +1,8 @@
 # bash completion for FreeBSD portupgrade                  -*- shell-script -*-
 
-_portupgrade()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_portupgrade() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	[[ $prev == -l || $prev == -L || $prev == -o ]] && return
 

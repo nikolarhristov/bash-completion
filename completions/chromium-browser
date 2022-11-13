@@ -1,9 +1,8 @@
 # chromium-browser completion                              -*- shell-script -*-
 
-_chromium_browser()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -n : -- "$@" || return
+_chromium_browser() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -n : -- "$@" || return
 
 	case $prev in
 	--help | --app | --proxy-pac-url | -h)

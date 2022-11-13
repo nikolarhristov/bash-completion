@@ -1,9 +1,8 @@
 # mailman inject completion                                -*- shell-script -*-
 
-_inject()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_inject() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-l | --listname)

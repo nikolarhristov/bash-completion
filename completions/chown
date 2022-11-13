@@ -1,10 +1,9 @@
 # chown(1) completion                                      -*- shell-script -*-
 
-_chown()
-{
-    local cur prev words cword split comp_args
-    # Don't treat user:group as separate words.
-    _comp_initialize -s -n : -- "$@" || return
+_chown() {
+	local cur prev words cword split comp_args
+	# Don't treat user:group as separate words.
+	_comp_initialize -s -n : -- "$@" || return
 
 	case "$prev" in
 	--from)

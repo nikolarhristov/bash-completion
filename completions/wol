@@ -1,9 +1,8 @@
 # wol(1) completion                                        -*- shell-script -*-
 
-_wol()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -n : -- "$@" || return
+_wol() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -n : -- "$@" || return
 
 	case $prev in
 	--version | --help | --port | --passwd | --wait | -!(-*)[Vpw])

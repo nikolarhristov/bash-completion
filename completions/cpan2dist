@@ -1,9 +1,8 @@
 # bash completion for cpan2dist                            -*- shell-script -*-
 
-_cpan2dist()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_cpan2dist() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--format)

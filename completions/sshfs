@@ -1,9 +1,8 @@
 # sshfs(1) completion                                      -*- shell-script -*-
 
-_sshfs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n : -- "$@" || return
+_sshfs() {
+	local cur prev words cword comp_args
+	_comp_initialize -n : -- "$@" || return
 
 	_expand || return
 

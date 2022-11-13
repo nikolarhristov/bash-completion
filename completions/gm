@@ -5,10 +5,9 @@ _gm_commands() {
         awk "/^ +[^ ]+ +- / { print \$1 }")' -- "$cur"))
 }
 
-_gm()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_gm() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if ((cword == 1)); then
 		_gm_commands "$1"

@@ -1,9 +1,8 @@
 # freeciv client completions                               -*- shell-script -*-
 
-_freeciv()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_freeciv() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --version | --name | --port | -[hvnp])

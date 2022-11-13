@@ -90,10 +90,9 @@ _linux_fstab() {
 	_reply_compgen_array
 }
 
-_umount()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_umount() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	-t)

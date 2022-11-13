@@ -1,9 +1,8 @@
 # nc(1) completion                                         -*- shell-script -*-
 
-_nc()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n : -- "$@" || return
+_nc() {
+	local cur prev words cword comp_args
+	_comp_initialize -n : -- "$@" || return
 
 	case $prev in
 	-*[hIiMmOPpqVWw])

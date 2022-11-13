@@ -1,9 +1,8 @@
 # bash completion for FreeBSD portinstall                  -*- shell-script -*-
 
-_portinstall()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_portinstall() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local portsdir indexfile
 	local -a COMPREPLY2

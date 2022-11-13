@@ -1,9 +1,8 @@
 # xrdb(1) completion                                       -*- shell-script -*-
 
-_xrdb()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_xrdb() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-backup | -display | -help)

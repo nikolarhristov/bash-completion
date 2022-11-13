@@ -1,9 +1,8 @@
 # timeout(1) completion                                    -*- shell-script -*-
 
-_timeout()
-{
-    local cur prev words cword split comp_args i found=false
-    _comp_initialize -s -- "$@" || return
+_timeout() {
+	local cur prev words cword split comp_args i found=false
+	_comp_initialize -s -- "$@" || return
 
 	for ((i = 1; i <= COMP_CWORD; i++)); do
 		if [[ ${COMP_WORDS[i]} != -* && ${COMP_WORDS[i - 1]} != = ]]; then

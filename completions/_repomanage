@@ -3,10 +3,9 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # yum-utils >= 1.1.24, use that instead.
 
-_repomanage()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_repomanage() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	[[ $prev == -@([hk]|-help|-keep) ]] && return
 

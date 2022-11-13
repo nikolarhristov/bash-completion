@@ -107,14 +107,14 @@ type restrictions put in place by the bash completion code.
 
 **Q. How can I override a completion shipped by bash-completion?**
 
-A. Install a local completion of your own appropriately for the desired
-   command, and it will take precedence over the one shipped by us. See the
-   next answer for details where to install it, if you are doing it on per user
-   basis. If you want to do it system wide, you can install eagerly loaded
-   files in `compatdir` (see a couple of questions further down for more
-   info. To get the path of `compatdir` for the current system, the output of
-   `pkg-config bash-completion --variable compatdir` can be used) and install a
-   completion for the commands to override our completion for in them.
+A. Install a local completion of your own appropriately for the desired command,
+and it will take precedence over the one shipped by us. See the next answer for
+details where to install it, if you are doing it on per user basis. If you want
+to do it system wide, you can install eagerly loaded files in `compatdir` (see a
+couple of questions further down for more info. To get the path of `compatdir`
+for the current system, the output of
+`pkg-config bash-completion --variable compatdir` can be used) and install a
+completion for the commands to override our completion for in them.
 
 If you want to use bash's default completion instead of one of ours, something
 like this should work (where `$cmd` is the command to override completion for):
@@ -135,13 +135,12 @@ code for this package. Where should I put it to be sure that interactive bash
 shells will find it and source it?**
 
 A. [ Disclaimer: Here, how to make the completion code visible to
-   bash-completion is explained.  We do not require always making the
-   completion code visible to bash-completion.  In what condition the
-   completion code is installed should be determined at the author/maintainers'
-   own discretion. ]
+bash-completion is explained. We do not require always making the completion
+code visible to bash-completion. In what condition the completion code is
+installed should be determined at the author/maintainers' own discretion. ]
 
-   Install it in one of the directories pointed to by bash-completion's
-   `pkgconfig` file variables. There are two alternatives:
+Install it in one of the directories pointed to by bash-completion's `pkgconfig`
+file variables. There are two alternatives:
 
 -   The recommended directory is `completionsdir`, which you can get with
     `pkg-config --variable=completionsdir bash-completion`. From this directory,
@@ -168,10 +167,10 @@ AC_SUBST(bashcompdir)
 
 ...accompanied by this in `Makefile.am`:
 
-   ```makefile
-   bashcompdir = @bashcompdir@
-   dist_bashcomp_DATA = your-completion-file # completion files go here
-   ```
+```makefile
+bashcompdir = @bashcompdir@
+dist_bashcomp_DATA = your-completion-file # completion files go here
+```
 
 For cmake we ship the `bash-completion-config.cmake` and
 `bash-completion-config-version.cmake` files. Example usage:
@@ -191,31 +190,30 @@ install(FILES your-completion-file DESTINATION
   ${BASH_COMPLETION_COMPLETIONSDIR})
 ```
 
-   In bash-completion >= 2.12, we search the data directory of
-   `bash-completion` under the installation prefix where the target command is
-   installed.  When one can assume that the version of the target
-   bash-completion is 2.12 or higher, the completion script can actually be
-   installed to `$PREFIX/share/bash-completion/completions/` under the same
-   installation prefix as the target program installed under `$PREFIX/bin/` or
-   `$PREFIX/sbin/`.  For the detailed search order, see also "Q. What is the
-   search order for the completion file of each target command?" below.
+In bash-completion >= 2.12, we search the data directory of `bash-completion`
+under the installation prefix where the target command is installed. When one
+can assume that the version of the target bash-completion is 2.12 or higher, the
+completion script can actually be installed to
+`$PREFIX/share/bash-completion/completions/` under the same installation prefix
+as the target program installed under `$PREFIX/bin/` or `$PREFIX/sbin/`. For the
+detailed search order, see also "Q. What is the search order for the completion
+file of each target command?" below.
 
-   Example for `Makefile.am`:
+Example for `Makefile.am`:
 
-   ```makefile
-   bashcompdir = $(datarootdir)/bash-completion/completions
-   dist_bashcomp_DATA = your-completion-file
-   ```
+```makefile
+bashcompdir = $(datarootdir)/bash-completion/completions
+dist_bashcomp_DATA = your-completion-file
+```
 
-   Example for `CMakeLists.txt`:
+Example for `CMakeLists.txt`:
 
-   ```cmake
-   install(FILES your-completion-file DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/bash-completion/completions")
-   ```
+```cmake
+install(FILES your-completion-file DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/bash-completion/completions")
+```
 
-**Q. When completing on a symlink to a directory, bash does not append
-   the trailing `/` and I have to hit <kbd>&lt;Tab></kbd> again.
-   I don't like this.**
+**Q. When completing on a symlink to a directory, bash does not append the
+trailing `/` and I have to hit <kbd>&lt;Tab></kbd> again. I don't like this.**
 
 A. This has nothing to do with `bash_completion`. It's the default for
 completing symlinks to directories since bash 2.05a, and was added because
@@ -314,32 +312,31 @@ lists.
 
 **Q. Is bash the be-all-and-end-all of completion as far as shells go?**
 
-A. Absolutely not. zsh has an extremely sophisticated completion system
-   that offers many features absent from the bash implementation. Its
-   users often cannot resist pointing this out. More information can
-   be found at <https://www.zsh.org/>.
+A. Absolutely not. zsh has an extremely sophisticated completion system that
+offers many features absent from the bash implementation. Its users often cannot
+resist pointing this out. More information can be found at
+<https://www.zsh.org/>.
 
 **Q. What is the search order for the completion file of each target command?**
 
 A. The completion files of commands are looked up by the shell function
-  `__load_completion`.  Here, the search order in bash-completion >= 2.12 is
-  explained.
+`__load_completion`. Here, the search order in bash-completion >= 2.12 is
+explained.
 
-  1. `BASH_COMPLETION_USER_DIR`. The subdirectory `completions` of each paths
-     in `BASH_COMPLETION_USER_DIR` separated by colons is considered for a
-     completion directory.
-  2. The location of the main `bash_completion` file. The subdirectory
-     `completions` in the same directory as `bash_completion` is considered.
-  3. The location of the target command.  When the real location of the command
-     is in the directory `<prefix>/bin` or `<prefix>/sbin`, the directory
-     `<prefix>/share/bash-completion/completions` is considered.
-  4. `XDG_DATA_DIRS` (or the system directories `/usr/local/share:/usr/share`
-     if empty).  The subdirectory `bash-completion/completions` of each paths
-     in `XDG_DATA_DIRS` separated by colons is considered.
+1. `BASH_COMPLETION_USER_DIR`. The subdirectory `completions` of each paths in
+   `BASH_COMPLETION_USER_DIR` separated by colons is considered for a completion
+   directory.
+2. The location of the main `bash_completion` file. The subdirectory
+   `completions` in the same directory as `bash_completion` is considered.
+3. The location of the target command. When the real location of the command is
+   in the directory `<prefix>/bin` or `<prefix>/sbin`, the directory
+   `<prefix>/share/bash-completion/completions` is considered.
+4. `XDG_DATA_DIRS` (or the system directories `/usr/local/share:/usr/share` if
+   empty). The subdirectory `bash-completion/completions` of each paths in
+   `XDG_DATA_DIRS` separated by colons is considered.
 
-  The completion files of the name `<cmd>` or `<cmd>.bash`, where `<cmd>` is
-  the name of the target command, are searched in the above completion
-  directories in order.  The file that is found first is used.  When no
-  completion file is found in any completion directories in this process, the
-  completion files of the name `_<cmd>` is next searched in the completion
-  directories in order.
+The completion files of the name `<cmd>` or `<cmd>.bash`, where `<cmd>` is the
+name of the target command, are searched in the above completion directories in
+order. The file that is found first is used. When no completion file is found in
+any completion directories in this process, the completion files of the name
+`_<cmd>` is next searched in the completion directories in order.

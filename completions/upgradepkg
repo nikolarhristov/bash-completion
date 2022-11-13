@@ -1,9 +1,8 @@
 # Slackware Linux upgradepkg completion                    -*- shell-script -*-
 
-_upgradepkg()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_upgradepkg() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '--dry-run --install-new --reinstall

@@ -1,9 +1,8 @@
 # autoscan(1) completion                                   -*- shell-script -*-
 
-_autoscan()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_autoscan() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case "$prev" in
 	--help | --version | -!(-*)[hV])

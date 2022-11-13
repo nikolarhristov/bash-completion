@@ -14,10 +14,9 @@ fi
 # query the server for a list of all available exports and complete on
 # that instead.
 #
-_mount()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n : -- "$@" || return
+_mount() {
+	local cur prev words cword comp_args
+	_comp_initialize -n : -- "$@" || return
 
 	local sm host
 

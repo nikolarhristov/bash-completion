@@ -11,10 +11,9 @@ _carton_command_help() {
 	COMPREPLY+=($(compgen -W '$help' -- "$cur"))
 }
 
-_carton()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_carton() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local i command
 	for ((i = 1; i < cword; i++)); do

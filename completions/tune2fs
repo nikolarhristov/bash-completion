@@ -1,9 +1,8 @@
 # tune2fs(8) completion                                    -*- shell-script -*-
 
-_tune2fs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_tune2fs() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*[cCEiJLmrT])

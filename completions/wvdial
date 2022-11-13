@@ -1,9 +1,8 @@
 # bash completion for wvdial                               -*- shell-script -*-
 
-_wvdial()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_wvdial() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--config)

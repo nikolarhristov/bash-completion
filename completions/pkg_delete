@@ -1,9 +1,8 @@
 # bash completion for *BSD package management tools        -*- shell-script -*-
 
-_pkg_delete()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_pkg_delete() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local pkgdir=${PKG_DBDIR:-/var/db/pkg}/
 

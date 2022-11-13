@@ -1,9 +1,8 @@
 # xfreerdp completion                                      -*- shell-script -*-
 
-_xfreerdp()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n : -- "$@" || return
+_xfreerdp() {
+	local cur prev words cword comp_args
+	_comp_initialize -n : -- "$@" || return
 
 	case $prev in
 	-k)

@@ -1,9 +1,8 @@
 # mii-diag(8) completion                                   -*- shell-script -*-
 
-_mii_diag()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_mii_diag() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-F | -A | --advertise | --fixed-speed)

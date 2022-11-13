@@ -1,9 +1,8 @@
 # hunspell(1) completion                                   -*- shell-script -*-
 
-_hunspell()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_hunspell() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --version | -vv | -[hPv])

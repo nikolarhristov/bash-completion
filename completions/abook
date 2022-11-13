@@ -1,9 +1,8 @@
 # abook(1) completion                                      -*- shell-script -*-
 
-_abook()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_abook() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	# abook only takes options, tabbing after command name adds a single dash
 	[[ $cword -eq 1 && ! $cur ]] &&
@@ -13,12 +12,12 @@ _abook()
 			return
 		}
 
-    case $cur in
-        -*)
-            _longopt "$@"
-            return
-            ;;
-    esac
+	case $cur in
+	-*)
+		_longopt "$@"
+		return
+		;;
+	esac
 
 	case $prev in
 	--informat)

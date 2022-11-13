@@ -1,9 +1,8 @@
 # unrar(1) completion                                      -*- shell-script -*-
 
-_unrar()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_unrar() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '-ad -ap -av- -c- -cfg- -cl -cu -dh -ep -f

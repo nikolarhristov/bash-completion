@@ -1,9 +1,8 @@
 # bash completion for rrdtool                              -*- shell-script -*-
 
-_rrdtool()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_rrdtool() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if ((${#words[@]} == 2)); then
 		COMPREPLY=($(compgen -W 'create update updatev graph dump restore

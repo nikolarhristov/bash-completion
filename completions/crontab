@@ -1,9 +1,8 @@
 # crontab(1) completion                                    -*- shell-script -*-
 
-_crontab()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_crontab() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*u)

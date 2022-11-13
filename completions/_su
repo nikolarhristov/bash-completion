@@ -8,10 +8,9 @@ if [[ $OSTYPE != *linux* ]]; then
 	return
 fi
 
-_su()
-{ # linux-specific completion
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_su() { # linux-specific completion
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case "$prev" in
 	-s | --shell)

@@ -1,9 +1,8 @@
 # luserdel(1) completion                                   -*- shell-script -*-
 
-_luserdel()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_luserdel() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --usage | -!(-*)[?]*)

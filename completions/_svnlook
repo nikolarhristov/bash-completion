@@ -3,10 +3,9 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # subversion >= 0.12.0, use that instead.
 
-_svnlook()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_svnlook() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local commands
 	commands='author cat changed date diff dirs-changed help ? h history info

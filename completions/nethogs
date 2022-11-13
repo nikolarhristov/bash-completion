@@ -1,9 +1,8 @@
 # bash completion for nethogs(8)                           -*- shell-script -*-
 
-_nethogs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_nethogs() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case "$prev" in
 	-d)

@@ -1,10 +1,9 @@
 # wtf completion                                           -*- shell-script -*-
 # Raphael Droz, 25/09/2009
 
-_wtf()
-{
-    local cur prev words cword comp_args addf
-    _comp_initialize -- "$@" || return
+_wtf() {
+	local cur prev words cword comp_args addf
+	_comp_initialize -- "$@" || return
 
 	[[ $prev == -f ]] && _filedir && return
 	[[ ${words[*]} == *\ -f* ]] && addf= || addf=-f

@@ -1,9 +1,8 @@
 # ssh-keyscan(1) completion                                -*- shell-script -*-
 
-_comp_cmd_ssh_keyscan()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_comp_cmd_ssh_keyscan() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local ipvx
 

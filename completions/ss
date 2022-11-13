@@ -1,9 +1,8 @@
 # ss(8) completion                                         -*- shell-script -*-
 
-_ss()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_ss() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)[hV])

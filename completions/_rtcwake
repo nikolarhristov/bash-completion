@@ -3,10 +3,9 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # util-linux >= 2.23, use that instead.
 
-_rtcwake()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_rtcwake() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case "$prev" in
 	--help | -h | --version | -V | --seconds | -s | --time | -t)

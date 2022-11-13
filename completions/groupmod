@@ -1,9 +1,8 @@
 # groupmod(8) completion                                   -*- shell-script -*-
 
-_groupmod()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_groupmod() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	# TODO: if -o/--non-unique is given, could complete on existing gids
 	#       with -g/--gid

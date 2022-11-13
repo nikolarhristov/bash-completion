@@ -1,9 +1,8 @@
 # dsniff completion                                        -*- shell-script -*-
 
-_dsniff()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_dsniff() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-r | -w | -f | -p)

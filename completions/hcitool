@@ -23,10 +23,9 @@ _bluetooth_packet_types() {
 		-- "$cur"))
 }
 
-_hcitool()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_hcitool() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-i)
@@ -103,10 +102,9 @@ _hcitool()
 } &&
 	complete -F _hcitool hcitool
 
-_sdptool()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_sdptool() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--bdaddr)
@@ -161,10 +159,9 @@ _sdptool()
 } &&
 	complete -F _sdptool sdptool
 
-_l2ping()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_l2ping() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-i)
@@ -184,10 +181,9 @@ _l2ping()
 } &&
 	complete -F _l2ping l2ping
 
-_rfcomm()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_rfcomm() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-f | --config)
@@ -228,10 +224,9 @@ _rfcomm()
 } &&
 	complete -F _rfcomm rfcomm
 
-_ciptool()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ciptool() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-i)
@@ -264,10 +259,9 @@ _ciptool()
 } &&
 	complete -F _ciptool ciptool
 
-_dfutool()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_dfutool() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-d | --device)
@@ -294,10 +288,9 @@ _dfutool()
 } &&
 	complete -F _dfutool dfutool
 
-_hciconfig()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_hciconfig() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local arg
 	_get_first_arg
@@ -338,10 +331,9 @@ _hciconfig()
 } &&
 	complete -F _hciconfig hciconfig
 
-_hciattach()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_hciattach() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '-n -p -t -b -s -l' -- "$cur"))

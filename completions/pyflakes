@@ -1,9 +1,8 @@
 # pyflakes(1) completion                                   -*- shell-script -*-
 
-_pyflakes()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_pyflakes() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-h | --help | --version)

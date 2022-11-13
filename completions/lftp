@@ -1,9 +1,8 @@
 # lftp(1) completion                                       -*- shell-script -*-
 
-_lftp()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_lftp() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-!(-*)f)

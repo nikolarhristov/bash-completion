@@ -6,10 +6,9 @@ _shellcheck_optarg() {
 	COMPREPLY+=($(compgen -W '$args' -- "$cur"))
 }
 
-_shellcheck()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_shellcheck() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--version | -!(-*)V*)

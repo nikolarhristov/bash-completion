@@ -8,10 +8,9 @@ _dnssec_keygen_optarg() {
 	COMPREPLY+=($(compgen -W '$args' -- "$cur"))
 }
 
-_dnssec_keygen()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_dnssec_keygen() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-[hbEgLpsPARIDSi])

@@ -16,10 +16,9 @@ _rpcdebug_flags() {
 	fi
 }
 
-_rpcdebug()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_rpcdebug() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*s)

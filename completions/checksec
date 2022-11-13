@@ -1,9 +1,8 @@
 # bash completion for checksec                             -*- shell-script -*-
 
-_checksec()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_checksec() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--version | --help)

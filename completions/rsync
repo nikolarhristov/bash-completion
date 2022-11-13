@@ -1,9 +1,8 @@
 # bash completion for rsync                                -*- shell-script -*-
 
-_rsync()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -n : -- "$@" || return
+_rsync() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -n : -- "$@" || return
 
 	case $prev in
 	--config | --password-file | --include-from | --exclude-from | \

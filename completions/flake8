@@ -1,9 +1,8 @@
 # flake8 completion                                        -*- shell-script -*-
 
-_flake8()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_flake8() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)h)

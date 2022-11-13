@@ -1,9 +1,8 @@
 # ping(8) completion                                       -*- shell-script -*-
 
-_ping()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_ping() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	local ipvx
 

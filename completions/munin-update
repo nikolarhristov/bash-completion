@@ -1,9 +1,8 @@
 # munin-update completion                                  -*- shell-script -*-
 
-_munin_update()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_munin_update() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--config)

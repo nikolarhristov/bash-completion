@@ -86,10 +86,9 @@ EOF
 EOF
 }
 
-_make()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_make() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local makef makef_dir=("-C" ".") i
 

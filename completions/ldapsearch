@@ -8,10 +8,9 @@ _ldap_protocols() {
 	COMPREPLY=($(compgen -W '2 3' -- "$cur"))
 }
 
-_ldapsearch()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapsearch() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -50,10 +49,9 @@ _ldapsearch()
 } &&
 	complete -F _ldapsearch ldapsearch
 
-_ldapaddmodify()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapaddmodify() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -80,10 +78,9 @@ _ldapaddmodify()
 } &&
 	complete -F _ldapaddmodify ldapadd ldapmodify
 
-_ldapdelete()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapdelete() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -110,10 +107,9 @@ _ldapdelete()
 } &&
 	complete -F _ldapdelete ldapdelete
 
-_ldapcompare()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapcompare() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -140,10 +136,9 @@ _ldapcompare()
 } &&
 	complete -F _ldapcompare ldapcompare
 
-_ldapmodrdn()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapmodrdn() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -170,10 +165,9 @@ _ldapmodrdn()
 } &&
 	complete -F _ldapmodrdn ldapmodrdn
 
-_ldapwhoami()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldapwhoami() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)
@@ -200,10 +194,9 @@ _ldapwhoami()
 } &&
 	complete -F _ldapwhoami ldapwhoami
 
-_ldappasswd()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ldappasswd() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*h)

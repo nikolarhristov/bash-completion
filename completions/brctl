@@ -1,9 +1,8 @@
 # bash completion for brctl                                -*- shell-script -*-
 
-_brctl()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_brctl() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local command=${words[1]}
 

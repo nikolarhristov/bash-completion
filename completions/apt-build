@@ -1,9 +1,8 @@
 # Debian apt-build(1) completion                           -*- shell-script -*-
 
-_apt_build()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_apt_build() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	local special i
 	for ((i = 1; i < ${#words[@]} - 1; i++)); do

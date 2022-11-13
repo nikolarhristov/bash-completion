@@ -1,9 +1,8 @@
 # chgrp(1) completion                                      -*- shell-script -*-
 
-_chgrp()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_chgrp() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	cur=${cur//\\\\/}
 

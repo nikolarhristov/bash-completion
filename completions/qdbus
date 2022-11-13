@@ -1,9 +1,8 @@
 # Qt qdbus, dcop completion                                -*- shell-script -*-
 
-_qdbus()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_qdbus() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	[[ $cur ]] && unset -v "words[$((${#words[@]} - 1))]"
 	COMPREPLY=($(compgen -W '$(command ${words[@]} 2>/dev/null | \

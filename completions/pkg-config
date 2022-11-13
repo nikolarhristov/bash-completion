@@ -1,9 +1,8 @@
 # bash completion for pkgconfig                            -*- shell-script -*-
 
-_pkg_config()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_pkg_config() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--define-variable | --atleast-version | --atleast-pkgconfig-version | \

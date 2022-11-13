@@ -1,9 +1,8 @@
 # bash completion for dd                                   -*- shell-script -*-
 
-_dd()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_dd() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	case $cur in
 	if=* | of=*)

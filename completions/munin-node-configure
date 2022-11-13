@@ -1,9 +1,8 @@
 # munin-node-configure completion                          -*- shell-script -*-
 
-_munin_node_configure()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_munin_node_configure() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--config)

@@ -1,9 +1,8 @@
 # ssh-copy-id(1) completion                                -*- shell-script -*-
 
-_ssh_copy_id()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_ssh_copy_id() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	_comp_xfunc ssh suboption_check "$1" && return
 

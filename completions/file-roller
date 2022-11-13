@@ -1,30 +1,29 @@
 # file-roller(1) completion                                -*- shell-script -*-
 
-_file_roller()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_file_roller() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	local exts='@(7z?(.001)|ace|alz|ar|arj|[bglx]z|bz2|tb?(z)2|cab|cb[rz]|iso?(9660)|Z|t[abglx]z|cpio|deb|rar|?(g)tar|gem|lh[az]|lz[4h]|?(t)lrz|lzma|lzo|wim|swm|rpm|sit|zoo)'
 
-    case $prev in
-        --help | --help-all | --help-gtk | --help-sm-client | -!(-*)'?')
-            return
-            ;;
-        --sm-client-state-file)
-            _filedir
-            return
-            ;;
-        --add-to | -!(-*)a)
-            _filedir_xspec unzip "${@:2}"
-            _filedir "$exts"
-            return
-            ;;
-        --extract-to | --default-dir | -!(-*)e)
-            _filedir -d
-            return
-            ;;
-    esac
+	case $prev in
+	--help | --help-all | --help-gtk | --help-sm-client | -!(-*)'?')
+		return
+		;;
+	--sm-client-state-file)
+		_filedir
+		return
+		;;
+	--add-to | -!(-*)a)
+		_filedir_xspec unzip "${@:2}"
+		_filedir "$exts"
+		return
+		;;
+	--extract-to | --default-dir | -!(-*)e)
+		_filedir -d
+		return
+		;;
+	esac
 
 	$split && return
 
@@ -34,8 +33,8 @@ _file_roller()
 		return
 	fi
 
-    _filedir_xspec unzip "${@:2}"
-    _filedir "$exts"
+	_filedir_xspec unzip "${@:2}"
+	_filedir "$exts"
 } &&
 	complete -F _file_roller file-roller
 

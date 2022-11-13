@@ -1,9 +1,8 @@
 # bash completion for jshint                               -*- shell-script -*-
 
-_jshint()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_jshint() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	-v | --version | -h | --help | --exclude | --filename | -e | --extra-ext)

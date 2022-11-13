@@ -78,10 +78,9 @@ _smartctl_drivedb() {
 	[[ $prefix ]] && COMPREPLY=("${COMPREPLY[@]/#/$prefix}")
 }
 
-_smartctl()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smartctl() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--quietmode | -!(-*)q)

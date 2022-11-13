@@ -1,9 +1,8 @@
 # arping(8) completion                                     -*- shell-script -*-
 
-_arping()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_arping() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*c | -*w)

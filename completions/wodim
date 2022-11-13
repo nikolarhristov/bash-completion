@@ -1,9 +1,8 @@
 # bash completion for cdrecord/wodim                       -*- shell-script -*-
 
-_cdrecord()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_cdrecord() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	local generic_options track_options track_mode
 

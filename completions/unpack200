@@ -1,9 +1,8 @@
 # unpack200(1) completion                                  -*- shell-script -*-
 
-_unpack200()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_unpack200() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--help | --version | -!(-*)[?hVJ])

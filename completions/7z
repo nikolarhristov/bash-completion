@@ -1,9 +1,8 @@
 # 7z(1) completion                                         -*- shell-script -*-
 
-_7z()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -n = -- "$@" || return
+_7z() {
+	local cur prev words cword comp_args
+	_comp_initialize -n = -- "$@" || return
 
 	if ((cword == 1)); then
 		COMPREPLY=($(compgen -W 'a b d e h i l rn t u x' -- "$cur"))
@@ -96,32 +95,32 @@ _7z()
 		return
 	fi
 
-    local args
-    _count_args "="
-    if ((args == 2)); then
-        _filedir_xspec unzip "${@:2}"
-        # TODO: parsing 7z i output?
-        # - how to figure out if the format is input or output?
-        # - find string Formats:, read until next empty line
-        # - extensions start from column 26
-        #   - ignore everything in parens
-        #   - terminate on two spaces
-        #   - terminate on token containing anything [^a-z0-9]
-        #     (assumption: extensions are all lowercase)
-        [[ $mode == w ]] &&
-            _filedir '@(7z|bz2|swf|?(g)tar|?(t)[bglx]z|tb?(z)2|wim)' ||
-            _filedir '@(7z?(.001)|arj|bz2|cab|cb7|chm|cpio|deb|dmg|flv|gem|img|iso|lz[ah]|lzma?(86)|msi|pmd|[rx]ar|rpm|sw[fm]|?(g)tar|taz|?(t)[bglx]z|tb?(z)2|vhd|wim|Z)'
-    else
-        if [[ ${words[1]} == d ]]; then
-            local IFS=$'\n'
-            COMPREPLY=($(compgen -W "$(printf '%s\n' "$($1 l ${words[2]} \
-                -slt 2>/dev/null | command sed -n '/^Path =/s/^Path = \(.*\)$/\1/p' \
-                2>/dev/null | tail -n+2)")" -- "$cur"))
-            compopt -o filenames
-        else
-            _filedir
-        fi
-    fi
+	local args
+	_count_args "="
+	if ((args == 2)); then
+		_filedir_xspec unzip "${@:2}"
+		# TODO: parsing 7z i output?
+		# - how to figure out if the format is input or output?
+		# - find string Formats:, read until next empty line
+		# - extensions start from column 26
+		#   - ignore everything in parens
+		#   - terminate on two spaces
+		#   - terminate on token containing anything [^a-z0-9]
+		#     (assumption: extensions are all lowercase)
+		[[ $mode == w ]] &&
+			_filedir '@(7z|bz2|swf|?(g)tar|?(t)[bglx]z|tb?(z)2|wim)' ||
+			_filedir '@(7z?(.001)|arj|bz2|cab|cb7|chm|cpio|deb|dmg|flv|gem|img|iso|lz[ah]|lzma?(86)|msi|pmd|[rx]ar|rpm|sw[fm]|?(g)tar|taz|?(t)[bglx]z|tb?(z)2|vhd|wim|Z)'
+	else
+		if [[ ${words[1]} == d ]]; then
+			local IFS=$'\n'
+			COMPREPLY=($(compgen -W "$(printf '%s\n' "$($1 l ${words[2]} \
+				-slt 2>/dev/null | command sed -n '/^Path =/s/^Path = \(.*\)$/\1/p' \
+				2>/dev/null | tail -n+2)")" -- "$cur"))
+			compopt -o filenames
+		else
+			_filedir
+		fi
+	fi
 } &&
 	complete -F _7z 7z 7za 7zr 7zz 7zzs
 

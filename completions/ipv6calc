@@ -1,9 +1,8 @@
 # ipv6calc completion                                      -*- shell-script -*-
 
-_ipv6calc()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_ipv6calc() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case "$prev" in
 	--debug | -!(-*)d)

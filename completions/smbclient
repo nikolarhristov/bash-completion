@@ -33,10 +33,9 @@ _samba_signing() {
 	COMPREPLY=($(compgen -W 'on off required' -- "$cur"))
 }
 
-_smbclient()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smbclient() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--name-resolve | -!(-*)R)
@@ -99,10 +98,9 @@ _smbclient()
 } &&
 	complete -F _smbclient smbclient
 
-_smbget()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smbget() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--outputfile | --rcfile | -!(-*)[of])
@@ -131,10 +129,9 @@ _smbget()
 } &&
 	complete -F _smbget smbget
 
-_smbcacls()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smbcacls() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--configfile | --authentication-file | -!(-*)[As])
@@ -176,10 +173,9 @@ _smbcacls()
 } &&
 	complete -F _smbcacls smbcacls
 
-_smbcquotas()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smbcquotas() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--configfile | --authentication-file | -!(-*)[sA])
@@ -212,10 +208,9 @@ _smbcquotas()
 } &&
 	complete -F _smbcquotas smbcquotas
 
-_smbpasswd()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_smbpasswd() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*r)
@@ -245,10 +240,9 @@ _smbpasswd()
 } &&
 	complete -F _smbpasswd smbpasswd
 
-_smbtar()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_smbtar() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*[rt])
@@ -278,10 +272,9 @@ _smbtar()
 } &&
 	complete -F _smbtar smbtar
 
-_smbtree()
-{
-    local cur prev words cword split comp_args
-    _comp_initialize -s -- "$@" || return
+_smbtree() {
+	local cur prev words cword split comp_args
+	_comp_initialize -s -- "$@" || return
 
 	case $prev in
 	--configfile | --authentication-file | -!(-*)[sA])

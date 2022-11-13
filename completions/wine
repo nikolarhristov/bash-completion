@@ -1,9 +1,8 @@
 # bash completion for wine(1)                              -*- shell-script -*-
 
-_wine()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_wine() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	--help | --version)

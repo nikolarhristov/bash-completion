@@ -484,9 +484,9 @@ _gtar() {
 		local PS4='$BASH_SOURCE:$LINENO: '
 	fi
 
-    local cur prev words cword split comp_args
+	local cur prev words cword split comp_args
 
-    _comp_initialize -s -- "$@" || return
+	_comp_initialize -s -- "$@" || return
 
 	# Fill the {long,short}_{opts,arg*}
 	__gnu_tar_parse_help
@@ -664,9 +664,9 @@ _posix_tar() {
 	# The mode argument, e.g. -cpf or -c
 	local tar_mode_arg=
 
-    local cur prev words cword split comp_args
+	local cur prev words cword split comp_args
 
-    _comp_initialize -s -- "$@" || return
+	_comp_initialize -s -- "$@" || return
 
 	basic_tar=yes
 	tar_mode=none

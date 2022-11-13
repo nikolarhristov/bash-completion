@@ -1,9 +1,8 @@
 # mailman dumpdb completion                                -*- shell-script -*-
 
-_dumpdb()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_dumpdb() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	if [[ $cur == -* ]]; then
 		COMPREPLY=($(compgen -W '--marshal --pickle --noprint --help' \

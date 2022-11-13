@@ -1,9 +1,8 @@
 # json_xs completion                                       -*- shell-script -*-
 
-_json_xs()
-{
-    local cur prev words cword comp_args
-    _comp_initialize -- "$@" || return
+_json_xs() {
+	local cur prev words cword comp_args
+	_comp_initialize -- "$@" || return
 
 	case $prev in
 	-*f)

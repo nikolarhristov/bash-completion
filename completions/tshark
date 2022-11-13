@@ -1,9 +1,8 @@
 # tshark(1) completion                                     -*- shell-script -*-
 
-_tshark()
-{
-    local cur prev words cword comp_args prefix
-    _comp_initialize -n : -- "$@" || return
+_tshark() {
+	local cur prev words cword comp_args prefix
+	_comp_initialize -n : -- "$@" || return
 
 	case $cur in
 	-o*)
