@@ -1,3 +1,4 @@
+
 # munin-update completion                                  -*- shell-script -*-
 
 _munin_update() {
