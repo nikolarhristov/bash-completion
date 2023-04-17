@@ -10,7 +10,7 @@ jobs:
     pre-commit:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3.3.0
+            - uses: actions/checkout@v3.5.2
             - uses: actions/setup-python@v4
               with:
                   python-version: ">=3.7"
@@ -89,7 +89,7 @@ jobs:
                     - dist: fedoradev
                     - dist: ubuntu14
         steps:
-            - uses: actions/checkout@v3.3.0
+            - uses: actions/checkout@v3.5.2
             - uses: GoogleCloudPlatform/release-please-action@v3
               with:
                   release-type: simple
