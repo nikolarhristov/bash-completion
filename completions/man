@@ -9,35 +9,35 @@ _man() {
 	local mansect="@([0-9]*([a-z])|[lnp])"
 
 	case $prev in
-	--config-file | -!(-*)C)
-		_filedir conf
-		return
-		;;
-	--local-file | -!(-*)l)
-		_filedir "$manext"
-		return
-		;;
-	--manpath | -!(-*)M)
-		_filedir -d
-		return
-		;;
-	--sections | -!(-*)[Ss])
-		_comp_delimited : -W '{1..9}'
-		return
-		;;
-	--pager | -!(-*)P)
-		compopt -o filenames
-		COMPREPLY=($(compgen -c -- "$cur"))
-		return
-		;;
-	--preprocessor | -!(-*)p)
-		COMPREPLY=($(compgen -W 'e p t g r v' -- "$cur"))
-		return
-		;;
-	--locale | --systems | --extension | --prompt | --recode | --encoding | \
-		-!(-*)[LmerRE])
-		return
-		;;
+		--config-file | -!(-*)C)
+			_filedir conf
+			return
+			;;
+		--local-file | -!(-*)l)
+			_filedir "$manext"
+			return
+			;;
+		--manpath | -!(-*)M)
+			_filedir -d
+			return
+			;;
+		--sections | -!(-*)[Ss])
+			_comp_delimited : -W '{1..9}'
+			return
+			;;
+		--pager | -!(-*)P)
+			compopt -o filenames
+			COMPREPLY=($(compgen -c -- "$cur"))
+			return
+			;;
+		--preprocessor | -!(-*)p)
+			COMPREPLY=($(compgen -W 'e p t g r v' -- "$cur"))
+			return
+			;;
+		--locale | --systems | --extension | --prompt | --recode | --encoding | \
+			-!(-*)[LmerRE])
+			return
+			;;
 	esac
 
 	$split && return
@@ -56,7 +56,7 @@ _man() {
 		return
 	fi
 
-	local manpath=$(manpath 2>/dev/null || command man -w 2>/dev/null)
+	local manpath=$(manpath 2> /dev/null || command man -w 2> /dev/null)
 	if [[ ! $manpath ]]; then
 		# Note: Both "manpath" and "man -w" may be unavailable, in
 		# which case we determine the man paths based on the
@@ -84,17 +84,17 @@ _man() {
 	local IFS=$' \t\n' reset=$(shopt -p failglob)
 	shopt -u failglob
 	# redirect stderr for when path doesn't exist
-	COMPREPLY=($(eval command ls "$manpath" 2>/dev/null))
+	COMPREPLY=($(eval command ls "$manpath" 2> /dev/null))
 	$reset
 
 	if ((${#COMPREPLY[@]} != 0)); then
 		# weed out directory path names and paths to man pages
 		COMPREPLY=(${COMPREPLY[@]##*/?(:)})
 		# strip suffix from man pages
-		((${#COMPREPLY[@]})) &&
-			COMPREPLY=(${COMPREPLY[@]%$comprsuffix})
-		((${#COMPREPLY[@]})) &&
-			COMPREPLY=($(compgen -W '"${COMPREPLY[@]%.*}"' -- "${cur//\\\\/}"))
+		((${#COMPREPLY[@]})) \
+			&& COMPREPLY=(${COMPREPLY[@]%$comprsuffix})
+		((${#COMPREPLY[@]})) \
+			&& COMPREPLY=($(compgen -W '"${COMPREPLY[@]%.*}"' -- "${cur//\\\\/}"))
 	fi
 
 	# shellcheck disable=SC2053
@@ -109,7 +109,7 @@ _man() {
 	fi
 
 	__ltrim_colon_completions "$cur"
-} &&
-	complete -F _man man apropos whatis
+} \
+	&& complete -F _man man apropos whatis
 
 # ex: filetype=sh
