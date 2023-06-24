@@ -13,7 +13,7 @@ The test suite is written in Python, using [pytest](https://pytest.org/) and
 
 For the Python part, all of it is formatted using
 [Black](https://github.com/psf/black), and we also run
-[Flake8](https://flake8.pycqa.org/) on it.
+[Ruff](https://github.com/charliermarsh/ruff) on it.
 
 ## Installing dependencies
 
@@ -23,7 +23,7 @@ dependencies are specified in the `test/requirements.txt` file. If using `pip`,
 this file can be fed directly to it, e.g. like:
 
 ```shell
-pip install -r test/requirements.txt
+python3 -m pip install -r test/requirements.txt
 ```
 
 ### Debian/Ubuntu

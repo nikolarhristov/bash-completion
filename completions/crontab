@@ -1,8 +1,9 @@
 # crontab(1) completion                                    -*- shell-script -*-
 
-_crontab() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_crontab()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-*u)
@@ -34,14 +35,14 @@ _crontab() {
 		esac
 	done
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '${!opts[@]}' -- "$cur"))
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen -- -W '"${!opts[@]}"'
+        return
+    fi
 
-	# do filenames only if we did not have -l, -r, or -e
-	[[ ${words[*]} == *\ -[lre]* ]] || _filedir
+    # do filenames only if we did not have -l, -r, or -e
+    [[ ${words[*]} == *\ -[lre]* ]] || _comp_compgen_filedir
 } &&
-	complete -F _crontab crontab
+    complete -F _comp_cmd_crontab crontab
 
 # ex: filetype=sh

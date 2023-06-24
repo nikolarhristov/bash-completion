@@ -1,8 +1,9 @@
 # svk(1) completion                                        -*- shell-script -*-
 
-_svk() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_svk()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local commands options command
 
@@ -13,23 +14,23 @@ _svk() {
         propget pg pget proplist pl plist propset ps pset pull push resolved
         revert smerge sm status st stat switch sw sync sy update up verify'
 
-	if ((cword == 1)); then
-		if [[ $cur == -* ]]; then
-			COMPREPLY=($(compgen -W '--version' -- "$cur"))
-		else
-			COMPREPLY=($(compgen -W "$commands" -- "$cur"))
-		fi
-	else
-		case $prev in
-		-F | --file | --targets)
-			_filedir
-			return
-			;;
-		--encoding)
-			_comp_xfunc iconv charsets
-			return
-			;;
-		esac
+    if ((cword == 1)); then
+        if [[ $cur == -* ]]; then
+            _comp_compgen -- -W '--version'
+        else
+            _comp_compgen -- -W "$commands"
+        fi
+    else
+        case $prev in
+            -F | --file | --targets)
+                _comp_compgen_filedir
+                return
+                ;;
+            --encoding)
+                _comp_xfunc iconv charsets
+                return
+                ;;
+        esac
 
 		command=${words[1]}
 
@@ -171,43 +172,41 @@ _svk() {
 			esac
 			options+=" --help -h"
 
-			COMPREPLY=($(compgen -W "$options" -- "$cur"))
-		else
-			case $command in
-			help | h | \?)
-				COMPREPLY=($(compgen -W "$commands environment commands
-                        intro" -- "$cur"))
-				;;
-			admin)
-				COMPREPLY=($(compgen -W 'help deltify dump hotcopy
-                        list-dblogs list-unused-dblogs load lstxns recover
-                        rmtxns setlog verify rmcache' -- "$cur"))
-				;;
-			patch)
-				COMPREPLY=($(compgen -W '--ls --list --cat --view
-                        --regen --regenerate --up --update --apply --rm
-                        --delete' -- "$cur"))
-				;;
-			sync)
-				COMPREPLY=($(compgen -W "$($1 mirror --list \
-					2>/dev/null | awk '/^\//{print $1}')" -- "$cur"))
-				;;
-			co | checkout | push | pull)
-				if [[ $cur == //*/* ]]; then
-					path=${cur%/*}/
-				else
-					path=//
-				fi
-				COMPREPLY=($(compgen -W "$($1 list $path 2>/dev/null |
-					command sed -e 's|\(.*\)|'$path'\1|')" -- "$cur"))
-				;;
-			*)
-				_filedir
-				;;
-			esac
-		fi
-	fi
+            _comp_compgen -- -W "$options"
+        else
+            case $command in
+                help | h | \?)
+                    _comp_compgen -- -W "$commands environment commands intro"
+                    ;;
+                admin)
+                    _comp_compgen -- -W 'help deltify dump hotcopy list-dblogs
+                        list-unused-dblogs load lstxns recover rmtxns setlog
+                        verify rmcache'
+                    ;;
+                patch)
+                    _comp_compgen -- -W '--ls --list --cat --view --regen
+                        --regenerate --up --update --apply --rm --delete'
+                    ;;
+                sync)
+                    _comp_compgen_split -- "$("$1" mirror --list \
+                        2>/dev/null | awk '/^\//{print $1}')"
+                    ;;
+                co | checkout | push | pull)
+                    if [[ $cur == //*/* ]]; then
+                        path=${cur%/*}/
+                    else
+                        path=//
+                    fi
+                    _comp_compgen_split -- "$("$1" list "$path" 2>/dev/null |
+                        command sed -e 's|\(.*\)|'"$path"'\1|')"
+                    ;;
+                *)
+                    _comp_compgen_filedir
+                    ;;
+            esac
+        fi
+    fi
 } &&
-	complete -F _svk svk
+    complete -F _comp_cmd_svk svk
 
 # ex: filetype=sh

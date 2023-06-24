@@ -3,9 +3,10 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # util-linux >= 2.23, use that instead.
 
-_ionice() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_ionice()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local offset=0 i
 	for ((i = 1; i <= cword; i++)); do
@@ -34,26 +35,26 @@ _ionice() {
 		return
 	fi
 
-	case $prev in
-	-c)
-		COMPREPLY=($(compgen -W '{0..3}' -- "$cur"))
-		return
-		;;
-	-n)
-		COMPREPLY=($(compgen -W '{0..7}' -- "$cur"))
-		return
-		;;
-	-p)
-		_pids
-		return
-		;;
-	esac
+    case $prev in
+        -c)
+            _comp_compgen -- -W '{0..3}'
+            return
+            ;;
+        -n)
+            _comp_compgen -- -W '{0..7}'
+            return
+            ;;
+        -p)
+            _pids
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1" -h)' -- "$cur"))
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help -- -h
+        return
+    fi
 } &&
-	complete -F _ionice ionice
+    complete -F _comp_cmd_ionice ionice
 
 # ex: filetype=sh

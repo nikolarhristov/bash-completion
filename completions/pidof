@@ -1,26 +1,29 @@
 # pidof(8) completion                                      -*- shell-script -*-
 
-_pidof() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_pidof()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	--help | -V | --version | -!(-*)[hV]*)
-		return
-		;;
-	--omit-pid | -!(-*)o)
-		_pids
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[o]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --help | -V | --version | -${noargopts}[hV]*)
+            return
+            ;;
+        --omit-pid | -${noargopts}o)
+            _pids
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        return
+    fi
 
 	_pnames
 } &&
-	complete -F _pidof pidof
+    complete -F _comp_cmd_pidof pidof
 
 # ex: filetype=sh

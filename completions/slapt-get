@@ -1,27 +1,28 @@
 # slapt-get(8) completion                                  -*- shell-script -*-
 
-_slapt_get() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_slapt_get()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case "$prev" in
-	--config | -c)
-		_filedir
-		return
-		;;
-	--retry | --search)
-		# argument required but no completions available
-		return
-		;;
-	esac
+    case "$prev" in
+        --config | -c)
+            _comp_compgen_filedir
+            return
+            ;;
+        --retry | --search)
+            # argument required but no completions available
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1" --help)' -- "$cur"))
-		if [[ ${COMPREPLY-} ]]; then
-			[[ $COMPREPLY == *= ]] && compopt -o nospace
-			return
-		fi
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        if [[ ${COMPREPLY-} ]]; then
+            [[ $COMPREPLY == *= ]] && compopt -o nospace
+            return
+        fi
+    fi
 
 	local i t
 	# search for last action
@@ -53,34 +54,30 @@ _slapt_get() {
 	done
 	[[ -r $config ]] || return
 
-	case $t in
-	all) # --show
-		# slapt-get will fail to search for "^name-version"
-		# it can search for names only
-		local name=${cur%%-*}
-		COMPREPLY=($(LC_ALL=C "$1" -c "$config" --search "^$name" \
-			2>/dev/null | LC_ALL=C command sed -ne "/^$cur/{s/ .*$//;p;}"))
-		return
-		;;
-	avl) # --install|-i|
-		COMPREPLY=($(LC_ALL=C "$1" -c "$config" --available \
-			2>/dev/null | LC_ALL=C command sed -ne "/^$cur/{s/ .*$//;p;}"))
-		return
-		;;
-	ins) # --remove|--filelist
-		COMPREPLY=($(
-			command cd /var/log/packages
-			compgen -f -- "$cur"
-		))
-		return
-		;;
-	set) # --install-set
-		COMPREPLY=($(compgen -W 'a ap d e f k kde kdei l n t tcl x
-                xap xfce y' -- "$cur"))
-		return
-		;;
-	esac
+    case $t in
+        all) # --show
+            # slapt-get will fail to search for "^name-version"
+            # it can search for names only
+            local name=${cur%%-*}
+            COMPREPLY=($(LC_ALL=C "$1" -c "$config" --search "^$name" \
+                2>/dev/null | LC_ALL=C command sed -ne "/^$cur/{s/ .*$//;p;}"))
+            return
+            ;;
+        avl) # --install|-i|
+            COMPREPLY=($(LC_ALL=C "$1" -c "$config" --available \
+                2>/dev/null | LC_ALL=C command sed -ne "/^$cur/{s/ .*$//;p;}"))
+            return
+            ;;
+        ins) # --remove|--filelist
+            _comp_compgen -C /var/log/packages -- -f
+            return
+            ;;
+        set) # --install-set
+            _comp_compgen -- -W 'a ap d e f k kde kdei l n t tcl x xap xfce y'
+            return
+            ;;
+    esac
 } &&
-	complete -F _slapt_get slapt-get
+    complete -F _comp_cmd_slapt_get slapt-get
 
 # ex: filetype=sh

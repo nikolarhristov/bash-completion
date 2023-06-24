@@ -1,10 +1,15 @@
 # ssh-copy-id(1) completion                                -*- shell-script -*-
 
-_ssh_copy_id() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_ssh_copy_id()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	_comp_xfunc ssh suboption_check "$1" && return
+    # Prefer `ssh` from same dir for resolving options, etc
+    local pathcmd
+    pathcmd=$(type -P "$1") && local PATH=${pathcmd%/*}:$PATH
+
+    _comp_xfunc ssh suboption_check && return
 
 	case $prev in
 	-i)
@@ -20,12 +25,12 @@ _ssh_copy_id() {
 		;;
 	esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_usage "$1" --help)' -- "$cur"))
-	else
-		_known_hosts_real -a -- "$cur"
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_usage -- --help
+    else
+        _known_hosts_real -a -- "$cur"
+    fi
 } &&
-	complete -F _ssh_copy_id ssh-copy-id
+    complete -F _comp_cmd_ssh_copy_id ssh-copy-id
 
 # ex: filetype=sh

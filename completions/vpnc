@@ -1,80 +1,79 @@
 # bash completion for vpnc                                 -*- shell-script -*-
 
-_vpnc() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+# TODO:API: rename per conventions
+_vpnc()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	--help | --long-help | --version | --id | --username | --domain | \
-		--ifname | --application-version | --local-addr | --local-port | \
-		--udp-port | --dpd-idle | --target-network | --ifmtu)
-		return
-		;;
-	--gateway)
-		_known_hosts_real -- "$cur"
-		return
-		;;
-	--vendor)
-		COMPREPLY=($(compgen -W 'cisco netscreen' -- "$cur"))
-		return
-		;;
-	--natt-mode)
-		COMPREPLY=($(compgen -W 'natt none force-natt cisco-udp' \
-			-- "$cur"))
-		return
-		;;
-	--script | --pid-file | --ca-file)
-		_filedir
-		return
-		;;
-	--dh)
-		COMPREPLY=($(compgen -W 'dh1 dh2 dh5' -- "$cur"))
-		return
-		;;
-	--pfs)
-		COMPREPLY=($(compgen -W 'nopfs dh1 dh2 dh5 server' -- "$cur"))
-		return
-		;;
-	--ifmode)
-		COMPREPLY=($(compgen -W 'tun tap' -- "$cur"))
-		return
-		;;
-	--debug)
-		COMPREPLY=($(compgen -W '0 1 2 3 99' -- "$cur"))
-		return
-		;;
-	--auth-mode)
-		COMPREPLY=($(compgen -W 'psk cert hybrid' -- "$cur"))
-		return
-		;;
-	--ca-dir)
-		_filedir -d
-		return
-		;;
-	--password-helper)
-		compopt -o filenames
-		COMPREPLY=($(compgen -c -- "$cur"))
-		return
-		;;
-	esac
+    case $prev in
+        --help | --long-help | --version | --id | --username | --domain | \
+            --ifname | --application-version | --local-addr | --local-port | \
+            --udp-port | --dpd-idle | --target-network | --ifmtu)
+            return
+            ;;
+        --gateway)
+            _known_hosts_real -- "$cur"
+            return
+            ;;
+        --vendor)
+            _comp_compgen -- -W 'cisco netscreen'
+            return
+            ;;
+        --natt-mode)
+            _comp_compgen -- -W 'natt none force-natt cisco-udp'
+            return
+            ;;
+        --script | --pid-file | --ca-file)
+            _comp_compgen_filedir
+            return
+            ;;
+        --dh)
+            _comp_compgen -- -W 'dh1 dh2 dh5'
+            return
+            ;;
+        --pfs)
+            _comp_compgen -- -W 'nopfs dh1 dh2 dh5 server'
+            return
+            ;;
+        --ifmode)
+            _comp_compgen -- -W 'tun tap'
+            return
+            ;;
+        --debug)
+            _comp_compgen -- -W '0 1 2 3 99'
+            return
+            ;;
+        --auth-mode)
+            _comp_compgen -- -W 'psk cert hybrid'
+            return
+            ;;
+        --ca-dir)
+            _comp_compgen_filedir -d
+            return
+            ;;
+        --password-helper)
+            _comp_compgen_commands
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1" --long-help)' -- "$cur"))
-	elif _comp_looks_like_path "$cur"; then
-		# explicit filename
-		_filedir conf
-	else
-		# config name, /etc/vpnc/<name>.conf
-		local -a configs
-		_comp_expand_glob configs '/etc/vpnc/*.conf'
-		if ((${#configs[@]})); then
-			configs=("${configs[@]##*/}")
-			configs=("${configs[@]%.conf}")
-			local IFS=$'\n'
-			compopt -o filenames
-			COMPREPLY=($(compgen -W '${configs[@]}' -- "$cur"))
-		fi
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help -- --long-help
+    elif _comp_looks_like_path "$cur"; then
+        # explicit filename
+        _comp_compgen_filedir conf
+    else
+        # config name, /etc/vpnc/<name>.conf
+        local -a configs
+        _comp_expand_glob configs '/etc/vpnc/*.conf'
+        if ((${#configs[@]})); then
+            configs=("${configs[@]##*/}")
+            configs=("${configs[@]%.conf}")
+            compopt -o filenames
+            _comp_compgen -- -W '"${configs[@]}"'
+        fi
+    fi
 } &&
 	complete -F _vpnc vpnc
 

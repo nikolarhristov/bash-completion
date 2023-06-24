@@ -2,52 +2,56 @@
 
 [[ $OSTYPE == *@(linux|darwin)* ]] || return 1
 
-_watch() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_watch()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	local offset=0 i
-	for ((i = 1; i <= cword; i++)); do
-		case ${words[i]} in
-		--help | --version | -!(-*)h)
-			return
-			;;
-		--interval | -!(-*)n)
-			((i++))
-			continue
-			;;
-		-*)
-			continue
-			;;
-		esac
-		offset=$i
-		break
-	done
+    local offset=0 i
+    local noargopts='!(-*|*[dn]*)'
+    # shellcheck disable=SC2254
+    for ((i = 1; i <= cword; i++)); do
+        case ${words[i]} in
+            --help | --version | -${noargopts}h)
+                return
+                ;;
+            --interval | -${noargopts}n)
+                ((i++))
+                continue
+                ;;
+            -*)
+                continue
+                ;;
+        esac
+        offset=$i
+        break
+    done
 
 	if ((offset > 0)); then
 		_comp_command_offset $offset
 		return
 	fi
 
-	case $prev in
-	--differences | -!(-*)d)
-		[[ $cur != -* ]] &&
-			COMPREPLY=($(compgen -W 'cumulative' -- "$cur"))
-		return
-		;;
-	--interval | -!(-*)n)
-		return
-		;;
-	esac
+    # shellcheck disable=SC2254
+    case $prev in
+        --differences | -${noargopts}d)
+            [[ $cur != -* ]] &&
+                _comp_compgen -- -W 'cumulative'
+            return
+            ;;
+        --interval | -${noargopts}n)
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+        return
+    fi
 } &&
-	complete -F _watch watch
+    complete -F _comp_cmd_watch watch
 
 # ex: filetype=sh

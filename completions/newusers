@@ -1,29 +1,30 @@
 # newusers(8) completion                                   -*- shell-script -*-
 
-_newusers() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_newusers()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	case $prev in
-	-c | --crypt)
-		COMPREPLY=($(compgen -W 'DES MD5 NONE SHA256 SHA512' -- "$cur"))
-		return
-		;;
-	-s | --sha-rounds)
-		return
-		;;
-	esac
+    case $prev in
+        -c | --crypt)
+            _comp_compgen -- -W 'DES MD5 NONE SHA256 SHA512'
+            return
+            ;;
+        -s | --sha-rounds)
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+        return
+    fi
 
-	_filedir
+    _comp_compgen_filedir
 } &&
-	complete -F _newusers newusers
+    complete -F _comp_cmd_newusers newusers
 
 # ex: filetype=sh

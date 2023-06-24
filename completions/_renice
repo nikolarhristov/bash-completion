@@ -3,9 +3,10 @@
 # Use of this file is deprecated on Linux.  Upstream completion is
 # available in util-linux >= 2.23, use that instead.
 
-_renice() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_renice()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local command=$1 curopt i=0
 
@@ -26,6 +27,6 @@ _renice() {
 		((i++))
 	done
 } &&
-	complete -F _renice renice
+    complete -F _comp_cmd_renice renice
 
 # ex: filetype=sh

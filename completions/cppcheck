@@ -1,90 +1,90 @@
 # bash completion for cppcheck(1)                          -*- shell-script -*-
 
-_cppcheck() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_cppcheck()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	case $prev in
-	--append | --exitcode-suppressions | --rule-file | --config-excludes-file | \
-		--suppressions-list | --includes-file | --include | -i)
-		_filedir
-		return
-		;;
-	-D | -U | --rule | --suppress | --template | --max-configs | -h | --help | --version | \
-		--errorlist | --config-exclude | -l)
-		return
-		;;
-	--enable)
-		# split comma-separated list
-		split=false
-		if [[ $cur == ?*,* ]]; then
-			prev="${cur%,*}"
-			cur="${cur##*,}"
-			split=true
-		fi
-		COMPREPLY=($(compgen -W 'all warning style performance
-                portability information unusedFunction missingInclude' \
-			-- "$cur"))
-		$split && COMPREPLY=(${COMPREPLY[@]/#/"$prev,"})
-		return
-		;;
-	--error-exitcode)
-		COMPREPLY=($(compgen -W '{0..255}' -- "$cur"))
-		return
-		;;
-	--file-list)
-		_filedir
-		[[ ! $cur || $cur == - ]] && COMPREPLY+=(-)
-		return
-		;;
-	-I)
-		_filedir -d
-		return
-		;;
-	-j)
-		COMPREPLY=($(compgen -W "{2..$(_ncpus)}" -- "$cur"))
-		return
-		;;
-	--language | -x)
-		COMPREPLY=($(compgen -W 'c c++' -- "$cur"))
-		return
-		;;
-	--std)
-		COMPREPLY=($(compgen -W 'c89 c99 c11 c++03 c++11 c++14 c++17
-                c++20' -- "$cur"))
-		return
-		;;
-	--platform)
-		_filedir
-		COMPREPLY+=($(compgen -W 'unix32 unix64 win32A win32W win64
-                native' -- "$cur"))
-		return
-		;;
-	-rp | --relative-paths)
-		if $split; then # -rp without argument is allowed
-			_filedir -d
-			return
-		fi
-		;;
-	--library)
-		_filedir cfg
-		return
-		;;
-	--xml-version)
-		COMPREPLY=($(compgen -W '1 2' -- "$cur"))
-		return
-		;;
-	esac
+    case $prev in
+        --append | --exitcode-suppressions | --rule-file | --config-excludes-file | \
+            --suppressions-list | --includes-file | --include | -i)
+            _comp_compgen_filedir
+            return
+            ;;
+        -D | -U | --rule | --suppress | --template | --max-configs | -h | --help | --version | \
+            --errorlist | --config-exclude | -l)
+            return
+            ;;
+        --enable)
+            # split comma-separated list
+            local split=""
+            if [[ $cur == ?*,* ]]; then
+                prev="${cur%,*}"
+                cur="${cur##*,}"
+                split="set"
+            fi
+            _comp_compgen -- -W 'all warning style performance portability
+                information unusedFunction missingInclude'
+            [[ $split ]] && COMPREPLY=(${COMPREPLY[@]/#/"$prev,"})
+            return
+            ;;
+        --error-exitcode)
+            _comp_compgen -- -W '{0..255}'
+            return
+            ;;
+        --file-list)
+            _comp_compgen_filedir
+            [[ ! $cur || $cur == - ]] && COMPREPLY+=(-)
+            return
+            ;;
+        -I)
+            _comp_compgen_filedir -d
+            return
+            ;;
+        -j)
+            local ret
+            _comp_get_ncpus
+            _comp_compgen -- -W "{1..$ret}"
+            return
+            ;;
+        --language | -x)
+            _comp_compgen -- -W 'c c++'
+            return
+            ;;
+        --std)
+            _comp_compgen -- -W 'c89 c99 c11 c++03 c++11 c++14 c++17 c++20'
+            return
+            ;;
+        --platform)
+            _comp_compgen_filedir
+            _comp_compgen -a -- -W 'unix32 unix64 win32A win32W win64 native'
+            return
+            ;;
+        -rp | --relative-paths)
+            if [[ $was_split ]]; then # -rp without argument is allowed
+                _comp_compgen_filedir -d
+                return
+            fi
+            ;;
+        --library)
+            _comp_compgen_filedir cfg
+            return
+            ;;
+        --xml-version)
+            _comp_compgen -- -W '1 2'
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-	else
-		_filedir '@([cht]pp|[cht]xx|cc|[ch]++|[ch])'
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    else
+        _comp_compgen_filedir '@([cht]pp|[cht]xx|cc|[ch]++|[ch])'
+    fi
 } &&
-	complete -F _cppcheck cppcheck
+    complete -F _comp_cmd_cppcheck cppcheck
 
 # ex: filetype=sh

@@ -2,9 +2,10 @@
 #
 # Copyright 2006 Yann Rouillard <yann@opencsw.org>
 
-_pkg_get_get_catalog_file() {
-	local url="$1"
-	local catalog_file i conffile
+_comp_cmd_pkg_get__catalog_file()
+{
+    local url="$1"
+    local i conffile
 
 	for file in /etc/opt/csw/pkg-get.conf /opt/csw/etc/pkg-get.conf /etc/pkg-get.conf; do
 		if [[ -f $file ]]; then
@@ -14,21 +15,20 @@ _pkg_get_get_catalog_file() {
 	done
 	conffile="${conffile:-/opt/csw/etc/pkg-get.conf}"
 
-	if [[ ! $url ]]; then
-		url=$(awk -F= ' $1=="url" { print $2 }' $conffile)
-	fi
+    if [[ ! $url ]]; then
+        url=$(awk -F= ' $1=="url" { print $2 }' "$conffile")
+    fi
 
-	catalog_file="${url##*//}"
-	catalog_file="${catalog_file%%/*}"
-	catalog_file="/var/pkg-get/catalog-$catalog_file"
-
-	echo "$catalog_file"
+    ret="${url##*//}"
+    ret="${ret%%/*}"
+    ret="/var/pkg-get/catalog-$ret"
 } &&
-	_pkg_get() {
-		local cur prev file catalog_file url command
-		COMPREPLY=()
-		cur="${COMP_WORDS[COMP_CWORD]}"
-		prev="${COMP_WORDS[COMP_CWORD - 1]}"
+    _comp_cmd_pkg_get()
+    {
+        local cur prev file url command=""
+        COMPREPLY=()
+        cur="${COMP_WORDS[COMP_CWORD]}"
+        prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
 		if [[ ${prev} == "-s" ]]; then
 			return 1
@@ -44,28 +44,29 @@ _pkg_get_get_catalog_file() {
 			fi
 		done
 
-		if [[ -v command ]]; then
-			if [[ $command == @(-[Ddi]|describe|download|install) ]]; then
-				catalog_file=$(_pkg_get_get_catalog_file "$url")
-				if [[ -f $catalog_file ]]; then
-					local packages_list=$(awk ' $0 ~ /BEGIN PGP SIGNATURE/ { exit } $1 ~ /^Hash:/ || $1 ~ /^ *(-|#|$)/ { next } { print $1 }' $catalog_file)
-					COMPREPLY=($(compgen -W "${packages_list}" -- ${cur}))
-				fi
-			fi
-			return
-		fi
+        if [[ $command ]]; then
+            if [[ $command == @(-[Ddi]|describe|download|install) ]]; then
+                local ret
+                _comp_cmd_pkg_get__catalog_file "$url"
+                if [[ -f $ret ]]; then
+                    local packages_list=$(awk '$0 ~ /BEGIN PGP SIGNATURE/ { exit } $1 ~ /^Hash:/ || $1 ~ /^ *(-|#|$)/ { next } { print $1 }' "$ret")
+                    _comp_compgen -- -W "${packages_list}"
+                fi
+            fi
+            return
+        fi
 
-		if [[ ${cur} == -* ]]; then
-			local -a opts=(-c -d -D -f -i -l -s -S -u -U -v)
-			COMPREPLY=($(compgen -W '${opts[@]}' -- ${cur}))
-			return
-		fi
+        if [[ ${cur} == -* ]]; then
+            local -a opts=(-c -d -D -f -i -l -s -S -u -U -v)
+            _comp_compgen -- -W '"${opts[@]}"'
+            return
+        fi
 
-		local -a commands=(
-			available describe download install list updatecatalog upgrade
-		)
-		COMPREPLY=($(compgen -W '${commands[@]}' -- ${cur}))
-	} &&
-		complete -F _pkg_get pkg-get
+        local -a commands=(
+            available describe download install list updatecatalog upgrade
+        )
+        _comp_compgen -- -W '"${commands[@]}"'
+    } &&
+        complete -F _comp_cmd_pkg_get pkg-get
 
 # ex: filetype=sh

@@ -1,27 +1,28 @@
 # arpspoof completion                                      -*- shell-script -*-
 
-_arpspoof() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_arpspoof()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	-i)
-		_available_interfaces -a
-		return
-		;;
-	-t)
-		_known_hosts_real -- "$cur"
-		return
-		;;
-	esac
+    case $prev in
+        -i)
+            _comp_compgen_available_interfaces -a
+            return
+            ;;
+        -t)
+            _known_hosts_real -- "$cur"
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_usage "$1")' -- "$cur"))
-	else
-		_known_hosts_real -- "$cur"
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_usage
+    else
+        _known_hosts_real -- "$cur"
+    fi
 
 } &&
-	complete -F _arpspoof arpspoof
+    complete -F _comp_cmd_arpspoof arpspoof
 
 # ex: filetype=sh

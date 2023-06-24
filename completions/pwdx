@@ -1,8 +1,9 @@
 # pwdx(1) completion                                       -*- shell-script -*-
 
-_pwdx() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_pwdx()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-h | --help | -V | --version)
@@ -10,14 +11,13 @@ _pwdx() {
 		;;
 	esac
 
-	if [[ $cur == -* ]]; then
-		local help='$(_parse_help "$1")'
-		[[ $help ]] || help=-V
-		COMPREPLY=($(compgen -W "$help" -- "$cur"))
-	else
-		_pids
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help ||
+            _comp_compgen -- -W '-V'
+    else
+        _pids
+    fi
 } &&
-	complete -F _pwdx pwdx
+    complete -F _comp_cmd_pwdx pwdx
 
 # ex: filetype=sh

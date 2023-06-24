@@ -6,151 +6,147 @@ _comp_cmd_fio__engines() {
 	return $((!${#ret[*]}))
 }
 
-_fio() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_fio()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	local ret
-	case $prev in
-	--help | --version)
-		return
-		;;
-	--debug)
-		local opts=$("$1" --debug=help 2>/dev/null)
-		opts=${opts##*:}
-		_comp_delimited , -W "${opts//,/ }"
-		return
-		;;
-	--output-format)
-		COMPREPLY=($(compgen -W "terse json json+ normal" -- "$cur"))
-		return
-		;;
-	--terse-version)
-		COMPREPLY=($(compgen -W "2 3 4 5" -- "$cur"))
-		return
-		;;
-	--crctest)
-		COMPREPLY=($(compgen -W '$("$1" --crctest=nonexistent 2>/dev/null)' -- "$cur"))
-		return
-		;;
-	--cmdhelp)
-		ret=($("$1" --cmdhelp=all 2>/dev/null | awk '{print $1}') all)
-		COMPREPLY=($(compgen -W '"${ret[@]}"' -- "$cur"))
-		return
-		;;
-	--enghelp)
-		_comp_cmd_fio__engines "$1" &&
-			COMPREPLY=($(compgen -W '"${ret[@]}"' -- "$cur"))
-		return
-		;;
-	--eta)
-		COMPREPLY=($(compgen -W "always never auto" -- "$cur"))
-		return
-		;;
-	--daemonize)
-		_filedir pid
-		return
-		;;
-	--client)
-		_known_hosts_real -- "$cur"
-		return
-		;;
-	--remote-config)
-		_filedir '@(fio|job)'
-		return
-		;;
-	--idle-prof)
-		COMPREPLY=($(compgen -W "system percpu calibrate" -- "$cur"))
-		return
-		;;
-	--inflate-log)
-		_filedir log
-		return
-		;;
-	--trigger-file)
-		_filedir
-		return
-		;;
-	--trigger | --trigger-remote)
-		compopt -o filenames
-		COMPREPLY=($(compgen -c -- "$cur"))
-		return
-		;;
-	--aux-path)
-		_filedir -d
-		return
-		;;
-	--ioengine)
-		_comp_cmd_fio__engines "$1" &&
-			COMPREPLY=($(compgen -W '"${ret[@]}"' -- "$cur"))
-		return
-		;;
-	--exec_postrun | --exec_prerun)
-		COMPREPLY=($(compgen -c -- "$cur"))
-		return
-		;;
-	--uid)
-		_uids
-		return
-		;;
-	--gid)
-		_gids
-		return
-		;;
-	--?*)
-		local IFS=$'\n'
-		local cmdhelp=($("$1" --cmdhelp=${prev#--} 2>/dev/null))
-		_comp_unlocal IFS
-		case ${cmdhelp[*]-} in
-		*"showing closest match"*)
-			# ignore
-			;;
-		*" type: boolean "* | *" type: empty or boolean "*)
-			COMPREPLY=($(compgen -W '0 1' -- "$cur"))
-			return
-			;;
-		*" valid values:"*)
-			# For example, for --kb_base=:
-			#        valid values: 1024       [...]
-			#                    : 1000       [...]
-			local line="" in_values=false
-			ret=()
-			for line in "${cmdhelp[@]}"; do
-				if $in_values; then
-					if [[ $line =~ ^[[:space:]]*:[[:space:]]*([^[:space:]]+) ]]; then
-						ret+=("${BASH_REMATCH[1]}")
-					else
-						break
-					fi
-				elif [[ $line =~ ^[[:space:]]*valid\ values:[[:space:]]*([^[:space:]]+) ]]; then
-					in_values=true
-					ret+=("${BASH_REMATCH[1]}")
-				fi
-			done
-			COMPREPLY=($(compgen -W '"${ret[@]}"' -- "$cur"))
-			return
-			;;
-		esac
-		# else fallthrough
-		;;
-	esac
+    local ret
+    case $prev in
+        --help | --version)
+            return
+            ;;
+        --debug)
+            local opts=$("$1" --debug=help 2>/dev/null)
+            opts=${opts##*:}
+            _comp_delimited , -W "${opts//,/ }"
+            return
+            ;;
+        --output-format)
+            _comp_compgen -- -W "terse json json+ normal"
+            return
+            ;;
+        --terse-version)
+            _comp_compgen -- -W "2 3 4 5"
+            return
+            ;;
+        --crctest)
+            _comp_compgen_split -- "$("$1" --crctest=nonexistent 2>/dev/null)"
+            return
+            ;;
+        --cmdhelp)
+            ret=($("$1" --cmdhelp=all 2>/dev/null | awk '{print $1}') all)
+            _comp_compgen -- -W '"${ret[@]}"'
+            return
+            ;;
+        --enghelp)
+            _comp_cmd_fio__engines "$1" &&
+                _comp_compgen -- -W '"${ret[@]}"'
+            return
+            ;;
+        --eta)
+            _comp_compgen -- -W "always never auto"
+            return
+            ;;
+        --daemonize)
+            _comp_compgen_filedir pid
+            return
+            ;;
+        --client)
+            _known_hosts_real -- "$cur"
+            return
+            ;;
+        --remote-config)
+            _comp_compgen_filedir '@(fio|job)'
+            return
+            ;;
+        --idle-prof)
+            _comp_compgen -- -W "system percpu calibrate"
+            return
+            ;;
+        --inflate-log)
+            _comp_compgen_filedir log
+            return
+            ;;
+        --trigger-file)
+            _comp_compgen_filedir
+            return
+            ;;
+        --trigger | --trigger-remote)
+            _comp_compgen_commands
+            return
+            ;;
+        --aux-path)
+            _comp_compgen_filedir -d
+            return
+            ;;
+        --ioengine)
+            _comp_cmd_fio__engines "$1" &&
+                _comp_compgen -- -W '"${ret[@]}"'
+            return
+            ;;
+        --exec_postrun | --exec_prerun)
+            _comp_compgen_commands
+            return
+            ;;
+        --uid)
+            _uids
+            return
+            ;;
+        --gid)
+            _gids
+            return
+            ;;
+        --?*)
+            local IFS=$'\n'
+            local cmdhelp=($("$1" --cmdhelp="${prev#--}" 2>/dev/null))
+            _comp_unlocal IFS
+            case ${cmdhelp[*]-} in
+                *"showing closest match"*)
+                    # ignore
+                    ;;
+                *" type: boolean "* | *" type: empty or boolean "*)
+                    _comp_compgen -- -W '0 1'
+                    return
+                    ;;
+                *" valid values:"*)
+                    # For example, for --kb_base=:
+                    #        valid values: 1024       [...]
+                    #                    : 1000       [...]
+                    local line="" in_values=""
+                    ret=()
+                    for line in "${cmdhelp[@]}"; do
+                        if [[ $in_values ]]; then
+                            if [[ $line =~ ^[[:space:]]*:[[:space:]]*([^[:space:]]+) ]]; then
+                                ret+=("${BASH_REMATCH[1]}")
+                            else
+                                break
+                            fi
+                        elif [[ $line =~ ^[[:space:]]*valid\ values:[[:space:]]*([^[:space:]]+) ]]; then
+                            in_values=set
+                            ret+=("${BASH_REMATCH[1]}")
+                        fi
+                    done
+                    _comp_compgen -- -W '"${ret[@]}"'
+                    return
+                    ;;
+            esac
+            # else fallthrough
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(
-			compgen -W '
-                      $(_parse_help "$1")
-                      $("$1" --cmdhelp=all 2>/dev/null | \
-                             awk "{printf \"--%s=\n\", \$1}")
-            ' -- "$cur"
-		))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        _comp_compgen -a split -- "$("$1" --cmdhelp=all 2>/dev/null |
+            awk '{printf "--%s=\n", $1}')"
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+        return
+    fi
 
-	_filedir '@(fio|job)'
+    _comp_compgen_filedir '@(fio|job)'
 } &&
-	complete -F _fio fio
+    complete -F _comp_cmd_fio fio
 
 # ex: filetype=sh

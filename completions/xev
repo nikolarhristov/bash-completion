@@ -4,29 +4,26 @@ _comp_cmd_xev() {
 	local cur prev words cword comp_args
 	_comp_initialize -- "$@" || return
 
-	case $prev in
-	-display | -geometry | -bw | -id | -name)
-		return
-		;;
-	-bs)
-		COMPREPLY=($(compgen -W 'NotUseful WhenMapped Always' -- "$cur"))
-		return
-		;;
-	-event)
-		COMPREPLY=($(
-			compgen -W '
-                    keyboard mouse expose visibility structure substructure
-                    focus property colormap owner_grab_button randr button
-                ' -- "$cur"
-		))
-		return
-		;;
-	esac
+    case $prev in
+        -display | -geometry | -bw | -id | -name)
+            return
+            ;;
+        -bs)
+            _comp_compgen -- -W 'NotUseful WhenMapped Always'
+            return
+            ;;
+        -event)
+            _comp_compgen -- -W 'keyboard mouse expose visibility structure
+                substructure focus property colormap owner_grab_button randr
+                button'
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        return
+    fi
 } &&
 	complete -F _comp_cmd_xev xev
 

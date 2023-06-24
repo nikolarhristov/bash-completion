@@ -1,21 +1,24 @@
 # acpi(1) completion                                        -*- shell-script -*-
 
-_acpi() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_acpi()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	--help | --version | -!(-*)[hv])
-		return
-		;;
-	--directory | -!(-*)d)
-		_filedir -d
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[d]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --help | --version | -${noargopts}[hv])
+            return
+            ;;
+        --directory | -${noargopts}d)
+            _comp_compgen_filedir -d
+            return
+            ;;
+    esac
 
-	COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
+    _comp_compgen_help
 } &&
-	complete -F _acpi acpi
+    complete -F _comp_cmd_acpi acpi
 
 # ex: filetype=sh

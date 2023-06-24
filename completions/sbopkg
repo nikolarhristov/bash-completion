@@ -1,33 +1,33 @@
 # bash completion for sbopkg(8)                            -*- shell-script -*-
 
-_sbopkg() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_sbopkg()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1" -h)' -- "$cur"))
-		[[ ${COMPREPLY-} ]] && return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help -- -h
+        [[ ${COMPREPLY-} ]] && return
+    fi
 
-	case "$prev" in
-	-e)
-		COMPREPLY=($(compgen -W 'ask continue stop' -- "$cur"))
-		return
-		;;
-	-f)
-		_filedir
-		return
-		;;
-	-d)
-		_filedir -d
-		return
-		;;
-	-V)
-		COMPREPLY=($(compgen -W "?
-                $(sbopkg -V '?' 2>&1 | cut -s -f1)" -- "$cur"))
-		return
-		;;
-	-i | -b) ;;
+    case "$prev" in
+        -e)
+            _comp_compgen -- -W 'ask continue stop'
+            return
+            ;;
+        -f)
+            _comp_compgen_filedir
+            return
+            ;;
+        -d)
+            _comp_compgen_filedir -d
+            return
+            ;;
+        -V)
+            _comp_compgen_split -- "? $(sbopkg -V '?' 2>&1 | cut -s -f1)"
+            return
+            ;;
+        -i | -b) ;;
 
 	*)
 		return
@@ -44,8 +44,8 @@ _sbopkg() {
 		fi
 	done
 
-	[[ -r $config ]] || return
-	. $config
+    [[ -r $config ]] || return
+    . "$config"
 
 	for ((i = 1; i < ${#words[@]}; i++)); do
 		case "${words[i]}" in
@@ -60,15 +60,12 @@ _sbopkg() {
 	done
 	[[ -r $REPO_ROOT/$REPO_NAME/$REPO_BRANCH/SLACKBUILDS.TXT ]] || return
 
-	COMPREPLY=($(
-		command sed -ne "/^SLACKBUILD NAME: $cur/{s/^SLACKBUILD NAME: //;p}" \
-			$REPO_ROOT/$REPO_NAME/$REPO_BRANCH/SLACKBUILDS.TXT
-	)
-	$(
-		command cd -- $QUEUEDIR
-		compgen -f -X "!*.sqf" -- "$cur"
-	))
+    COMPREPLY=($(
+        command sed -ne "/^SLACKBUILD NAME: $cur/{s/^SLACKBUILD NAME: //;p}" \
+            "$REPO_ROOT/$REPO_NAME/$REPO_BRANCH/SLACKBUILDS.TXT"
+    ))
+    _comp_compgen -aC "$QUEUEDIR" -- -f -X "!*.sqf"
 } &&
-	complete -F _sbopkg sbopkg
+    complete -F _comp_cmd_sbopkg sbopkg
 
 # ex: filetype=sh

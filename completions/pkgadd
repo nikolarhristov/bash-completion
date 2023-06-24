@@ -2,9 +2,10 @@
 #
 # Copyright 2006 Yann Rouillard <yann@opencsw.org>
 
-_pkgadd() {
-	local cur prev words cword comp_args
-	_comp_initialize -n : -- "$@" || return
+_comp_cmd_pkgadd()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -n : -- "$@" || return
 
 	# if a device directory was given
 	# we must complete with the package
@@ -20,44 +21,42 @@ _pkgadd() {
 		esac
 	done
 
-	case $prev in
-	-d)
-		_filedir pkg
-		_filedir -d
-		;;
-	-a | -r | -V)
-		_filedir
-		;;
-	-k | -s | -R)
-		_filedir -d
-		;;
-	-P | -x) ;;
+    case $prev in
+        -d)
+            _comp_compgen_filedir pkg
+            ;;
+        -a | -r | -V)
+            _comp_compgen_filedir
+            ;;
+        -k | -s | -R)
+            _comp_compgen_filedir -d
+            ;;
+        -P | -x) ;;
 
-	*)
-		if [[ ${cur} == -* ]]; then
-			local -a opts=(-a -A -d -k -n -M -P -r -R -s -v -V -x)
-			COMPREPLY=($(compgen -W '${opts[@]}' -- ${cur}))
-		else
-			local pkginst_list
-			if [[ -d $device ]]; then
-				local -a tmplist
-				for filedir in $(/bin/ls -1 $device); do
-					if [[ -d "$device/$filedir" && -f "$device/$filedir/pkginfo" ]]; then
-						tmplist+=(${tmplist[@]:-} "$filedir")
-					fi
-				done
-				pkginst_list="${tmplist[*]}"
-			else
-				local ret
-				_comp_dequote "$device"
-				pkginst_list="$(strings "$ret" |
-					command grep ^PKG= | sort -u | cut -d= -f2)"
-			fi
-			COMPREPLY=($(compgen -W "$pkginst_list" -- ${cur}))
-		fi
-		;;
-	esac
+        *)
+            if [[ ${cur} == -* ]]; then
+                local -a opts=(-a -A -d -k -n -M -P -r -R -s -v -V -x)
+                _comp_compgen -- -W '"${opts[@]}"'
+            else
+                local -a pkginst_list
+                if [[ -d $device ]]; then
+                    _comp_expand_glob pkginst_list '"$device"/*/pkginfo'
+                    if ((${#pkginst_list[@]})); then
+                        pkginst_list=("${pkginst_list[@]#"$device/"}")
+                        pkginst_list=("${pkginst_list[@]%/pkginfo}")
+                    fi
+                else
+                    local ret
+                    _comp_dequote "$device"
+                    _comp_split -l pkginst_list "$(strings "${ret-}" |
+                        command sed -n 's/^PKG=//p' | sort -u)"
+                fi
+                ((${#pkginst_list[@]})) &&
+                    _comp_compgen -- -W '"${pkginst_list[@]}"'
+            fi
+            ;;
+    esac
 } &&
-	complete -F _pkgadd pkgadd
+    complete -F _comp_cmd_pkgadd pkgadd
 
 # ex: filetype=sh

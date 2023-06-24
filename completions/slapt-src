@@ -1,29 +1,30 @@
 # slapt-src(8) completion                                  -*- shell-script -*-
 
-_slapt_src() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -n : -- "$@" || return
+_comp_cmd_slapt_src()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -n : -- "$@" || return
 
-	case "$prev" in
-	--config | -c)
-		_filedir
-		return
-		;;
-	--search | -s | --postprocess | -p)
-		# argument required but no completions available
-		return
-		;;
-	esac
+    case "$prev" in
+        --config | -c)
+            _comp_compgen_filedir
+            return
+            ;;
+        --search | -s | --postprocess | -p)
+            # argument required but no completions available
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1" --help)' -- "$cur"))
-		if [[ ${COMPREPLY-} ]]; then
-			[[ $COMPREPLY == *= ]] && compopt -o nospace
-			return
-		fi
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        if [[ ${COMPREPLY-} ]]; then
+            [[ $COMPREPLY == *= ]] && compopt -o nospace
+            return
+        fi
+    fi
 
 	local i t
 	# search for last action (-i|-w|-b|-f)
@@ -62,6 +63,6 @@ _slapt_src() {
 			2>/dev/null | LC_ALL=C command sed -ne "/^$cur/{s/ .*$//;p;}"))
 	fi
 } &&
-	complete -F _slapt_src slapt-src
+    complete -F _comp_cmd_slapt_src slapt-src
 
 # ex: filetype=sh

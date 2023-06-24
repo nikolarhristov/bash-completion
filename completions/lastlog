@@ -1,24 +1,27 @@
 # lastlog(8) completion                                    -*- shell-script -*-
 
-_lastlog() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_lastlog()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	case $prev in
-	--before | --help | --time | -!(-*)@([bt]|h*))
-		return
-		;;
-	--user | -!(-*)u)
-		COMPREPLY=($(compgen -u -- "$cur"))
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[btu]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --before | --help | --time | -${noargopts}@([bt]|h*))
+            return
+            ;;
+        --user | -${noargopts}u)
+            _comp_compgen -- -u
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-	[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    _comp_compgen_help
+    [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
 } &&
-	complete -F _lastlog lastlog
+    complete -F _comp_cmd_lastlog lastlog
 
 # ex: filetype=sh

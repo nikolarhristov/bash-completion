@@ -1,8 +1,9 @@
 # lua(1) completion                                        -*- shell-script -*-
 
-_lua() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_lua()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $prev in
 	-e | -l | -v | -)
@@ -10,13 +11,13 @@ _lua() {
 		;;
 	esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W "$(_parse_help "$1")" -- "$cur"))
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        return
+    fi
 
-	_filedir 'l@(ua|?(ua)c)'
+    _comp_compgen_filedir 'l@(ua|?(ua)c)'
 } &&
-	complete -F _lua lua{,5{,.}{0..4}}
+    complete -F _comp_cmd_lua lua{,5{,.}{0..4}}
 
 # ex: filetype=sh

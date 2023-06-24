@@ -1,27 +1,29 @@
 # bash completion for GNU make                             -*- shell-script -*-
 
-_make_target_extract_script() {
-	local mode="$1"
-	shift
+# TODO: rename per API conventions, rework to use vars rather than outputting(?)
+_make_target_extract_script()
+{
+    local mode="$1"
+    shift
 
-	local prefix="$1"
-	local prefix_pat=$(command sed 's/[][\,.*^$(){}?+|/]/\\&/g' <<<"$prefix")
-	local basename=${prefix##*/}
-	local dirname_len=$((${#prefix} - ${#basename}))
-	# Avoid expressions like '\(.\{0\}\)', FreeBSD sed doesn't like them:
-	# > sed: 1: ...: RE error: empty (sub)expression
-	local dirname_re
-	((dirname_len > 0)) && dirname_re="\(.\{${dirname_len}\}\)"
+    local prefix="$1"
+    local prefix_pat=$(command sed 's/[][\,.*^$(){}?+|/]/\\&/g' <<<"$prefix")
+    local basename=${prefix##*/}
+    local dirname_len=$((${#prefix} - ${#basename}))
+    # Avoid expressions like '\(.\{0\}\)', FreeBSD sed doesn't like them:
+    # > sed: 1: ...: RE error: empty (sub)expression
+    local dirname_re=
+    ((dirname_len > 0)) && dirname_re="\(.\{${dirname_len}\}\)"
 
-	if [[ ! -v dirname_re ]]; then
-		local output="\1"
-	elif [[ $mode == -d ]]; then
-		# display mode, only output current path component to the next slash
-		local output="\2"
-	else
-		# completion mode, output full path to the next slash
-		local output="\1\2"
-	fi
+    if [[ ! $dirname_re ]]; then
+        local output="\1"
+    elif [[ $mode == -d ]]; then
+        # display mode, only output current path component to the next slash
+        local output="\2"
+    else
+        # completion mode, output full path to the next slash
+        local output="\1\2"
+    fi
 
 	cat <<EOF
     1,/^# * Make data base/           d;        # skip any makefile output
@@ -45,7 +47,7 @@ _make_target_extract_script() {
     /^$/ {                                      # end of target block
       x;                                        # unhold target
       /^$/d;                                    # dont print blanks
-      s|^${dirname_re-}\(.\{${#basename}\}[^:/]*/\{0,1\}\)[^:]*:.*$|${output}|p;
+      s|^${dirname_re-}\(.\{${#basename}\}[^:]*\):.*$|${output}|p;
       d;                                        # hide any bugs
     }
 
@@ -86,61 +88,114 @@ EOF
 EOF
 }
 
-_make() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+# Truncate the non-unique filepaths in COMPRELY to only generate unique
+# directories or files.  This function discards the files under subdirectories
+# unless the path is unique under each subdirectory and instead generate the
+# subdirectory path.  For example, when there are two candidates, "abc/def" and
+# "abc/xyz", we generate "abc/" instead of generating both candidates directly.
+# When there is only one candidate "abc/def", we generate the full path
+# "abc/def".
+#
+# @var[in] cur
+# @var[in] mode
+# @var[in,out] COMPREPLY
+_comp_cmd_make__truncate_non_unique_paths()
+{
+    local prefix=$cur
+    [[ $mode == -d ]] && prefix=
+    if ((${#COMPREPLY[@]} > 0)); then
+        # collect the possible completions including the directory names in
+        # `paths' and count the number of children of each subdirectory in
+        # `nchild'.
+        local -A paths nchild
+        local target
+        for target in "${COMPREPLY[@]}"; do
+            local path=${target%/}
+            while [[ ! ${paths[$path]+set} ]] &&
+                paths[$path]=set &&
+                [[ $path == "$prefix"*/* ]]; do
+                path=${path%/*}
+                nchild[$path]=$((${nchild[$path]-0} + 1))
+            done
+        done
+
+        COMPREPLY=()
+        local nreply=0
+        for target in "${!paths[@]}"; do
+            # generate only the paths that do not have a unique child and whose
+            # all parent and ancestor directories have a unique child.
+            ((${nchild[$target]-0} == 1)) && continue
+            local path=$target
+            while [[ $path == "$prefix"*/* ]]; do
+                path=${path%/*}
+                ((${nchild[$path]-0} == 1)) || continue 2
+            done
+
+            # suffix `/' when the target path is a subdiretory, which has
+            # at least one child.
+            COMPREPLY[nreply++]=$target${nchild[$target]+/}
+        done
+    fi
+}
+
+_comp_cmd_make()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
 	local makef makef_dir=("-C" ".") i
 
-	case $prev in
-	--file | --makefile | --old-file | --assume-old | --what-if | --new-file | \
-		--assume-new | -!(-*)[foW])
-		_filedir
-		return
-		;;
-	--include-dir | --directory | -!(-*)[ICm])
-		_filedir -d
-		return
-		;;
-	-!(-*)E)
-		COMPREPLY=($(compgen -v -- "$cur"))
-		return
-		;;
-	--eval | -!(-*)[DVx])
-		return
-		;;
-	--jobs | -!(-*)j)
-		COMPREPLY=($(compgen -W "{1..$(($(_ncpus) * 2))}" -- "$cur"))
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[foWICmEDVxj]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --file | --makefile | --old-file | --assume-old | --what-if | --new-file | \
+            --assume-new | -${noargopts}[foW])
+            _comp_compgen_filedir
+            return
+            ;;
+        --include-dir | --directory | -${noargopts}[ICm])
+            _comp_compgen_filedir -d
+            return
+            ;;
+        -${noargopts}E)
+            _comp_compgen -- -v
+            return
+            ;;
+        --eval | -${noargopts}[DVx])
+            return
+            ;;
+        --jobs | -${noargopts}j)
+            local ret
+            _comp_get_ncpus
+            _comp_compgen -- -W "{1..$((ret * 2))}"
+            return
+            ;;
+    esac
 
-	$split && return
+    [[ $was_split ]] && return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(
-			compgen -W '$(_parse_help "$1" || _parse_usage "$1")' -- "$cur"
-		))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-	elif [[ $cur == *=* ]]; then
-		prev=${cur%%=*}
-		cur=${cur#*=}
-		local diropt
-		[[ ${prev,,} == *dir?(ectory) ]] && diropt=-d
-		_filedir $diropt
-	else
-		# before we check for makefiles, see if a path was specified
-		# with -C/--directory
-		for ((i = 1; i < ${#words[@]}; i++)); do
-			if [[ ${words[i]} == -@(C|-directory) ]]; then
-				# Expand tilde expansion
-				local ret
-				_comp_dequote "${words[i + 1]-}" &&
-					[[ -d ${ret-} ]] &&
-					makef_dir=(-C "$ret")
-				break
-			fi
-		done
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help || _comp_compgen_usage
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    elif [[ $cur == *=* ]]; then
+        prev=${cur%%=*}
+        cur=${cur#*=}
+        local diropt
+        [[ ${prev,,} == *dir?(ectory) ]] && diropt=-d
+        _comp_compgen_filedir $diropt
+    else
+        # before we check for makefiles, see if a path was specified
+        # with -C/--directory
+        for ((i = 1; i < ${#words[@]}; i++)); do
+            if [[ ${words[i]} == -@(C|-directory) ]]; then
+                # Expand tilde expansion
+                local ret
+                _comp_dequote "${words[i + 1]-}" &&
+                    [[ -d ${ret-} ]] &&
+                    makef_dir=(-C "$ret")
+                break
+            fi
+        done
 
 		# before we scan for targets, see if a Makefile name was
 		# specified with -f/--file/--makefile
@@ -155,12 +210,19 @@ _make() {
 			fi
 		done
 
-		# recognise that possible completions are only going to be displayed
-		# so only the base name is shown
-		local mode=--
-		if ((COMP_TYPE != 9)); then
-			mode=-d # display-only mode
-		fi
+        # recognise that possible completions are only going to be displayed so
+        # only the base name is shown.
+        #
+        # Note: This is currently turned off because the test suite of
+        # bash-completion conflicts with it; it uses "set show-all-if-ambiguous
+        # on" (causing COMP_TYPE == 37) to retrieve the action completion
+        # results, and also the compact form with only the basenames is not
+        # essentially needed.  To re-enable it, please uncomment the following
+        # if-statement.
+        local mode=--
+        # if ((COMP_TYPE != 9 && COMP_TYPE != 37 && COMP_TYPE != 42)); then
+        #     mode=-d # display-only mode
+        # fi
 
 		local IFS=$' \t\n' script=$(_make_target_extract_script $mode "$cur")
 		COMPREPLY=($(LC_ALL=C \
@@ -168,14 +230,16 @@ _make() {
 			${makef+"${makef[@]}"} "${makef_dir[@]}" .DEFAULT 2>/dev/null |
 			command sed -ne "$script"))
 
-		if [[ $mode != -d ]]; then
-			# Completion will occur if there is only one suggestion
-			# so set options for completion based on the first one
-			[[ ${COMPREPLY-} == */ ]] && compopt -o nospace
-		fi
+        _comp_cmd_make__truncate_non_unique_paths
+
+        if [[ $mode != -d ]]; then
+            # Completion will occur if there is only one suggestion
+            # so set options for completion based on the first one
+            [[ ${COMPREPLY-} == */ ]] && compopt -o nospace
+        fi
 
 	fi
 } &&
-	complete -F _make make gmake gnumake pmake colormake bmake
+    complete -F _comp_cmd_make make gmake gnumake pmake colormake bmake
 
 # ex: filetype=sh

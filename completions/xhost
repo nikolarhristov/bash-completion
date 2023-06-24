@@ -1,8 +1,9 @@
 # xhost(1) completion                                      -*- shell-script -*-
 
-_xhost() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_xhost()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	case $cur in
 	+*) _known_hosts_real -p+ -- "${cur:1}" ;;
@@ -10,6 +11,6 @@ _xhost() {
 	*) _known_hosts_real -- "$cur" ;;
 	esac
 } &&
-	complete -F _xhost xhost
+    complete -F _comp_cmd_xhost xhost
 
 # ex: filetype=sh

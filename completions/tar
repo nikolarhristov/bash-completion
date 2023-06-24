@@ -19,8 +19,8 @@
 # -------------------------
 #
 # For GNU tar, everything is parsed from `tar --help` output so not so much
-# per-distribution work should be needed.  The _parse_help does not seem to be
-# good enough so parsed here directly.
+# per-distribution work should be needed.  The _comp_compgen_help does not seem
+# to be good enough so parsed here directly.
 #
 #
 # FIXME: --starting-file (-K) (should be matched for extraction only)
@@ -56,12 +56,14 @@
 # `$BASH_COMPLETION_CMD_TAR_INTERNAL_PATHS` environment variable to a non-null
 # value *before sourcing* this completion toggles that the other way around.
 
-__gtar_parse_help_opt() {
-	local opttype arg opt separator optvar
-	opttype=long
-	arg="$2"
-	opt="$1"
-	separator=" "
+# TODO:API: rename per conventions
+__gtar_parse_help_opt()
+{
+    local opttype arg opt separator optvar
+    opttype=long
+    arg="$2"
+    opt="$1"
+    separator=" "
 
 	case "$opt" in
 	--*) ;;
@@ -94,16 +96,18 @@ __gtar_parse_help_opt() {
 	eval "$optvar=\"\$$optvar$separator\"\"$opt\""
 }
 
-__gtar_parse_help_line() {
-	local i
-	local -a tmp
-	while read -ra tmp; do
-		for i in "${tmp[@]}"; do
-			case "$i" in
-			# regular options
-			--* | -*)
-				__gtar_parse_help_opt "$i" "$2"
-				;;
+# TODO:API: rename per conventions
+__gtar_parse_help_line()
+{
+    local i
+    local -a tmp
+    while read -ra tmp; do
+        for i in "${tmp[@]}"; do
+            case "$i" in
+                # regular options
+                --* | -*)
+                    __gtar_parse_help_opt "$i" "$2"
+                    ;;
 
 			# end once there is single non-option word
 			*)
@@ -114,14 +118,16 @@ __gtar_parse_help_line() {
 	done <<<"$1"
 }
 
-__gnu_tar_parse_help() {
-	local str line arg
-	while IFS= read -r line; do
-		# Ok, this requires some comment probably.  The GNU help output prints
-		# options on lines beginning with spaces.  After that, there is one
-		# or more options separated by ', ' separator string.  We are matching
-		# like this then:  ^<spaces>(<separator>?<option>)+<whatever>$
-		if [[ $line =~ ^[[:blank:]]{1,10}(((,[[:blank:]])?(--?([\]\[a-zA-Z0-9?=-]+))(,[[:space:]])?)+).*$ ]]; then
+# TODO:API: rename per conventions
+__gnu_tar_parse_help()
+{
+    local str line arg
+    while IFS= read -r line; do
+        # Ok, this requires some comment probably.  The GNU help output prints
+        # options on lines beginning with spaces.  After that, there is one
+        # or more options separated by ', ' separator string.  We are matching
+        # like this then:  ^<spaces>(<separator>?<option>)+<whatever>$
+        if [[ $line =~ ^[[:blank:]]{1,10}(((,[[:blank:]])?(--?([\]\[a-zA-Z0-9?=-]+))(,[[:space:]])?)+).*$ ]]; then
 
 			line=${BASH_REMATCH[1]}
 			str="${line//,/ }"
@@ -146,127 +152,139 @@ __gnu_tar_parse_help() {
 }
 
 # Hack: parse --warning keywords from tar's error output
-__gtar_parse_warnings() {
-	local line
-	LC_ALL=C tar --warning= 2>&1 | while IFS= read -r line; do
-		if [[ $line =~ ^[[:blank:]]*-[[:blank:]]*[\`\']([a-zA-Z0-9-]+)\'$ ]]; then
-			echo "${BASH_REMATCH[1]} no-${BASH_REMATCH[1]}"
-		fi
-	done
+# TODO:API: rename per conventions, rework to use vars rather than outputting
+__gtar_parse_warnings()
+{
+    local line
+    LC_ALL=C tar --warning= 2>&1 | while IFS= read -r line; do
+        if [[ $line =~ ^[[:blank:]]*-[[:blank:]]*[\`\']([a-zA-Z0-9-]+)\'$ ]]; then
+            echo "${BASH_REMATCH[1]} no-${BASH_REMATCH[1]}"
+        fi
+    done
 }
 
 # Helper to obtain last character of string.
-__tar_last_char() {
-	echo "${1:$((${#1} - 1))}"
+# TODO:API: rename per conventions, rework to use vars rather than outputting
+__tar_last_char()
+{
+    echo "${1:$((${#1} - 1))}"
 }
 
-__tar_parse_old_opt() {
-	local first_word char
+# TODO:API: rename per conventions
+__tar_parse_old_opt()
+{
+    local first_word char
 
-	# current word is the first word
-	[[ $cword -eq 1 && $cur && ${cur:0:1} != '-' ]] &&
-		old_opt_progress=1
+    # current word is the first word
+    [[ $cword -eq 1 && $cur && ${cur:0:1} != '-' ]] &&
+        old_opt_progress=set
 
-	# check that first argument does not begin with "-"
-	first_word=${words[1]}
-	[[ $first_word && ${first_word:0:1} != "-" ]] &&
-		old_opt_used=1
+    # check that first argument does not begin with "-"
+    first_word=${words[1]}
+    [[ $first_word && ${first_word:0:1} != "-" ]] &&
+        old_opt_used=set
 
-	# parse the old option (if present) contents to allow later code expect
-	# corresponding arguments
-	if ((old_opt_used == 1)); then
-		char=${first_word:0:1}
-		while [[ $char ]]; do
-			if __tar_is_argreq "$char"; then
-				old_opt_parsed+=("$char")
-			fi
-			first_word=${first_word##"$char"}
-			char=${first_word:0:1}
-		done
-	fi
+    # parse the old option (if present) contents to allow later code expect
+    # corresponding arguments
+    if [[ $old_opt_used ]]; then
+        char=${first_word:0:1}
+        while [[ $char ]]; do
+            if __tar_is_argreq "$char"; then
+                old_opt_parsed+=("$char")
+            fi
+            first_word=${first_word##"$char"}
+            char=${first_word:0:1}
+        done
+    fi
 }
 
 # Make the analysis of whole command line.
-__tar_preparse_cmdline() {
-	local first_arg i modes="ctxurdA"
+# TODO:API: rename per conventions
+__tar_preparse_cmdline()
+{
+    local first_arg=set i modes="ctxurdA"
 
 	shift # progname
 
 	__tar_parse_old_opt
 
-	first_arg=1
-	for i in "$@"; do
-		case "$i" in
-		--delete | --test-label)
-			tar_mode=${i:2:100}
-			tar_mode_arg=$i
-			break
-			;;
-		--*)
-			# skip
-			;;
-		-*[$modes]*)
-			tar_mode=${i//[^$modes]/}
-			tar_mode=${tar_mode:0:1}
-			tar_mode_arg=$i
-			break
-			;;
-		*[$modes]*)
-			# Only the first arg may be "MODE" without leading dash
-			if ((first_arg == 1)); then
-				tar_mode=${i//[^$modes]/}
-				tar_mode=${tar_mode:0:1}
-				tar_mode_arg=$i
-			fi
-			;;
-		esac
-		first_arg=0
-	done
+    for i in "$@"; do
+        case "$i" in
+            --delete | --test-label)
+                tar_mode=${i:2:100}
+                tar_mode_arg=$i
+                break
+                ;;
+            --*)
+                # skip
+                ;;
+            -*[$modes]*)
+                tar_mode=${i//[^$modes]/}
+                tar_mode=${tar_mode:0:1}
+                tar_mode_arg=$i
+                break
+                ;;
+            *[$modes]*)
+                # Only the first arg may be "MODE" without leading dash
+                if [[ $first_arg ]]; then
+                    tar_mode=${i//[^$modes]/}
+                    tar_mode=${tar_mode:0:1}
+                    tar_mode_arg=$i
+                fi
+                ;;
+        esac
+        first_arg=""
+    done
 }
 
 # Generate completions for -f/--file.
-__tar_file_option() {
-	local ext="$1"
+# TODO:API: rename per conventions
+__tar_file_option()
+{
+    local ext="$1"
 
-	case "$tar_mode" in
-	c)
-		# no need to advise user to re-write existing tarball
-		_filedir -d
-		;;
-	*)
-		_filedir "$ext"
-		;;
-	esac
+    case "$tar_mode" in
+        c)
+            # no need to advise user to re-write existing tarball
+            _comp_compgen_filedir -d
+            ;;
+        *)
+            _comp_compgen_filedir "$ext"
+            ;;
+    esac
 }
 
 # Returns truth if option requires argument.  No equal sign must be pasted.
 # Accepts option in format: 'c', '-c', '--create'
-__tar_is_argreq() {
-	local opt
-	opt=$1
-	case "$opt" in
-	-[A-Za-z0-9?])
-		[[ $short_arg_req =~ ${opt##-} ]] && return 0
-		;;
-	[A-Za-z0-9?])
-		[[ $short_arg_req =~ ${opt} ]] && return 0
-		;;
-	--*)
-		[[ $long_arg_req =~ [[:blank:]]$opt=[[:blank:]] ]] && return 0
-		;;
-	esac
+# TODO:API: rename per conventions
+__tar_is_argreq()
+{
+    local opt
+    opt=$1
+    case "$opt" in
+        -[A-Za-z0-9?])
+            [[ $short_arg_req =~ ${opt##-} ]] && return 0
+            ;;
+        [A-Za-z0-9?])
+            [[ $short_arg_req =~ ${opt} ]] && return 0
+            ;;
+        --*)
+            [[ $long_arg_req =~ [[:blank:]]$opt=[[:blank:]] ]] && return 0
+            ;;
+    esac
 
 	return 1
 }
 
 # Called only for short parameter
-__tar_complete_mode() {
-	local short_modes rawopt generated \
-		allshort_raw_unused allshort_raw \
-		filler i
+_comp_cmd_tar__mode()
+{
+    local short_modes rawopt generated \
+        allshort_raw_unused allshort_raw \
+        filler i
 
-	short_modes="ctx"
-	[[ ! -v basic_tar ]] && short_modes="ctxurdA"
+    short_modes="ctx"
+    [[ ! $basic_tar ]] && short_modes="ctxurdA"
 
 	# Remove prefix when needed
 	rawopt=${cur#-}
@@ -277,11 +295,11 @@ __tar_complete_mode() {
 	# init the 'mode' option if no option is in ${cur}
 	if [[ $tar_mode == none ]]; then
 
-		# when user passed something like 'tar cf' do not put the '-' before
-		filler=
-		if [[ ! $cur && ! -v basic_tar ]]; then
-			filler=-
-		fi
+        # when user passed something like 'tar cf' do not put the '-' before
+        filler=
+        if [[ ! $cur && ! $basic_tar ]]; then
+            filler=-
+        fi
 
 		generated=""
 		for ((i = 0; 1; i++)); do
@@ -290,16 +308,16 @@ __tar_complete_mode() {
 			generated+=" $filler$cur$c"
 		done
 
-		COMPREPLY=($(compgen -W "$generated"))
-		return 0
-	fi
+        _comp_compgen -R -- -W "$generated"
+        return 0
+    fi
 
-	# The last short option requires argument, like '-cf<TAB>'.  Cut the
-	# completion here to enforce argument processing.
-	if ((old_opt_progress == 0)) &&
-		__tar_is_argreq "$(__tar_last_char "$cur")"; then
-		COMPREPLY=("$cur") && return 0
-	fi
+    # The last short option requires argument, like '-cf<TAB>'.  Cut the
+    # completion here to enforce argument processing.
+    if [[ ! $old_opt_progress ]] &&
+        __tar_is_argreq "$(__tar_last_char "$cur")"; then
+        COMPREPLY=("$cur") && return 0
+    fi
 
 	allshort_raw_unused=${allshort_raw//[$rawopt]/}
 	if [[ $tar_mode != none ]]; then
@@ -313,23 +331,25 @@ __tar_complete_mode() {
 		generated+=" $cur$c"
 	done
 
-	COMPREPLY=($(compgen -W "$generated"))
+    _comp_compgen -R -- -W "$generated"
 
 	return 0
 }
 
-__gtar_complete_lopts() {
-	local rv
-	COMPREPLY=($(compgen -W "$long_opts" -- "$cur"))
-	rv=$?
-	[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-	return $rv
+_comp_cmd_tar__gnu_long_options()
+{
+    local rv
+    _comp_compgen -- -W "$long_opts"
+    rv=$?
+    [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    return $rv
 }
 
-__gtar_complete_sopts() {
-	local generated short_mode_opts i c
-	short_mode_opts="ctxurdA"
-	generated=${short_opts//[$short_mode_opts]/}
+_comp_cmd_tar__gnu_short_options()
+{
+    local generated short_mode_opts i c
+    short_mode_opts="ctxurdA"
+    generated=${short_opts//[$short_mode_opts]/}
 
 	for ((i = 0; 1; i++)); do
 		c="${allshort_raw_unused:i:1}"
@@ -337,104 +357,115 @@ __gtar_complete_sopts() {
 		generated+=" $cur$c"
 	done
 
-	COMPREPLY=($(compgen -W "$generated" -- "$cur"))
+    _comp_compgen -- -W "$generated"
 }
 
-__tar_try_mode() {
-	case "$cur" in
-	--*)
-		# posix tar does not support long opts
-		[[ -v basic_tar ]] && return 0
-		__gtar_complete_lopts
-		return $?
-		;;
+# TODO:API: rename per conventions
+__tar_try_mode()
+{
+    case "$cur" in
+        --*)
+            # posix tar does not support long opts
+            [[ $basic_tar ]] && return 0
+            _comp_cmd_tar__gnu_long_options
+            return $?
+            ;;
 
-	-*)
-		# posix tar does not support short options
-		[[ -v basic_tar ]] && return 0
+        -*)
+            # posix tar does not support short options
+            [[ $basic_tar ]] && return 0
 
-		__tar_complete_mode && return 0
-		;;
+            _comp_cmd_tar__mode && return 0
+            ;;
 
-	*)
-		if [[ $cword -eq 1 || $tar_mode == none ]]; then
-			__tar_complete_mode && return 0
-		fi
-		;;
-	esac
-	return 1
+        *)
+            if [[ $cword -eq 1 || $tar_mode == none ]]; then
+                _comp_cmd_tar__mode && return 0
+            fi
+            ;;
+    esac
+    return 1
 }
 
-__tar_adjust_PREV_from_old_option() {
-	# deal with old style arguments here
-	# $ tar cfTC # expects this sequence of arguments:
-	# $ tar cfTC ARCHIVE_FILE PATTERNS_FILE CHANGE_DIR
-	if ((old_opt_used == 1 && cword > 1 && cword < ${#old_opt_parsed[@]} + 2)); then
-		# make e.g. 'C' option from 'cffCT'
-		prev="-${old_opt_parsed[cword - 2]}"
-	fi
+# TODO:API: rename per conventions
+__tar_adjust_PREV_from_old_option()
+{
+    # deal with old style arguments here
+    # $ tar cfTC # expects this sequence of arguments:
+    # $ tar cfTC ARCHIVE_FILE PATTERNS_FILE CHANGE_DIR
+    if [[ $old_opt_used ]] && ((cword > 1 && cword < ${#old_opt_parsed[@]} + 2)); then
+        # make e.g. 'C' option from 'cffCT'
+        prev="-${old_opt_parsed[cword - 2]}"
+    fi
 }
 
-__tar_extract_like_mode() {
-	local i
-	for i in x d t delete; do
-		[[ $tar_mode == "$i" ]] && return 0
-	done
-	return 1
+# TODO:API: rename per conventions
+__tar_extract_like_mode()
+{
+    local i
+    for i in x d t delete; do
+        [[ $tar_mode == "$i" ]] && return 0
+    done
+    return 1
 }
 
-__tar_try_list_archive() {
-	local tarball tarbin untar i
+_comp_cmd_tar__try_list_archive()
+{
+    local tarball="" tarbin untar i
 
 	__tar_extract_like_mode || return 1
 
-	# This all is just to approach directory completion from "virtual"
-	# directory structure in tarball (for which the _filedir is unusable)
+    # This all is just to approach directory completion from "virtual"
+    # directory structure in tarball (for which the _comp_compgen_filedir is
+    # unusable)
 
 	set -- "${words[@]}"
 	tarbin=$1
 	untar="tf"
 	shift
 
-	for i in "$@"; do
-		if [[ $i == *.$ext ]]; then
-			tarball=$i
-			break
-		fi
-	done
-	if [[ -v tarball ]]; then
-		local IFS=$'\n'
-		COMPREPLY=($(compgen -o filenames -W "$(
-			$tarbin $untar "$tarball" 2>/dev/null |
-				while read -r line; do
-					printf "%q\n" "$(printf %q"\n" "$line")"
-				done
-		)" -- "$(printf "%q\n" "$cur")"))
-		return 0
-	fi
+    for i in "$@"; do
+        if [[ $i == *.$ext ]]; then
+            tarball=$i
+            break
+        fi
+    done
+    if [[ $tarball ]]; then
+        _comp_compgen -c "$(printf %q "$cur")" split -lo filenames -- "$(
+            $tarbin $untar "$tarball" 2>/dev/null |
+                while read -r line; do
+                    printf "%q\n" "$line"
+                done
+        )"
+        return 0
+    fi
 }
 
-__tar_cleanup_prev() {
-	if [[ $prev =~ ^-[a-zA-Z0-9?]*$ ]]; then
-		# transform '-caf' ~> '-f'
-		prev="-$(__tar_last_char "$prev")"
-	fi
+# TODO:API: rename per conventions
+__tar_cleanup_prev()
+{
+    if [[ $prev =~ ^-[a-zA-Z0-9?]*$ ]]; then
+        # transform '-caf' ~> '-f'
+        prev="-$(__tar_last_char "$prev")"
+    fi
 }
 
-__tar_detect_ext() {
-	local tars='@(@(tar|spkg)?(.@(Z|[bgx]z|bz2|lz?(ma|o)|zst))|t@([abglx]z|b?(z)2|zst)|cbt|gem|xbps)'
-	if [[ ${COMP_WORDS[0]} == ?(*/)bsdtar ]]; then
-		# https://github.com/libarchive/libarchive/wiki/LibarchiveFormats
-		tars=${tars/%\)/|pax|cpio|iso|zip|@(j|x)ar|mtree|a|7z|warc}
-		if __tar_extract_like_mode; then
-			# read only
-			tars+="|l@(ha|zh)|rar|cab)"
-		else
-			# write only
-			tars+="|shar)"
-		fi
-	fi
-	ext="$tars"
+# TODO:API: rename per conventions
+__tar_detect_ext()
+{
+    local tars='@(@(tar|spkg)?(.@(Z|[bgx]z|bz2|lz?(ma|o)|zst))|t@([abglx]z|b?(z)2|zst)|cbt|gem|xbps)'
+    if [[ ${COMP_WORDS[0]} == ?(*/)bsdtar ]]; then
+        # https://github.com/libarchive/libarchive/wiki/LibarchiveFormats
+        tars=${tars/%\)/|pax|cpio|iso|zip|@(j|x)ar|mtree|a|7z|warc}
+        if __tar_extract_like_mode; then
+            # read only
+            tars+="|l@(ha|zh)|rar|cab)"
+        else
+            # write only
+            tars+="|shar)"
+        fi
+    fi
+    ext="$tars"
 
 	case "$tar_mode_arg" in
 	--*)
@@ -465,12 +496,13 @@ __tar_detect_ext() {
 	esac
 }
 
-_gtar() {
-	local long_opts short_opts \
-		long_arg_none="" long_arg_opt="" long_arg_req="" \
-		short_arg_none="" short_arg_opt="" short_arg_req="" \
-		tar_mode tar_mode_arg old_opt_progress=0 \
-		old_opt_used=0 old_opt_parsed=()
+_comp_cmd_tar__gnu()
+{
+    local long_opts short_opts basic_tar="" \
+        long_arg_none="" long_arg_opt="" long_arg_req="" \
+        short_arg_none="" short_arg_opt="" short_arg_req="" \
+        tar_mode tar_mode_arg old_opt_progress="" \
+        old_opt_used="" old_opt_parsed=()
 
 	# Main mode, e.g. -x or -c (extract/creation)
 	local tar_mode=none
@@ -484,7 +516,7 @@ _gtar() {
 		local PS4='$BASH_SOURCE:$LINENO: '
 	fi
 
-	local cur prev words cword split comp_args
+    local cur prev words cword was_split comp_args
 
 	_comp_initialize -s -- "$@" || return
 
@@ -502,96 +534,93 @@ _gtar() {
 		__tar_posix_prev_handle && break
 		__tar_cleanup_prev
 
-		# Handle all options *REQUIRING* argument.  Optional arguments are up to
-		# user (TODO: is there any sane way to deal with this?).  This case
-		# statement successes only if there already is PREV.
-		case $prev in
-		--add-file | --exclude | --exclude-ignore | \
-			--exclude-ignore-recursive | --exclude-tag | \
-			--exclude-tag-all | --exclude-tag-under | --files-from | \
-			--exclude-from | --listed-incremental | --group-map | \
-			--mtime | --owner-map | --volno-file | --newer | \
-			--after-date | --index-file | -!(-*)[TXg])
-			_filedir
-			break
-			;;
-		--directory | -!(-*)C)
-			_filedir -d
-			break
-			;;
-		--hole-detection)
-			COMPREPLY=($(compgen -W 'raw seek' -- "$cur"))
-			break
-			;;
-		--to-command | --info-script | --new-volume-script | \
-			--rmt-command | --rsh-command | --use-compress-program | \
-			-!(-*)[FI])
-			compopt -o filenames
-			COMPREPLY=($(compgen -c -- "$cur"))
-			break
-			;;
-		--atime-preserve)
-			COMPREPLY=($(compgen -W 'replace system' -- "$cur"))
-			break
-			;;
-		--group)
-			COMPREPLY=($(compgen -g -- "$cur"))
-			break
-			;;
-		--owner)
-			COMPREPLY=($(compgen -u -- "$cur"))
-			break
-			;;
-		--sort)
-			COMPREPLY=($(compgen -W 'none name inode' -- "$cur"))
-			break
-			;;
-		--file | -!(-*)f)
-			__tar_file_option "$ext"
-			break
-			;;
-		--format | -!(-*)H)
-			COMPREPLY=($(compgen -W 'gnu oldgnu pax posix ustar v7' \
-				-- "$cur"))
-			break
-			;;
-		--quoting-style)
-			COMPREPLY=($(compgen -W 'literal shell shell-always
-                    shell-escape shell-escape-always c c-maybe escape locale
-                    clocale' -- "$cur"))
-			break
-			;;
-		--totals)
-			COMPREPLY=($(
-				compgen -W 'SIGHUP SIGQUIT SIGINT SIGUSR1 SIGUSR2' -- "$cur"
-			))
-			break
-			;;
-		--warning)
-			COMPREPLY=($(compgen -W "$(__gtar_parse_warnings)" -- "$cur"))
-			break
-			;;
-		--*)
-			# parameter with required argument but no completion yet
-			[[ " $long_arg_req " =~ \ $prev=\  ]] && break
+        # Handle all options *REQUIRING* argument.  Optional arguments are up to
+        # user (TODO: is there any sane way to deal with this?).  This case
+        # statement successes only if there already is PREV.
+        local noargopts='!(-*|*[TXgCFIfH]*)'
+        # shellcheck disable=SC2254
+        case $prev in
+            --add-file | --exclude | --exclude-ignore | \
+                --exclude-ignore-recursive | --exclude-tag | \
+                --exclude-tag-all | --exclude-tag-under | --files-from | \
+                --exclude-from | --listed-incremental | --group-map | \
+                --mtime | --owner-map | --volno-file | --newer | \
+                --after-date | --index-file | -${noargopts}[TXg])
+                _comp_compgen_filedir
+                break
+                ;;
+            --directory | -${noargopts}C)
+                _comp_compgen_filedir -d
+                break
+                ;;
+            --hole-detection)
+                _comp_compgen -- -W 'raw seek'
+                break
+                ;;
+            --to-command | --info-script | --new-volume-script | \
+                --rmt-command | --rsh-command | --use-compress-program | \
+                -${noargopts}[FI])
+                _comp_compgen_commands
+                break
+                ;;
+            --atime-preserve)
+                _comp_compgen -- -W 'replace system'
+                break
+                ;;
+            --group)
+                _comp_compgen -- -g
+                break
+                ;;
+            --owner)
+                _comp_compgen -- -u
+                break
+                ;;
+            --sort)
+                _comp_compgen -- -W 'none name inode'
+                break
+                ;;
+            --file | -${noargopts}f)
+                __tar_file_option "$ext"
+                break
+                ;;
+            --format | -${noargopts}H)
+                _comp_compgen -- -W 'gnu oldgnu pax posix ustar v7'
+                break
+                ;;
+            --quoting-style)
+                _comp_compgen -- -W 'literal shell shell-always shell-escape
+                    shell-escape-always c c-maybe escape locale clocale'
+                break
+                ;;
+            --totals)
+                _comp_compgen -- -W 'SIGHUP SIGQUIT SIGINT SIGUSR1 SIGUSR2'
+                break
+                ;;
+            --warning)
+                _comp_compgen_split -- "$(__gtar_parse_warnings)"
+                break
+                ;;
+            --*)
+                # parameter with required argument but no completion yet
+                [[ " $long_arg_req " =~ \ $prev=\  ]] && break
 
 			# parameter with optional argument passed with =, something like
 			# --occurrence=*<TAB> which is not handled above
 			[[ " $long_arg_opt " =~ \ $prev\  ]] && break
 
-			# if there is some unknown option with '=', for example
-			# (literally) user does --nonexistent=<TAB>, we do not want
-			# continue also
-			$split && break
+                # if there is some unknown option with '=', for example
+                # (literally) user does --nonexistent=<TAB>, we do not want
+                # continue also
+                [[ $was_split ]] && break
 
-			# Most probably, when code goes here, the PREV variable contains
-			# some string from "$long_arg_none" and we want continue.
-			;;
-		-!(-*)[a-zA-Z0-9?])
-			# argument required but no completion yet
-			[[ $short_arg_req =~ ${prev##-} ]] && break
-			;;
-		esac
+                # Most probably, when code goes here, the PREV variable contains
+                # some string from "$long_arg_none" and we want continue.
+                ;;
+            -${noargopts}[a-zA-Z0-9?])
+                # argument required but no completion yet
+                [[ $short_arg_req =~ ${prev##-} ]] && break
+                ;;
+        esac
 
 		# safety belts
 		case "$cur" in
@@ -605,29 +634,29 @@ _gtar() {
 		# possible.
 		__tar_try_mode && break
 
-		# handle others
-		case "$cur" in
-		--*)
-			__gtar_complete_lopts
-			break
-			;;
-		-*)
-			# called only if it is *not* first parameter
-			__gtar_complete_sopts
-			break
-			;;
-		esac
+        # handle others
+        case "$cur" in
+            --*)
+                _comp_cmd_tar__gnu_long_options
+                break
+                ;;
+            -*)
+                # called only if it is *not* first parameter
+                _comp_cmd_tar__gnu_short_options
+                break
+                ;;
+        esac
 
 		# the first argument must be "mode" argument or --param, if any of those
 		# was truth - the 'break' statement would have been already called
 		((cword == 1)) && break
 
-		__tar_try_list_archive && break
+        _comp_cmd_tar__try_list_archive && break
 
-		# file completion on relevant files
-		if [[ $tar_mode != none ]]; then
-			_filedir
-		fi
+        # file completion on relevant files
+        if [[ $tar_mode != none ]]; then
+            _comp_compgen_filedir
+        fi
 
 		break
 	done # just-for-easy-break while
@@ -637,26 +666,29 @@ _gtar() {
 	fi
 }
 
-__tar_posix_prev_handle() {
-	case "$prev" in
-	-f)
-		__tar_file_option "$ext"
-		return 0
-		;;
-	-b)
-		return 0
-		;;
-	esac
+# TODO:API: rename per conventions
+__tar_posix_prev_handle()
+{
+    case "$prev" in
+        -f)
+            __tar_file_option "$ext"
+            return 0
+            ;;
+        -b)
+            return 0
+            ;;
+    esac
 
 	return 1
 }
 
-_posix_tar() {
-	local long_opts short_opts basic_tar \
-		long_arg_none="" long_arg_opt long_arg_req="" \
-		short_arg_none short_arg_opt short_arg_req \
-		tar_mode tar_mode_arg old_opt_progress=0 \
-		old_opt_used=1 old_opt_parsed=()
+_comp_cmd_tar__posix()
+{
+    local long_opts short_opts basic_tar=set \
+        long_arg_none="" long_arg_opt long_arg_req="" \
+        short_arg_none short_arg_opt short_arg_req \
+        tar_mode tar_mode_arg old_opt_progress="" \
+        old_opt_used=set old_opt_parsed=()
 
 	# Main mode, e.g. -x or -c (extract/creation)
 	local tar_mode=none
@@ -664,12 +696,11 @@ _posix_tar() {
 	# The mode argument, e.g. -cpf or -c
 	local tar_mode_arg=
 
-	local cur prev words cword split comp_args
+    local cur prev words cword was_split comp_args
 
 	_comp_initialize -s -- "$@" || return
 
-	basic_tar=yes
-	tar_mode=none
+    tar_mode=none
 
 	# relatively compatible modes are {c,t,x}
 	# relatively compatible options {b,f,m,v,w}
@@ -689,44 +720,45 @@ _posix_tar() {
 
 	__tar_try_mode && return
 
-	__tar_try_list_archive && return
+    _comp_cmd_tar__try_list_archive && return
 
-	# file completion on relevant files
-	_filedir
+    # file completion on relevant files
+    _comp_compgen_filedir
 }
 
-_tar() {
-	local cmd=${COMP_WORDS[0]} func line
-	line="$($cmd --version 2>/dev/null)"
-	case "$line" in
-	*GNU*)
-		func=_gtar
-		;;
-	*)
-		func=_posix_tar
-		;;
-	esac
-	$func "$@"
+_comp_cmd_tar()
+{
+    local cmd=${COMP_WORDS[0]} func line
+    line="$("$cmd" --version 2>/dev/null)"
+    case "$line" in
+        *GNU*)
+            func=_comp_cmd_tar__gnu
+            ;;
+        *)
+            func=_comp_cmd_tar__posix
+            ;;
+    esac
+    $func "$@"
 
-	# Install real completion for subsequent completions
-	if [[ ${BASH_COMPLETION_CMD_TAR_INTERNAL_PATHS-${COMP_TAR_INTERNAL_PATHS-}} ]]; then
-		complete -F $func -o dirnames tar
-	else
-		complete -F $func tar
-	fi
-	unset -f _tar
+    # Install real completion for subsequent completions
+    if [[ ${BASH_COMPLETION_CMD_TAR_INTERNAL_PATHS-${COMP_TAR_INTERNAL_PATHS-}} ]]; then
+        complete -F $func -o dirnames tar
+    else
+        complete -F $func tar
+    fi
+    unset -f "$FUNCNAME"
 }
 
 if [[ ${BASH_COMPLETION_CMD_TAR_INTERNAL_PATHS-${COMP_TAR_INTERNAL_PATHS-}} ]]; then
-	complete -F _tar -o dirnames tar
-	complete -F _gtar -o dirnames gtar
-	complete -F _posix_tar -o dirnames bsdtar
-	complete -F _posix_tar -o dirnames star
+    complete -F _comp_cmd_tar -o dirnames tar
+    complete -F _comp_cmd_tar__gnu -o dirnames gtar
+    complete -F _comp_cmd_tar__posix -o dirnames bsdtar
+    complete -F _comp_cmd_tar__posix -o dirnames star
 else
-	complete -F _tar tar
-	complete -F _gtar gtar
-	complete -F _posix_tar bsdtar
-	complete -F _posix_tar star
+    complete -F _comp_cmd_tar tar
+    complete -F _comp_cmd_tar__gnu gtar
+    complete -F _comp_cmd_tar__posix bsdtar
+    complete -F _comp_cmd_tar__posix star
 fi
 
 # ex: filetype=sh

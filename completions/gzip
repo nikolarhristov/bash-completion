@@ -1,28 +1,34 @@
 # bash completion for gzip                                 -*- shell-script -*-
 
-_gzip() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_gzip()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	--blocksize | --suffix | --help | --version | --alias | --comment | \
-		--iterations | --maxsplits | -!(-*)[bShVACIJ])
-		return
-		;;
-	--processes | -!(-*)p)
-		COMPREPLY=($(compgen -W "{1..$(_ncpus)}" -- "$cur"))
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[bSACIJp]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --blocksize | --suffix | --help | --version | --alias | --comment | \
+            --iterations | --maxsplits | -${noargopts}[bShVACIJ])
+            return
+            ;;
+        --processes | -${noargopts}p)
+            local ret
+            _comp_get_ncpus
+            _comp_comgpen -- -W "{1..$ret}"
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1") {-1..-9}' -- "$cur"))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        _comp_compgen -a -- -W '-{1..9}'
+        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+        return
+    fi
 
-	local IFS=$'\n' xspec="*.@(gz|t[ag]z)"
-	[[ ${1##*/} == pigz ]] && xspec="*.@([gz]z|t[ag]z)"
+    local xspec="*.@(gz|t[ag]z)"
+    [[ ${1##*/} == pigz ]] && xspec="*.@([gz]z|t[ag]z)"
 
 	if [[ $prev == --* ]]; then
 		[[ $prev == --@(decompress|list|test) ]] && xspec="!"$xspec
@@ -32,12 +38,11 @@ _gzip() {
 		[[ $prev == -*f* ]] && xspec=
 	fi
 
-	_tilde "$cur" || return
+    _comp_compgen_tilde && return
 
-	compopt -o filenames
-	COMPREPLY=($(compgen -f -X "$xspec" -- "$cur")
-	$(compgen -d -- "$cur"))
+    compopt -o filenames
+    _comp_compgen -- -f -X "$xspec" -o plusdirs
 } &&
-	complete -F _gzip gzip pigz
+    complete -F _comp_cmd_gzip gzip pigz
 
 # ex: filetype=sh

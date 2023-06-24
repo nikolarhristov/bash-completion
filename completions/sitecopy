@@ -3,33 +3,36 @@
 #           2011 Raphaël Droz <raphael.droz+floss@gmail.com>
 # License: GNU GPL v2 or later
 
-_sitecopy() {
-	local cur prev words cword split comp_args
-	_comp_initialize -s -- "$@" || return
+_comp_cmd_sitecopy()
+{
+    local cur prev words cword was_split comp_args
+    _comp_initialize -s -- "$@" || return
 
-	case $prev in
-	--debug | -!(-*)d)
-		COMPREPLY=($(compgen -W "socket files rcfile ftp http httpbody
-                rsh sftp xml xmlparse cleartext" -- "$cur"))
-		compopt -o nospace
-		return
-		;;
-	--logfile | --rcfile | -!(-*)[gr])
-		_filedir
-		return
-		;;
-	--storepath | -!(-*)p)
-		_filedir -d
-		return
-		;;
-	esac
+    local noargopts='!(-*|*[dgrp]*)'
+    # shellcheck disable=SC2254
+    case $prev in
+        --debug | -${noargopts}d)
+            _comp_compgen -- -W 'socket files rcfile ftp http httpbody rsh sftp
+                xml xmlparse cleartext'
+            compopt -o nospace
+            return
+            ;;
+        --logfile | --rcfile | -${noargopts}[gr])
+            _comp_compgen_filedir
+            return
+            ;;
+        --storepath | -${noargopts}p)
+            _comp_compgen_filedir -d
+            return
+            ;;
+    esac
 
-	case $cur in
-	--*)
-		COMPREPLY=($(compgen -W "$(_parse_help $1)" -- "$cur"))
-		[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-		return
-		;;
+    case $cur in
+        --*)
+            _comp_compgen_help
+            [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+            return
+            ;;
 
 	# only complete long options
 	-)
@@ -39,11 +42,11 @@ _sitecopy() {
 		;;
 	esac
 
-	if [[ -r ~/.sitecopyrc ]]; then
-		COMPREPLY=($(compgen -W "$($1 -v |
-			command sed -n '/^Site:/s/Site: //p')" -- "$cur"))
-	fi
+    if [[ -r ~/.sitecopyrc ]]; then
+        _comp_compgen_split -- "$("$1" -v |
+            command sed -n '/^Site:/s/Site: //p')"
+    fi
 } &&
-	complete -F _sitecopy -o default sitecopy
+    complete -F _comp_cmd_sitecopy -o default sitecopy
 
 # ex: filetype=sh

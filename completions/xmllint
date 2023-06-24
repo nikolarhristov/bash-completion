@@ -1,52 +1,53 @@
 # bash completion for xmllint(1)                           -*- shell-script -*-
 
-_xmllint() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_xmllint()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	case $prev in
-	-o | --output)
-		_filedir
-		return
-		;;
-	--path | --dtdvalidfpi | --maxmem | --pattern | --xpath)
-		# argument required but no completions available
-		return
-		;;
-	--dtdvalid)
-		_filedir 'dtd?(.gz)'
-		return
-		;;
-	--relaxng)
-		_filedir 'rng?(.gz)'
-		return
-		;;
-	--schema)
-		_filedir 'xsd?(.gz)'
-		return
-		;;
-	--schematron)
-		_filedir 'sch?(.gz)'
-		return
-		;;
-	--encode)
-		_comp_xfunc iconv charsets
-		return
-		;;
-	--pretty)
-		COMPREPLY=($(compgen -W '{0..2}' -- "$cur"))
-		return
-		;;
-	esac
+    case $prev in
+        -o | --output)
+            _comp_compgen_filedir
+            return
+            ;;
+        --path | --dtdvalidfpi | --maxmem | --pattern | --xpath)
+            # argument required but no completions available
+            return
+            ;;
+        --dtdvalid)
+            _comp_compgen_filedir 'dtd?(.gz)'
+            return
+            ;;
+        --relaxng)
+            _comp_compgen_filedir 'rng?(.gz)'
+            return
+            ;;
+        --schema)
+            _comp_compgen_filedir 'xsd?(.gz)'
+            return
+            ;;
+        --schematron)
+            _comp_compgen_filedir 'sch?(.gz)'
+            return
+            ;;
+        --encode)
+            _comp_xfunc iconv charsets
+            return
+            ;;
+        --pretty)
+            _comp_compgen -- -W '{0..2}'
+            return
+            ;;
+    esac
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-		COMPREPLY=("${COMPREPLY[@]%:}")
-		return
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen_help
+        COMPREPLY=("${COMPREPLY[@]%:}")
+        return
+    fi
 
-	_filedir '@(*ml|htm|svg?(z)|xs[dl]|rng|wsdl|jnlp|tld|dbk|docbook|page)?(.gz)'
+    _comp_compgen_filedir '@(*ml|htm|svg?(z)|xs[dl]|rng|wsdl|jnlp|tld|dbk|docbook|page)?(.gz)'
 } &&
-	complete -F _xmllint xmllint
+    complete -F _comp_cmd_xmllint xmllint
 
 # ex: filetype=sh

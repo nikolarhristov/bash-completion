@@ -177,7 +177,6 @@ def partialize(
 
 @pytest.fixture(scope="class")
 def bash(request) -> pexpect.spawn:
-
     logfile: Optional[TextIO] = None
     histfile = None
     tmpdir = None
@@ -265,8 +264,12 @@ def bash(request) -> pexpect.spawn:
         bash.expect_exact(PS1)
 
         # Load bashrc and bash_completion
+        bash_completion = os.environ.get(
+            "BASH_COMPLETION_TEST_BASH_COMPLETION",
+            "%s/../bash_completion" % testdir,
+        )
         assert_bash_exec(bash, "source '%s/config/bashrc'" % testdir)
-        assert_bash_exec(bash, "source '%s/../bash_completion'" % testdir)
+        assert_bash_exec(bash, "source '%s'" % bash_completion)
 
         # Use command name from marker if set, or grab from test filename
         cmd = None  # type: Optional[str]
@@ -808,7 +811,6 @@ def assert_complete(
             pytest.xfail(xfail)
 
     with bash_env_saved(bash, sendintr=True) as bash_env:
-
         cwd = kwargs.get("cwd")
         if cwd:
             bash_env.chdir(str(cwd))

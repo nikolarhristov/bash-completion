@@ -3,22 +3,23 @@
 # Use of this file is deprecated.  Upstream completion is available in
 # subversion >= 0.12.0, use that instead.
 
-_svnlook() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_svnlook()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
 	local commands
 	commands='author cat changed date diff dirs-changed help ? h history info
         lock log propget pget pg proplist plist pl tree uuid youngest'
 
-	if ((cword == 1)); then
-		if [[ $cur == -* ]]; then
-			COMPREPLY=($(compgen -W '--version' -- "$cur"))
-		else
-			COMPREPLY=($(compgen -W "$commands" -- "$cur"))
-		fi
-	else
-		local command=${words[1]}
+    if ((cword == 1)); then
+        if [[ $cur == -* ]]; then
+            _comp_compgen -- -W '--version'
+        else
+            _comp_compgen -- -W "$commands"
+        fi
+    else
+        local command=${words[1]}
 
 		if [[ $cur == -* ]]; then
 			# possible options for the command
@@ -45,18 +46,18 @@ _svnlook() {
 				;;
 			esac
 
-			options+=" --help"
-			COMPREPLY=($(compgen -W "$options" -- "$cur"))
-		else
-			if [[ $command == @(help|[h?]) ]]; then
-				COMPREPLY=($(compgen -W "$commands" -- "$cur"))
-			else
-				_filedir
-			fi
-		fi
-	fi
+            options+=" --help"
+            _comp_compgen -- -W "$options"
+        else
+            if [[ $command == @(help|[h?]) ]]; then
+                _comp_compgen -- -W "$commands"
+            else
+                _comp_compgen_filedir
+            fi
+        fi
+    fi
 
 } &&
-	complete -F _svnlook -o default svnlook
+    complete -F _comp_cmd_svnlook -o default svnlook
 
 # ex: filetype=sh

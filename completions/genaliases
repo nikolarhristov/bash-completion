@@ -1,14 +1,15 @@
 # mailman genaliases completion                            -*- shell-script -*-
 
-_genaliases() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_genaliases()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	if [[ $cur == -* ]]; then
-		COMPREPLY=($(compgen -W '--quiet --help' -- "$cur"))
-	fi
+    if [[ $cur == -* ]]; then
+        _comp_compgen -- -W '--quiet --help'
+    fi
 
 } &&
-	complete -F _genaliases genaliases
+    complete -F _comp_cmd_genaliases genaliases
 
 # ex: filetype=sh
