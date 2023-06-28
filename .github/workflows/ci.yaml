@@ -10,7 +10,11 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
       - uses: actions/checkout@v3.5.3
+=======
+      - uses: actions/checkout@v3.5.3.5.3
+>>>>>>> cc70d4379c1f1e764e70d62d7f272100a3ccbe76
         with: # for gitlint
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -51,7 +55,11 @@ jobs:
           - dist: fedoradev
           - dist: ubuntu14
     steps:
+<<<<<<< HEAD
       - uses: actions/checkout@v3.5.3
+=======
+      - uses: actions/checkout@v3.5.3.5.3
+>>>>>>> cc70d4379c1f1e764e70d62d7f272100a3ccbe76
       - uses: GoogleCloudPlatform/release-please-action@v3
         with:
           release-type: simple
