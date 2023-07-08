@@ -36,8 +36,7 @@ If set and not null, completions that look for filenames based on their
 "extensions" will fall back to suggesting all files if there are none matching
 the sought ones.
 
-Available since version 2.12.
-Deprecated alias: `COMP_FILEDIR_FALLBACK`
+Available since version 2.12. Deprecated alias: `COMP_FILEDIR_FALLBACK`
 
 ### `BASH_COMPLETION_KNOWN_HOSTS_WITH_AVAHI`
 
@@ -45,8 +44,7 @@ If set and not null, known hosts completion will try to use `avahi-browse` for
 additional completions. This may be a slow operation in some setups. Default is
 unset.
 
-Available since version 2.12.
-Deprecated alias: `COMP_KNOWN_HOSTS_WITH_AVAHI`
+Available since version 2.12. Deprecated alias: `COMP_KNOWN_HOSTS_WITH_AVAHI`
 
 ### `BASH_COMPLETION_KNOWN_HOSTS_WITH_HOSTFILE`
 
@@ -57,8 +55,7 @@ completion will omit hostnames from `HOSTFILE`. Omitting hostnames from
 `HOSTFILE` is useful if `HOSTFILE` contains many entries for local web
 development or ad-blocking.
 
-Available since version 2.12.
-Deprecated alias: `COMP_KNOWN_HOSTS_WITH_HOSTFILE`
+Available since version 2.12. Deprecated alias: `COMP_KNOWN_HOSTS_WITH_HOSTFILE`
 
 ### `BASH_COMPLETION_COMPAT_IGNORE`
 
@@ -96,8 +93,7 @@ and then simply delete the descriptive text and add one's own data. If unset or
 null (default), `configure` completion will strip everything after the `=` when
 returning completions.
 
-Available since version 2.12.
-Deprecated alias: `COMP_CONFIGURE_HINTS`
+Available since version 2.12. Deprecated alias: `COMP_CONFIGURE_HINTS`
 
 ### `BASH_COMPLETION_CMD_CVS_REMOTE`
 
@@ -105,43 +101,39 @@ If set and not null, `cvs commit` completion will try to complete on remotely
 checked-out files. This requires passwordless access to the remote repository.
 Default is unset.
 
-Available since version 2.12.
-Deprecated alias: `COMP_CVS_REMOTE`
+Available since version 2.12. Deprecated alias: `COMP_CVS_REMOTE`
 
 ### `BASH_COMPLETION_CMD_IWCONFIG_SCAN`
 
 If set and not null, `iwconfig` completion will try to complete on available
 wireless networks identifiers. Default is unset.
 
-Available since version 2.12.
-Deprecated alias: `COMP_IWLIST_SCAN`
+Available since version 2.12. Deprecated alias: `COMP_IWLIST_SCAN`
 
 ### `BASH_COMPLETION_CMD_SMBTREE_SCAN`
 
-If set and not null, various samba related tool completions perform
-a network scan to complete domains and hosts. Default is unset.
+If set and not null, various samba related tool completions perform a network
+scan to complete domains and hosts. Default is unset.
 
-Available since version 2.12.
-Deprecated alias: `COMP_SAMBA_SCAN`
+Available since version 2.12. Deprecated alias: `COMP_SAMBA_SCAN`
 
 ### `BASH_COMPLETION_CMD_TAR_INTERNAL_PATHS`
 
-If set and not null _before sourcing_ the `tar` completion, it will do
-correct path completion for tar file _contents_. If unset or null,
-_paths to_ tar files will be correctly completed. Unfortunately we do not
-have a way to make both Just Work properly at the moment. We consider it
-more important to have proper completion of paths to tar files than it is
-to have completion for their contents, so the default is unset.
+If set and not null _before sourcing_ the `tar` completion, it will do correct
+path completion for tar file _contents_. If unset or null, _paths to_ tar files
+will be correctly completed. Unfortunately we do not have a way to make both
+Just Work properly at the moment. We consider it more important to have proper
+completion of paths to tar files than it is to have completion for their
+contents, so the default is unset.
 
-Available since version 2.12.
-Deprecated alias: `COMP_TAR_INTERNAL_PATHS`
+Available since version 2.12. Deprecated alias: `COMP_TAR_INTERNAL_PATHS`
 
 ## Shell options
 
 ### `no_empty_cmd_completion`
 
 If on, completions producing command names do not do anything if the command to
-be completed is empty. This can be useful on systems where generating the
-entire list of commands takes a long time.
+be completed is empty. This can be useful on systems where generating the entire
+list of commands takes a long time.
 
 Available since version 2.12.

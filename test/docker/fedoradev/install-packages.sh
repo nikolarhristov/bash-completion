@@ -15,8 +15,8 @@ dnf -y install /usr/bin/xargs
 
 while read -r file; do
     case $file in
-        /*) printf "%s\n" "$file" ;;
-        *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
+    /*) printf "%s\n" "$file" ;;
+    *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
     esac
 done |
     xargs dnf --skip-broken -y install

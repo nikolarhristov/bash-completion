@@ -55,8 +55,8 @@ EOF
 
 while read -r file; do
     case $file in
-        /*) printf "%s\n" "$file" ;;
-        *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
+    /*) printf "%s\n" "$file" ;;
+    *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
     esac
 done |
     apt-file -lFf search - |

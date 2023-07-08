@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-is_tracked_by_git()
-{
+is_tracked_by_git() {
     git ls-files --error-unmatch "$1" &>/dev/null
 }
 
 cd "$(dirname "$0")/completions"
 for f in *; do
-    if [[ -h $f ]] && is_tracked_by_git "$f"; then
+    if [[ -L $f ]] && is_tracked_by_git "$f"; then
         git rm -f "$f"
     fi
 done
