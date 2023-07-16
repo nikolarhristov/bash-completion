@@ -1,3 +1,4 @@
+
 SUBDIRS = completions doc helpers test
 
 pkgdata_DATA = bash_completion

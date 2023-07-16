@@ -2,8 +2,8 @@
 # shellcheck shell=sh
 
 if [ "${BSD-}" ]; then
-    PATH=/usr/local/lib/bsd-bin:$PATH
-    export PATH
+	PATH=/usr/local/lib/bsd-bin:$PATH
+	export PATH
 fi
 
 export bashcomp_bash=bash
@@ -18,5 +18,5 @@ autoreconf -i
 make -j
 
 xvfb-run make distcheck \
-    PYTESTFLAGS="${PYTESTFLAGS---verbose -p no:cacheprovider --numprocesses=auto --dist=loadfile}"
+	PYTESTFLAGS="${PYTESTFLAGS---verbose -p no:cacheprovider --numprocesses=auto --dist=loadfile}"
 cp -p bash-completion-*.tar.* "$oldpwd/"
