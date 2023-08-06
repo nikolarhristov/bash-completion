@@ -143,7 +143,7 @@ In bash-completion, we do not quote them by default. However, there are
 exceptions where the quoting is still needed for other reasons.
 
 -   When the word _directly_ contains shell special characters (space, tab,
-    newline, or a character from ``;|&()<>\\$`'"#!~{``), these characters need
+    newline, or a character from `` ;|&()<>\\$`'"#!~{ ``), these characters need
     to be quoted. The "_directly_" means that the special characters produced by
     shell expansions are excluded here. For example, when one wants to include a
     whitespace as a part of the value of the word, the right-hand side can be
