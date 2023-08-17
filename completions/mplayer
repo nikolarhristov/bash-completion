@@ -13,7 +13,7 @@ _comp_cmd_mplayer()
     local cur prev words cword comp_args
     _comp_initialize -n : -- "$@" || return
 
-	local cmd=${words[0]} i j k=0
+    local cmd=${words[0]} i j k=0
 
     case $prev in
         -[av][cfo] | -[av]fm | -vop | -fstype | -demuxer | -o[av]c | -of | -profile | \
@@ -96,12 +96,12 @@ _comp_cmd_mplayer()
             return
             ;;
         -cdrom-device)
-            _cd_devices
-            _dvd_devices
+            _comp_compgen_cd_devices
+            _comp_compgen -a dvd_devices
             return
             ;;
         -dvd-device)
-            _dvd_devices
+            _comp_compgen_dvd_devices
             _comp_compgen -a filedir iso
             return
             ;;

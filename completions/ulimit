@@ -5,7 +5,7 @@ _comp_cmd_ulimit()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	# TODO combined option support (-aH, -Sc etc)
+    # TODO combined option support (-aH, -Sc etc)
 
     local mode=
     case $prev in
@@ -15,10 +15,10 @@ _comp_cmd_ulimit()
             ;;
         -[SH]) ;;
 
-	-*)
-		mode=$prev
-		;;
-	esac
+        -*)
+            mode=$prev
+            ;;
+    esac
 
     if [[ ! $mode ]]; then
         local word

@@ -17,30 +17,45 @@ _comp_deprecate_func 2.12 _mac_addresses _comp_compgen_mac_addresses
 _comp_deprecate_func 2.12 _available_interfaces _comp_compgen_available_interfaces
 _comp_deprecate_func 2.12 _configured_interfaces _comp_compgen_configured_interfaces
 _comp_deprecate_func 2.12 _ip_addresses _comp_compgen_ip_addresses
+_comp_deprecate_func 2.12 _kernel_versions _comp_compgen_kernel_versions
+_comp_deprecate_func 2.12 _uids _comp_compgen_uids
+_comp_deprecate_func 2.12 _gids _comp_compgen_gids
+_comp_deprecate_func 2.12 _xinetd_services _comp_compgen_xinetd_services
+_comp_deprecate_func 2.12 _terms _comp_compgen_terms
+_comp_deprecate_func 2.12 _pids _comp_compgen_pids
+_comp_deprecate_func 2.12 _pgids _comp_compgen_pgids
+_comp_deprecate_func 2.12 _pnames _comp_compgen_pnames
+_comp_deprecate_func 2.12 _modules _comp_compgen_kernel_modules
+_comp_deprecate_func 2.12 _installed_modules _comp_compgen_inserted_kernel_modules
+_comp_deprecate_func 2.12 _usergroup _comp_compgen_usergroup
+_comp_deprecate_func 2.12 _complete_as_root _comp_as_root
 
 # Backwards compatibility for compat completions that use have().
 # @deprecated 1.90 should no longer be used; generally not needed with
 #   dynamically loaded completions, and _comp_have_command is suitable for
 #   runtime use.
 # shellcheck disable=SC2317 # available at load time only
-have() {
-	unset -v have
-	_comp_have_command "$1" && have=yes
+have()
+{
+    unset -v have
+    _comp_have_command "$1" && have=yes
 }
 
 # This function shell-quotes the argument
 # @deprecated 2.12 Use `_comp_quote` instead.  Note that `_comp_quote` stores
 #   the results in the variable `ret` instead of writing them to stdout.
-quote() {
-	local quoted=${1//\'/\'\\\'\'}
-	printf "'%s'" "$quoted"
+quote()
+{
+    local quoted=${1//\'/\'\\\'\'}
+    printf "'%s'" "$quoted"
 }
 
 # @deprecated 2.12 Use `_comp_quote_compgen`
-quote_readline() {
-	local ret
-	_comp_quote_compgen "$1"
-	printf %s "$ret"
+quote_readline()
+{
+    local ret
+    _comp_quote_compgen "$1"
+    printf %s "$ret"
 } # quote_readline()
 
 # This function is the same as `_comp_quote_compgen`, but receives the second
@@ -49,21 +64,23 @@ quote_readline() {
 # @param $2  Name of variable to return result to
 # @deprecated 2.12 Use `_comp_quote_compgen "$1"` instead.  Note that
 # `_comp_quote_compgen` stores the result in a fixed variable `ret`.
-_quote_readline_by_ref() {
-	[[ $2 == ret ]] || local ret
-	_comp_quote_compgen "$1"
-	[[ $2 == ret ]] || printf -v "$2" %s "$ret"
+_quote_readline_by_ref()
+{
+    [[ $2 == ret ]] || local ret
+    _comp_quote_compgen "$1"
+    [[ $2 == ret ]] || printf -v "$2" %s "$ret"
 }
 
 # This function shell-dequotes the argument
 # @deprecated 2.12 Use `_comp_dequote' instead.  Note that `_comp_dequote`
 #   stores the results in the array `ret` instead of writing them to stdout.
-dequote() {
-	local ret
-	_comp_dequote "$1"
-	local rc=$?
-	printf %s "$ret"
-	return $rc
+dequote()
+{
+    local ret
+    _comp_dequote "$1"
+    local rc=$?
+    printf %s "$ret"
+    return $rc
 }
 
 # Assign variable one scope above the caller
@@ -76,17 +93,18 @@ dequote() {
 #       reassign a variable to be used by another '_upvar' call.
 # @see https://fvue.nl/wiki/Bash:_Passing_variables_by_reference
 # @deprecated 2.10 Use `_comp_upvars' instead
-_upvar() {
-	echo "bash_completion: $FUNCNAME: deprecated function," \
-		"use _comp_upvars instead" >&2
-	if unset -v "$1"; then # Unset & validate varname
-		# shellcheck disable=SC2140  # TODO
-		if (($# == 2)); then
-			eval "$1"=\"\$2\" # Return single value
-		else
-			eval "$1"=\(\"\$"{@:2}"\"\) # Return array
-		fi
-	fi
+_upvar()
+{
+    echo "bash_completion: $FUNCNAME: deprecated function," \
+        "use _comp_upvars instead" >&2
+    if unset -v "$1"; then # Unset & validate varname
+        # shellcheck disable=SC2140  # TODO
+        if (($# == 2)); then
+            eval "$1"=\"\$2\" # Return single value
+        else
+            eval "$1"=\(\"\$"{@:2}"\"\) # Return array
+        fi
+    fi
 }
 
 # Get the word to complete.
@@ -104,48 +122,49 @@ _upvar() {
 #     the current word, respecting the exclusions "=:".
 # @deprecated 1.2 Use `_comp_get_words cur' instead
 # @see _comp_get_words()
-_get_cword() {
-	local LC_CTYPE=C
-	local cword words
-	_comp__reassemble_words "${1-}" words cword
+_get_cword()
+{
+    local LC_CTYPE=C
+    local cword words
+    _comp__reassemble_words "${1-}" words cword
 
-	# return previous word offset by $2
-	if [[ ${2-} && ${2//[^0-9]/} ]]; then
-		printf "%s" "${words[cword - $2]}"
-	elif ((${#words[cword]} == 0 && COMP_POINT == ${#COMP_LINE})); then
-		: # nothing
-	else
-		local i
-		local cur=$COMP_LINE
-		local index=$COMP_POINT
-		for ((i = 0; i <= cword; ++i)); do
-			# Current word fits in $cur, and $cur doesn't match cword?
-			while [[ ${#cur} -ge ${#words[i]} &&
-				${cur:0:${#words[i]}} != "${words[i]}" ]]; do
-				# Strip first character
-				cur=${cur:1}
-				# Decrease cursor position, staying >= 0
-				((index > 0)) && ((index--))
-			done
+    # return previous word offset by $2
+    if [[ ${2-} && ${2//[^0-9]/} ]]; then
+        printf "%s" "${words[cword - $2]}"
+    elif ((${#words[cword]} == 0 && COMP_POINT == ${#COMP_LINE})); then
+        : # nothing
+    else
+        local i
+        local cur=$COMP_LINE
+        local index=$COMP_POINT
+        for ((i = 0; i <= cword; ++i)); do
+            # Current word fits in $cur, and $cur doesn't match cword?
+            while [[ ${#cur} -ge ${#words[i]} &&
+                ${cur:0:${#words[i]}} != "${words[i]}" ]]; do
+                # Strip first character
+                cur=${cur:1}
+                # Decrease cursor position, staying >= 0
+                ((index > 0)) && ((index--))
+            done
 
-			# Does found word match cword?
-			if ((i < cword)); then
-				# No, cword lies further;
-				local old_size=${#cur}
-				cur=${cur#"${words[i]}"}
-				local new_size=${#cur}
-				((index -= old_size - new_size))
-			fi
-		done
+            # Does found word match cword?
+            if ((i < cword)); then
+                # No, cword lies further;
+                local old_size=${#cur}
+                cur=${cur#"${words[i]}"}
+                local new_size=${#cur}
+                ((index -= old_size - new_size))
+            fi
+        done
 
-		if [[ ${words[cword]:0:${#cur}} != "$cur" ]]; then
-			# We messed up! At least return the whole word so things
-			# keep working
-			printf "%s" "${words[cword]}"
-		else
-			printf "%s" "${cur:0:index}"
-		fi
-	fi
+        if [[ ${words[cword]:0:${#cur}} != "$cur" ]]; then
+            # We messed up! At least return the whole word so things
+            # keep working
+            printf "%s" "${words[cword]}"
+        else
+            printf "%s" "${cur:0:index}"
+        fi
+    fi
 } # _get_cword()
 
 # Get word previous to the current word.
@@ -155,22 +174,24 @@ _get_cword() {
 # @deprecated 1.2 Use `_comp_get_words cur prev' instead
 # @see _comp_get_words()
 #
-_get_pword() {
-	if ((COMP_CWORD >= 1)); then
-		_get_cword "${@-}" 1
-	fi
+_get_pword()
+{
+    if ((COMP_CWORD >= 1)); then
+        _get_cword "${@-}" 1
+    fi
 }
 
 # Get real command.
 # @deprecated 2.12 Use `_comp_realcommand` instead.
 # Note that `_comp_realcommand` stores the result in the variable `ret`
 # instead of writing it to stdout.
-_realcommand() {
-	local ret
-	_comp_realcommand "$1"
-	local rc=$?
-	printf "%s\n" "$ret"
-	return $rc
+_realcommand()
+{
+    local ret
+    _comp_realcommand "$1"
+    local rc=$?
+    printf "%s\n" "$ret"
+    return $rc
 }
 
 # Initialize completion and deal with various general things: do file
@@ -201,28 +222,29 @@ _realcommand() {
 # When `-s` is specified, instead of variable `split`, the new interface sets
 # variable `was_split` to the value "set"/"" when the split happened/not
 # happened.
-_init_completion() {
-	local was_split
-	_comp_initialize "$@"
-	local rc=$?
+_init_completion()
+{
+    local was_split
+    _comp_initialize "$@"
+    local rc=$?
 
-	# When -s is specified, convert "split={set,}" to "split={true,false}"
-	local flag OPTIND=1 OPTARG="" OPTERR=0
-	while getopts "n:e:o:i:s" flag "$@"; do
-		case $flag in
-		[neoi]) ;;
-		s)
-			if [[ $was_split ]]; then
-				split=true
-			else
-				split=false
-			fi
-			break
-			;;
-		esac
-	done
+    # When -s is specified, convert "split={set,}" to "split={true,false}"
+    local flag OPTIND=1 OPTARG="" OPTERR=0
+    while getopts "n:e:o:i:s" flag "$@"; do
+        case $flag in
+            [neoi]) ;;
+            s)
+                if [[ $was_split ]]; then
+                    split=true
+                else
+                    split=false
+                fi
+                break
+                ;;
+        esac
+    done
 
-	return "$rc"
+    return "$rc"
 }
 
 # @deprecated 2.12 Use the variable `_comp_backup_glob` instead.  This is the
@@ -231,26 +253,29 @@ _init_completion() {
 _backup_glob=$_comp_backup_glob
 
 # @deprecated 2.12 use `_comp_cmd_cd` instead.
-_cd() {
-	declare -F _comp_cmd_cd &>/dev/null || __load_completion cd
-	_comp_cmd_cd "$@"
+_cd()
+{
+    declare -F _comp_cmd_cd &>/dev/null || __load_completion cd
+    _comp_cmd_cd "$@"
 }
 
 # @deprecated 2.12 Use `_comp_command_offset` instead.  Note that the new
 # interface `_comp_command_offset` is changed to receive an index in
 # `words` instead of that in `COMP_WORDS` as `_command_offset` did.
-_command_offset() {
-	# We unset the shell variable `words` locally to tell
-	# `_comp_command_offset` that the index is intended to be that in
-	# `COMP_WORDS` instead of `words`.
-	local words
-	unset -v words
-	_comp_command_offset "$@"
+_command_offset()
+{
+    # We unset the shell variable `words` locally to tell
+    # `_comp_command_offset` that the index is intended to be that in
+    # `COMP_WORDS` instead of `words`.
+    local words
+    unset -v words
+    _comp_command_offset "$@"
 }
 
 # @deprecated 2.12 Use `_comp_compgen -a filedir`
-_filedir() {
-	_comp_compgen -a filedir "$@"
+_filedir()
+{
+    _comp_compgen -a filedir "$@"
 }
 
 # Perform tilde (~) completion
@@ -260,17 +285,19 @@ _filedir() {
 # @deprecated 2.12 Use `_comp_compgen -c CUR tilde [-d]`.  Note that the exit
 # status of `_comp_compgen_tilde` is flipped.  It returns 0 when the tilde
 # completions are attempted, or otherwise 1.
-_tilde() {
-	! _comp_compgen -c "$1" tilde
+_tilde()
+{
+    ! _comp_compgen -c "$1" tilde
 }
 
 # Helper function for _parse_help and _parse_usage.
 # @return True (0) if an option was found, False (> 0) otherwise
 # @deprecated 2.12 Use _comp_compgen_help__parse
-__parse_options() {
-	local -a _options=()
-	_comp_compgen_help__parse "$1"
-	printf '%s\n' "${_options[@]}"
+__parse_options()
+{
+    local -a _options=()
+    _comp_compgen_help__parse "$1"
+    printf '%s\n' "${_options[@]}"
 }
 
 # Parse GNU style help output of the given command.
@@ -280,20 +307,21 @@ __parse_options() {
 #   '$(_parse_help "$1" ...)' -- "$cur"))` can be replaced with
 #   `_comp_compgen_help [-- ...]`.  Also, `var=($(_parse_help "$1" ...))` can
 #   be replaced with `_comp_compgen -Rv var help [-- ...]`.
-_parse_help() {
-	local -a args
-	if [[ $1 == - ]]; then
-		args=(-)
-	else
-		local ret opt IFS=$' \t\n'
-		_comp_dequote "$1"
-		_comp_split opt "${2:---help}"
-		args=(-c "$ret" ${opt[@]+"${opt[@]}"})
-	fi
-	local -a ret=()
-	_comp_compgen -Rv ret help "${args[@]}" || return 1
-	((${#ret[@]})) && printf '%s\n' "${ret[@]}"
-	return 0
+_parse_help()
+{
+    local -a args
+    if [[ $1 == - ]]; then
+        args=(-)
+    else
+        local ret opt IFS=$' \t\n'
+        _comp_dequote "$1"
+        _comp_split opt "${2:---help}"
+        args=(-c "$ret" ${opt[@]+"${opt[@]}"})
+    fi
+    local -a ret=()
+    _comp_compgen -Rv ret help "${args[@]}" || return 1
+    ((${#ret[@]})) && printf '%s\n' "${ret[@]}"
+    return 0
 }
 
 # Parse BSD style usage output (options in brackets) of the given command.
@@ -303,27 +331,71 @@ _parse_help() {
 #   '$(_parse_usage "$1" ...)' -- "$cur"))` can be replaced with
 #   `_comp_compgen_usage [-- ...]`. `var=($(_parse_usage "$1" ...))` can be
 #   replaced with `_comp_compgen -Rv var usage [-- ...]`.
-_parse_usage() {
-	local -a args
-	if [[ $1 == - ]]; then
-		args=(-)
-	else
-		local ret opt IFS=$' \t\n'
-		_comp_dequote "$1"
-		_comp_split opt "${2:---usage}"
-		args=(-c "$ret" ${opt[@]+"${opt[@]}"})
-	fi
-	local -a ret=()
-	_comp_compgen -Rv ret usage "${args[@]}" || return 1
-	((${#ret[@]})) && printf '%s\n' "${ret[@]}"
-	return 0
+_parse_usage()
+{
+    local -a args
+    if [[ $1 == - ]]; then
+        args=(-)
+    else
+        local ret opt IFS=$' \t\n'
+        _comp_dequote "$1"
+        _comp_split opt "${2:---usage}"
+        args=(-c "$ret" ${opt[@]+"${opt[@]}"})
+    fi
+    local -a ret=()
+    _comp_compgen -Rv ret usage "${args[@]}" || return 1
+    ((${#ret[@]})) && printf '%s\n' "${ret[@]}"
+    return 0
 }
 
 # @deprecated 2.12 Use `_comp_get_ncpus`.
-_ncpus() {
-	local ret
-	_comp_get_ncpus
-	printf %s "$ret"
+_ncpus()
+{
+    local ret
+    _comp_get_ncpus
+    printf %s "$ret"
+}
+
+# @deprecated 2.12 Use `_comp_compgen -a cd_devices`
+_cd_devices()
+{
+    _comp_compgen -a cd_devices
+}
+
+# @deprecated 2.12 Use `_comp_compgen -a dvd_devices`
+_dvd_devices()
+{
+    _comp_compgen -a dvd_devices
+}
+
+# @deprecated 2.12 Use `_comp_compgen -a pci_ids`
+_pci_ids()
+{
+    _comp_compgen -a pci_ids
+}
+
+# @deprecated 2.12 Use `_comp_compgen -a usb_ids`
+_usb_ids()
+{
+    _comp_compgen -a usb_ids
+}
+
+# @deprecated 2.12 Use `_comp_compgen -c "${prefix:-$cur}" allowed_users`
+_allowed_users()
+{
+    _comp_compgen -c "${1:-$cur}" allowed_users
+}
+
+# @deprecated 2.12 Use `_comp_compgen -c "${prefix:-$cur}" allowed_groups`
+_allowed_groups()
+{
+    _comp_compgen -c "${1:-$cur}" allowed_groups
+}
+
+# @deprecated 2.12 Use `_comp_compgen -a fstypes`
+_fstypes()
+{
+    _comp_compgen -a fstypes
 }
 
 # ex: filetype=sh

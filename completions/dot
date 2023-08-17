@@ -5,7 +5,7 @@ _comp_cmd_dot()
     local cur prev words cword comp_args
     _comp_initialize -n := -- "$@" || return
 
-	[[ $prev == -[V?] ]] && return
+    [[ $prev == -[V?] ]] && return
 
     case $cur in
         -G* | -N* | -E* | -l?* | -q?* | -s?* | -Ln* | -LU* | -LC* | -LT*)

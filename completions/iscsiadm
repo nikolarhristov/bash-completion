@@ -28,37 +28,37 @@ _comp_cmd_iscsiadm()
 
     [[ $was_split ]] && return
 
-	local options
-	if ((cword > 1)); then
+    local options
+    if ((cword > 1)); then
 
-		case ${words[2]} in
-		discovery)
-			options='--help --version --debug --print --interface --type \
+        case ${words[2]} in
+            discovery)
+                options='--help --version --debug --print --interface --type \
                     --portal --login --op --name --value'
-			;;
-		node)
-			options='--help --version --debug --print --loginall \
+                ;;
+            node)
+                options='--help --version --debug --print --loginall \
                     --logoutall--show  -T --portal --interface --login \
                     --logout --rescan --stats --op --name --value'
-			;;
-		session)
-			options='--help --version --debug --print --sid --logout \
+                ;;
+            session)
+                options='--help --version --debug --print --sid --logout \
                     --rescan --stats'
-			;;
-		iface)
-			options='--help --version --debug --print --interface --op \
+                ;;
+            iface)
+                options='--help --version --debug --print --interface --op \
                     --name --value'
-			;;
-		fw)
-			options='--login'
-			;;
-		host)
-			options='--print -H'
-			;;
-		esac
-	else
-		options='--mode'
-	fi
+                ;;
+            fw)
+                options='--login'
+                ;;
+            host)
+                options='--print -H'
+                ;;
+        esac
+    else
+        options='--mode'
+    fi
 
     _comp_compgen -- -W "$options"
 } &&

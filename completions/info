@@ -41,13 +41,13 @@ _comp_cmd_info()
         return
     fi
 
-	local i infopath=/usr/share/info
+    local i infopath=/usr/share/info
 
-	if [[ ${INFOPATH-} == *: ]]; then
-		infopath=${INFOPATH}${infopath}
-	elif [[ ${INFOPATH:+set} ]]; then
-		infopath=$INFOPATH
-	fi
+    if [[ ${INFOPATH-} == *: ]]; then
+        infopath=${INFOPATH}${infopath}
+    elif [[ ${INFOPATH:+set} ]]; then
+        infopath=$INFOPATH
+    fi
 
     _comp_split -F : infopath "$infopath"
     if ((${#infopath[@]})); then

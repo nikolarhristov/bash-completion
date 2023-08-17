@@ -5,11 +5,11 @@ _comp_cmd_luserdel()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	case $prev in
-	--help | --usage | -!(-*)[?]*)
-		return
-		;;
-	esac
+    case $prev in
+        --help | --usage | -!(-*)[?]*)
+            return
+            ;;
+    esac
 
     if [[ $cur == -* ]]; then
         _comp_compgen_help

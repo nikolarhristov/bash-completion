@@ -8,8 +8,8 @@ _comp_cmd_svnadmin()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local commands
-	commands='create deltify dump help ? hotcopy list-dblogs list-unused-dblogs
+    local commands
+    commands='create deltify dump help ? hotcopy list-dblogs list-unused-dblogs
         load lslocks lstxns recover rmlocks rmtxns setlog verify'
 
     if ((cword == 1)); then
@@ -30,36 +30,36 @@ _comp_cmd_svnadmin()
                 ;;
         esac
 
-		local command=${words[1]}
+        local command=${words[1]}
 
-		if [[ $cur == -* ]]; then
-			# possible options for the command
-			local options
-			case $command in
-			create)
-				options='--bdb-txn-nosync --bdb-log-keep --config-dir
+        if [[ $cur == -* ]]; then
+            # possible options for the command
+            local options
+            case $command in
+                create)
+                    options='--bdb-txn-nosync --bdb-log-keep --config-dir
                         --fs-type'
-				;;
-			deltify)
-				options='--revision --quiet'
-				;;
-			dump)
-				options='--revision --incremental --quiet --deltas'
-				;;
-			hotcopy)
-				options='--clean-logs'
-				;;
-			load)
-				options='--ignore-uuid --force-uuid --parent-dir --quiet
+                    ;;
+                deltify)
+                    options='--revision --quiet'
+                    ;;
+                dump)
+                    options='--revision --incremental --quiet --deltas'
+                    ;;
+                hotcopy)
+                    options='--clean-logs'
+                    ;;
+                load)
+                    options='--ignore-uuid --force-uuid --parent-dir --quiet
                         --use-pre-commit-hook --use-post-commit-hook'
-				;;
-			rmtxns)
-				options='--quiet'
-				;;
-			setlog)
-				options='--revision --bypass-hooks'
-				;;
-			esac
+                    ;;
+                rmtxns)
+                    options='--quiet'
+                    ;;
+                setlog)
+                    options='--revision --bypass-hooks'
+                    ;;
+            esac
 
             options+=" --help"
             _comp_compgen -- -W "$options"

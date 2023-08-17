@@ -7,19 +7,19 @@ _comp_cmd_pkgadd()
     local cur prev words cword comp_args
     _comp_initialize -n : -- "$@" || return
 
-	# if a device directory was given
-	# we must complete with the package
-	# available in this directory
-	local device=/var/spool/pkg
-	local i=$cword
-	while ((i-- > 0)); do
-		case "${words[i]}" in
-		-d)
-			device="${words[i + 1]}"
-			break
-			;;
-		esac
-	done
+    # if a device directory was given
+    # we must complete with the package
+    # available in this directory
+    local device=/var/spool/pkg
+    local i=$cword
+    while ((i-- > 0)); do
+        case "${words[i]}" in
+            -d)
+                device="${words[i + 1]}"
+                break
+                ;;
+        esac
+    done
 
     case $prev in
         -d)

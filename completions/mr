@@ -5,9 +5,9 @@ _comp_cmd_mr()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local help commands options
+    local help commands options
 
-	help="$(PERLDOC_PAGER=cat PERLDOC=-otext "${1}" help 2>/dev/null)"
+    help="$(PERLDOC_PAGER=cat PERLDOC=-otext "${1}" help 2>/dev/null)"
 
     commands="$(
         # shellcheck disable=SC2030

@@ -5,7 +5,7 @@ _comp_cmd_sqlite3()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local dbexts='@(sqlite?(3)|?(s?(3))db)'
+    local dbexts='@(sqlite?(3)|?(s?(3))db)'
 
     case $prev in
         -help | -version | -lookaside | -maxsize | -mmap | -newline | \
@@ -22,8 +22,8 @@ _comp_cmd_sqlite3()
             ;;
     esac
 
-	[[ $cword -gt 2 && ${words[cword - 2]} == -@(lookaside|pagecache|scratch) ]] &&
-		return
+    [[ $cword -gt 2 && ${words[cword - 2]} == -@(lookaside|pagecache|scratch) ]] &&
+        return
 
     if [[ $cur == -* ]]; then
         _comp_compgen_help -- -help

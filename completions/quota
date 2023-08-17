@@ -95,7 +95,7 @@ _comp_cmd_setquota()
                 ;;
         esac
 
-	fi
+    fi
 } &&
     complete -F _comp_cmd_setquota -o default setquota
 

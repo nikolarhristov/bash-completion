@@ -72,17 +72,17 @@ _comp_cmd_lintian()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local lint_actions general_opts behaviour_opts configuration_opts
+    local lint_actions general_opts behaviour_opts configuration_opts
 
-	lint_actions="--setup-lab --remove-lab --check --check-part --tags
+    lint_actions="--setup-lab --remove-lab --check --check-part --tags
         --tags-from-file --ftp-master-rejects --dont-check-part --unpack
         --remove"
-	general_opts="--help --version --print-version --verbose --debug --quiet"
-	behaviour_opts="--info --display-info --display-experimental --pedantic
+    general_opts="--help --version --print-version --verbose --debug --quiet"
+    behaviour_opts="--info --display-info --display-experimental --pedantic
         --display-level --suppress-tags --suppress-tags-from-file --no-override
         --show-overrides --color --unpack-info --md5sums --checksums
         --allow-root --fail-on-warnings --keep-lab"
-	configuration_opts="--cfg --lab --archivedir --dist --area --section --arch
+    configuration_opts="--cfg --lab --archivedir --dist --area --section --arch
         --root"
 
     if [[ $prev == -* ]]; then

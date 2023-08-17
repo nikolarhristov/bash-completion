@@ -7,8 +7,8 @@ line-length = 79
 target-version = "py37"
 select = ["E", "F", "B"]
 ignore = [
-	"E50", # Black
-	"E70", # Black
+    "E50", # Black
+    "E70", # Black
 
 ]
 fix = true

@@ -27,6 +27,6 @@ _comp_cmd_truncate()
 
     _comp_compgen_filedir
 } &&
-	complete -F _comp_cmd_truncate truncate
+    complete -F _comp_cmd_truncate truncate
 
 # ex: filetype=sh

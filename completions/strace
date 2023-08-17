@@ -5,31 +5,31 @@ _comp_cmd_strace()
     local cur prev words cword comp_args
     _comp_initialize -n = -- "$@" || return
 
-	# check if we're still completing strace
-	local offset=0 i
-	for ((i = 1; i <= cword; i++)); do
-		case ${words[i]} in
-		-o | -e | -p)
-			((i++))
-			continue
-			;;
-		-*)
-			continue
-			;;
-		esac
-		offset=$i
-		break
-	done
+    # check if we're still completing strace
+    local offset=0 i
+    for ((i = 1; i <= cword; i++)); do
+        case ${words[i]} in
+            -o | -e | -p)
+                ((i++))
+                continue
+                ;;
+            -*)
+                continue
+                ;;
+        esac
+        offset=$i
+        break
+    done
 
-	if ((offset > 0)); then
-		_comp_command_offset $offset
-	else
+    if ((offset > 0)); then
+        _comp_command_offset $offset
+    else
 
-		case $prev in
-		-*e)
-			if [[ $cur == *=* ]]; then
-				prev=${cur/=*/}
-				cur=${cur/*=/}
+        case $prev in
+            -*e)
+                if [[ $cur == *=* ]]; then
+                    prev=${cur/=*/}
+                    cur=${cur/*=/}
 
                     case $prev in
                         trace)
@@ -74,7 +74,7 @@ _comp_cmd_strace()
                 return
                 ;;
             -*p)
-                _pids
+                _comp_compgen_pids
                 return
                 ;;
             -*S)
@@ -82,7 +82,7 @@ _comp_cmd_strace()
                 return
                 ;;
             -*u)
-                _allowed_users
+                _comp_compgen_allowed_users
                 return
                 ;;
         esac

@@ -66,11 +66,11 @@ _comp_cmd_puppet()
 
     local subcommand="" action
 
-	case $prev in
-	-h | --help | -V | --version)
-		return
-		;;
-	esac
+    case $prev in
+        -h | --help | -V | --version)
+            return
+            ;;
+    esac
 
     case ${words[0]} in
         puppetmasterd)

@@ -10,8 +10,8 @@ _comp_cmd_7z()
         return
     fi
 
-	local mode
-	[[ ${words[1]} == @(a|d|rn|u) ]] && mode=w || mode=r
+    local mode
+    [[ ${words[1]} == @(a|d|rn|u) ]] && mode=w || mode=r
 
     case $cur in
         -ao*)

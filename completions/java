@@ -75,10 +75,10 @@ _comp_cmd_java__classes()
                 COMPREPLY+=($(unzip -lq "$i" "$cur*" 2>/dev/null |
                     awk '$NF ~ /^-+$/ { flag=!flag; next };
                          flag && $NF ~ /^[^$]*\.class/ { print $NF }'))
-			elif type jar &>/dev/null; then
-				COMPREPLY+=($(jar tf "$i" "$cur" |
-					command grep '^[^$]*\.class$'))
-			fi
+            elif type jar &>/dev/null; then
+                COMPREPLY+=($(jar tf "$i" "$cur" |
+                    command grep '^[^$]*\.class$'))
+            fi
 
         elif [[ -d $i ]]; then
             local tmp
@@ -88,18 +88,18 @@ _comp_cmd_java__classes()
                 _comp_compgen -a -- -X '*\$*' -W '"${tmp[@]#$i/}"'
             [[ ${COMPREPLY-} == *.class ]] || compopt -o nospace
 
-			# FIXME: if we have foo.class and foo/, the completion
-			# returns "foo/"... how to give precedence to files
-			# over directories?
-		fi
-	done
+            # FIXME: if we have foo.class and foo/, the completion
+            # returns "foo/"... how to give precedence to files
+            # over directories?
+        fi
+    done
 
-	if ((${#COMPREPLY[@]} != 0)); then
-		# remove class extension
-		COMPREPLY=(${COMPREPLY[@]%.class})
-		# convert path syntax to package syntax
-		COMPREPLY=(${COMPREPLY[@]//\//.})
-	fi
+    if ((${#COMPREPLY[@]} != 0)); then
+        # remove class extension
+        COMPREPLY=(${COMPREPLY[@]%.class})
+        # convert path syntax to package syntax
+        COMPREPLY=(${COMPREPLY[@]//\//.})
+    fi
 }
 
 # available packages completion
@@ -139,7 +139,7 @@ _comp_cmd_java()
     local cur prev words cword comp_args
     _comp_initialize -n : -- "$@" || return
 
-	local i
+    local i
 
     for ((i = 1; i < cword; i++)); do
         case ${words[i]} in
@@ -238,7 +238,7 @@ _comp_cmd_java()
         fi
     fi
 
-	[[ ${COMPREPLY-} == -*[:=] ]] && compopt -o nospace
+    [[ ${COMPREPLY-} == -*[:=] ]] && compopt -o nospace
 
     _comp_ltrim_colon_completions "$cur"
 } &&
@@ -329,7 +329,7 @@ _comp_cmd_javac()
         _comp_compgen_filedir java
     fi
 
-	[[ ${COMPREPLY-} == -*[:=] ]] && compopt -o nospace
+    [[ ${COMPREPLY-} == -*[:=] ]] && compopt -o nospace
 
     _comp_ltrim_colon_completions "$cur"
 } &&

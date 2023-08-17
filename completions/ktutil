@@ -23,7 +23,7 @@ _comp_cmd_ktutil()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local command commands i options
+    local command commands i options
 
     case $prev in
         -p | --principal)
@@ -50,34 +50,34 @@ _comp_cmd_ktutil()
 
     [[ $was_split ]] && return
 
-	commands='add change copy get list remove rename purge srvconvert
+    commands='add change copy get list remove rename purge srvconvert
         srv2keytab srvcreate key2srvtab'
 
-	for ((i = 1; i < cword; i++)); do
-		case ${words[i]} in
-		-k | --keytab)
-			((i++))
-			;;
-		-*) ;;
+    for ((i = 1; i < cword; i++)); do
+        case ${words[i]} in
+            -k | --keytab)
+                ((i++))
+                ;;
+            -*) ;;
 
-		*)
-			command=${words[i]}
-			break
-			;;
-		esac
-	done
+            *)
+                command=${words[i]}
+                break
+                ;;
+        esac
+    done
 
-	if [[ $cur == -* ]]; then
-		case ${command-} in
-		add)
-			options='-p --principal -V -e --enctype -w --password -r
+    if [[ $cur == -* ]]; then
+        case ${command-} in
+            add)
+                options='-p --principal -V -e --enctype -w --password -r
                     --random -s --no-salt -h --hex'
-			;;
-		change)
-			options='-r --realm -a --admin-server -s --server-port'
-			;;
-		get)
-			options='-p --principal -e --enctype -r --realm -a
+                ;;
+            change)
+                options='-r --realm -a --admin-server -s --server-port'
+                ;;
+            get)
+                options='-p --principal -e --enctype -r --realm -a
                     --admin-server -s server --server-port'
                 ;;
             list)

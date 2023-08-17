@@ -2,11 +2,6 @@ default_stages: [commit]
 minimum_pre_commit_version: 2.4.0
 
 repos:
-    - repo: https://github.com/jorisroovers/gitlint
-      rev: v0.17.0
-      hooks:
-          - id: gitlint
-            stages: [commit-msg]
 
   - repo: https://github.com/jorisroovers/gitlint
     rev: v0.19.1
@@ -31,13 +26,14 @@ repos:
         exclude: ^completions/(\.gitignore|Makefile.*)$
         require_serial: false  # We disable SC1090 anyway, so parallel is ok
 
-    - repo: https://github.com/psf/black
-      rev: 22.3.0
-      hooks:
-          - id: black
-            types: [text]
-            files: ^(helpers/python|.+\.py)$
-            exclude: ^completions/
+  - repo: local
+    hooks:
+      - id: update-test-cmd-list
+        name: update-test-cmd-list
+        language: script
+        entry: test/update-test-cmd-list
+        files: ^test/t/.+\.py$
+        pass_filenames: false
 
       - id: update-test-fallback-links
         name: update-test-fallback-links
@@ -54,7 +50,7 @@ repos:
         files: ^(helpers/python|.+\.py)$
         exclude: ^completions/
 
-  - repo: https://github.com/psf/black
+  - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 23.1.0
     hooks:
       - id: black
@@ -90,10 +86,15 @@ repos:
         types: [text]
         files: ^(helpers/perl|.+\.p[ml])$
 
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.0.1
-      hooks:
-          - id: check-case-conflict
+  - repo: https://github.com/jackdewinter/pymarkdown
+    rev: v0.9.6
+    hooks:
+      - id: pymarkdown
+        entry: pymarkdown
+        args:
+          - --config=.pymarkdown.json
+          - scan
+        exclude: ^CHANGELOG\.md$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
@@ -101,7 +102,7 @@ repos:
       - id: check-case-conflict
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.13.12
+    rev: v1.15.10
     hooks:
       - id: typos
         exclude: ^(CHANGELOG\.md|test/(test-cmd-list\.txt|fixtures/.+))$

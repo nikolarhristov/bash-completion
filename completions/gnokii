@@ -98,14 +98,14 @@ _comp_cmd_gnokii()
             return
             ;;
 
-	# PROFILE
-	--getprofile | --setactiveprofile)
-		# TODO
-		return
-		;;
-	--setprofile | --getactiveprofile)
-		return
-		;;
+        # PROFILE
+        --getprofile | --setactiveprofile)
+            # TODO
+            return
+            ;;
+        --setprofile | --getactiveprofile)
+            return
+            ;;
 
         # SETTINGS
         --reset)
@@ -120,11 +120,11 @@ _comp_cmd_gnokii()
             return
             ;;
 
-	# WAP
-	--getwapbookmark | --writewapbookmark | --deletewapbookmark | \
-		--getwapsetting | --writewapsetting | --activatewapsetting)
-		return
-		;;
+        # WAP
+        --getwapbookmark | --writewapbookmark | --deletewapbookmark | \
+            --getwapsetting | --writewapsetting | --activatewapsetting)
+            return
+            ;;
 
         # LOGOS
         --sendlogo)
@@ -145,8 +145,8 @@ _comp_cmd_gnokii()
             return
             ;;
 
-		# TODO: RINGTONES
-	esac
+            # TODO: RINGTONES
+    esac
 
     # second level completion
     if [[ $((cword - 2)) -ge 1 && ${words[cword - 2]} =~ --* ]]; then

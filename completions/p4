@@ -6,11 +6,11 @@ _comp_cmd_p4()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local p4commands p4filetypes
+    local p4commands p4filetypes
 
-	# rename isn't really a command
-	p4commands="$(p4 help commands 2>/dev/null | awk 'NF>3 {print $1}')"
-	p4filetypes="ctext cxtext ktext kxtext ltext tempobj ubinary \
+    # rename isn't really a command
+    p4commands="$(p4 help commands 2>/dev/null | awk 'NF>3 {print $1}')"
+    p4filetypes="ctext cxtext ktext kxtext ltext tempobj ubinary \
         uresource uxbinary xbinary xltext xtempobj xtext \
         text binary resource"
 
@@ -37,12 +37,12 @@ _comp_cmd_p4()
                         ;;
                     *) ;;
 
-			esac
-			;;
-		*) ;;
+                esac
+                ;;
+            *) ;;
 
-		esac
-	fi
+        esac
+    fi
 
 } &&
     complete -F _comp_cmd_p4 -o default p4 g4

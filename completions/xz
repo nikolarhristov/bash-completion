@@ -5,7 +5,7 @@ _comp_cmd_xz()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local xspec="*.@(xz|lzma|txz|tlz)"
+    local xspec="*.@(xz|lzma|txz|tlz)"
 
     local noargopts='!(-*|*[CFTMS]*)'
     # shellcheck disable=SC2254

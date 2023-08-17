@@ -1,6 +1,7 @@
 # dpkg(1) and related commands completion                  -*- shell-script -*-
 
 # @since 2.12
+# TODO:API: make it a generator, replace by default
 _comp_xfunc_dpkg_installed_packages()
 {
     local pkgs
@@ -18,6 +19,7 @@ _comp_xfunc_dpkg_installed_packages()
 }
 
 # @since 2.12
+# TODO:API: make it a generator, replace by default
 _comp_xfunc_dpkg_purgeable_packages()
 {
     local pkgs
@@ -35,6 +37,7 @@ _comp_xfunc_dpkg_purgeable_packages()
 }
 
 # @since 2.12
+# TODO:API: make it a generator, replace by default
 _comp_xfunc_dpkg_held_packages()
 {
     local pkgs=$(dpkg --get-selections ${cur:+"$cur}"} |
@@ -66,14 +69,14 @@ _comp_cmd_dpkg()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local i=$cword
+    local i=$cword
 
-	# find the last option flag
-	if [[ $cur != -* ]]; then
-		while [[ $prev != -* && $i -ne 1 ]]; do
-			prev=${words[--i - 1]}
-		done
-	fi
+    # find the last option flag
+    if [[ $cur != -* ]]; then
+        while [[ $prev != -* && $i -ne 1 ]]; do
+            prev=${words[--i - 1]}
+        done
+    fi
 
     local noargopts='!(-*|*[ciAIfexXbsplWSrVLPD]*)'
     # shellcheck disable=SC2254
@@ -155,7 +158,7 @@ _comp_cmd_dpkg_reconfigure()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local opt
+    local opt
 
     local noargopts='!(-*|*[fp]*)'
     # shellcheck disable=SC2254

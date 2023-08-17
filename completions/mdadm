@@ -100,7 +100,7 @@ _comp_cmd_mdadm()
 
     [[ $was_split ]] && return
 
-	local options='--help --help-options --version --verbose --quiet --brief
+    local options='--help --help-options --version --verbose --quiet --brief
         --force --config= --scan --metadata= --homehost='
 
     if [[ $cur == -* ]]; then

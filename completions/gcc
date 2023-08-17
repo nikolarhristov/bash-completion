@@ -26,23 +26,23 @@ _comp_cmd_gcc()
         prev2="${COMP_WORDS[cword - 2]}"
     fi
 
-	# sample: -fsan
-	if [[ $cur == -* ]]; then
-		argument=$cur
-		prefix=""
-	# sample: -fsanitize=
-	elif [[ $cur == "=" && $prev == -* ]]; then
-		argument=$prev$cur
-		prefix=$prev$cur
-	# sample: -fsanitize=add
-	elif [[ $prev == "=" && $prev2 == -* ]]; then
-		argument=$prev2$prev$cur
-		prefix=$prev2$prev
-	# sample: --param lto-
-	elif [[ $prev == --param ]]; then
-		argument="$prev $cur"
-		prefix="$prev "
-	fi
+    # sample: -fsan
+    if [[ $cur == -* ]]; then
+        argument=$cur
+        prefix=""
+    # sample: -fsanitize=
+    elif [[ $cur == "=" && $prev == -* ]]; then
+        argument=$prev$cur
+        prefix=$prev$cur
+    # sample: -fsanitize=add
+    elif [[ $prev == "=" && $prev2 == -* ]]; then
+        argument=$prev2$prev$cur
+        prefix=$prev2$prev
+    # sample: --param lto-
+    elif [[ $prev == --param ]]; then
+        argument="$prev $cur"
+        prefix="$prev "
+    fi
 
     if [[ ! $argument ]]; then
         _comp_compgen_filedir

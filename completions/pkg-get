@@ -7,13 +7,13 @@ _comp_cmd_pkg_get__catalog_file()
     local url="$1"
     local i conffile
 
-	for file in /etc/opt/csw/pkg-get.conf /opt/csw/etc/pkg-get.conf /etc/pkg-get.conf; do
-		if [[ -f $file ]]; then
-			conffile="$file"
-			break
-		fi
-	done
-	conffile="${conffile:-/opt/csw/etc/pkg-get.conf}"
+    for file in /etc/opt/csw/pkg-get.conf /opt/csw/etc/pkg-get.conf /etc/pkg-get.conf; do
+        if [[ -f $file ]]; then
+            conffile="$file"
+            break
+        fi
+    done
+    conffile="${conffile:-/opt/csw/etc/pkg-get.conf}"
 
     if [[ ! $url ]]; then
         url=$(awk -F= ' $1=="url" { print $2 }' "$conffile")
@@ -30,19 +30,19 @@ _comp_cmd_pkg_get__catalog_file()
         cur="${COMP_WORDS[COMP_CWORD]}"
         prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
-		if [[ ${prev} == "-s" ]]; then
-			return 1
-		fi
+        if [[ ${prev} == "-s" ]]; then
+            return 1
+        fi
 
-		local i=${#COMP_WORDS[*]}
-		while ((i > 0)); do
-			if [[ ${COMP_WORDS[--i]} == -s ]]; then
-				url="${COMP_WORDS[i + 1]}"
-			fi
-			if [[ ${COMP_WORDS[i]} == @(-[aDdiUu]|available|describe|download|install|list|updatecatalog|upgrade) ]]; then
-				command="${COMP_WORDS[i]}"
-			fi
-		done
+        local i=${#COMP_WORDS[*]}
+        while ((i > 0)); do
+            if [[ ${COMP_WORDS[--i]} == -s ]]; then
+                url="${COMP_WORDS[i + 1]}"
+            fi
+            if [[ ${COMP_WORDS[i]} == @(-[aDdiUu]|available|describe|download|install|list|updatecatalog|upgrade) ]]; then
+                command="${COMP_WORDS[i]}"
+            fi
+        done
 
         if [[ $command ]]; then
             if [[ $command == @(-[Ddi]|describe|download|install) ]]; then

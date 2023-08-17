@@ -4,8 +4,8 @@
 # available in util-linux >= 2.23, use that instead.
 
 if [[ $OSTYPE != *linux* ]]; then
-	complete -u su # default completion
-	return
+    complete -u su # default completion
+    return
 fi
 
 _comp_cmd_su()

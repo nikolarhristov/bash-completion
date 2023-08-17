@@ -157,6 +157,7 @@ bashcomp_DATA = 2to3 \
 		_gsctl \
 		gssdp-discover \
 		gzip \
+		hash \
 		hcitool \
 		hddtemp \
 		help \
@@ -209,6 +210,7 @@ bashcomp_DATA = 2to3 \
 		jsonschema \
 		k3b \
 		kcov \
+		_keyring \
 		kill \
 		killall \
 		kldload \
@@ -820,6 +822,7 @@ CLEANFILES = \
 	rpm2txz \
 	rpmbuild \
 	rpmbuild-md5 \
+	_rtx \
 	s390-koji \
 	sbcl-mt \
 	scp \
@@ -1008,6 +1011,7 @@ symlinks: $(DATA)
 		_qrpc \
 		_random \
 		_rclone \
+		_rtx \
 		_skaffold \
 		_sshi \
 		_ssh-inscribe \
@@ -1188,9 +1192,9 @@ install-data-hook: ss = $(SETUP_SYMLINKS) $(DESTDIR)$(bashcompdir)
 install-data-hook: symlinks
 
 check-local:
-ret=0
-for file in $(bashcomp_DATA); do
-	$${bashcomp_bash:-$${BASH:-bash}} \
-		-O extglob -n $(srcdir)/$$file || ret=$$?
-done
-exit $$ret
+	ret=0; \
+	for file in $(bashcomp_DATA); do \
+		$${bashcomp_bash:-$${BASH:-bash}} \
+			-O extglob -n $(srcdir)/$$file || ret=$$?; \
+	done; \
+	exit $$ret

@@ -19,10 +19,10 @@ _comp_cmd_ntpdate()
             return
             ;;
 
-	-*[aeot])
-		return
-		;;
-	esac
+        -*[aeot])
+            return
+            ;;
+    esac
 
     if [[ $cur == -* ]]; then
         _comp_compgen_help -- -h || _comp_compgen_usage

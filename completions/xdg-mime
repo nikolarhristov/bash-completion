@@ -25,8 +25,8 @@ _comp_cmd_xdg_mime()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local args
-	_count_args
+    local args
+    _count_args
 
     if ((args == 1)); then
         if [[ $cur == -* ]]; then

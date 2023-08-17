@@ -31,23 +31,23 @@ _comp_cmd_lzop()
         return
     fi
 
-	local xspec="*.?(t)lzo"
-	case $prev in
-	--decompress | --uncompress | --extract | --list | --ls | --info | --test)
-		xspec="!"$xspec
-		;;
-	--force)
-		xspec=
-		;;
-	--*) ;;
+    local xspec="*.?(t)lzo"
+    case $prev in
+        --decompress | --uncompress | --extract | --list | --ls | --info | --test)
+            xspec="!"$xspec
+            ;;
+        --force)
+            xspec=
+            ;;
+        --*) ;;
 
-	-*f*)
-		xspec=
-		;;
-	-*[dltx]*)
-		xspec="!"$xspec
-		;;
-	esac
+        -*f*)
+            xspec=
+            ;;
+        -*[dltx]*)
+            xspec="!"$xspec
+            ;;
+    esac
 
     _comp_compgen_tilde && return
 

@@ -42,7 +42,7 @@ _comp_cmd_ipsec__freeswan()
             ;;
         *) ;;
 
-	esac
+    esac
 }
 
 _comp_cmd_ipsec__strongswan()
@@ -86,7 +86,7 @@ _comp_cmd_ipsec__strongswan()
             ;;
         *) ;;
 
-	esac
+    esac
 }
 
 case "$(ipsec --version 2>/dev/null)" in

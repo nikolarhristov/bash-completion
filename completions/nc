@@ -37,12 +37,12 @@ _comp_cmd_nc()
         return
     fi
 
-	# Complete 1st non-option arg only
-	local args
-	_count_args "" "-*[IiMmOPpqsTVWwXx]"
-	((args == 1)) || return
+    # Complete 1st non-option arg only
+    local args
+    _count_args "" "-*[IiMmOPpqsTVWwXx]"
+    ((args == 1)) || return
 
-	_known_hosts_real -- "$cur"
+    _known_hosts_real -- "$cur"
 } &&
     complete -F _comp_cmd_nc nc
 

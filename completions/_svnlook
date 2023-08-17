@@ -8,8 +8,8 @@ _comp_cmd_svnlook()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local commands
-	commands='author cat changed date diff dirs-changed help ? h history info
+    local commands
+    commands='author cat changed date diff dirs-changed help ? h history info
         lock log propget pget pg proplist plist pl tree uuid youngest'
 
     if ((cword == 1)); then
@@ -21,30 +21,30 @@ _comp_cmd_svnlook()
     else
         local command=${words[1]}
 
-		if [[ $cur == -* ]]; then
-			# possible options for the command
-			local options
-			case $command in
-			author | cat | date | dirs-changed | info | log)
-				options='--revision --transaction'
-				;;
-			changed)
-				options='--revision --transaction --copy-info'
-				;;
-			diff)
-				options='--revision --transaction --no-diff-deleted
+        if [[ $cur == -* ]]; then
+            # possible options for the command
+            local options
+            case $command in
+                author | cat | date | dirs-changed | info | log)
+                    options='--revision --transaction'
+                    ;;
+                changed)
+                    options='--revision --transaction --copy-info'
+                    ;;
+                diff)
+                    options='--revision --transaction --no-diff-deleted
                         --no-diff-added --diff-copy-from'
-				;;
-			history)
-				options='--revision --show-ids'
-				;;
-			propget | proplist)
-				options='--revision --transaction --revprop'
-				;;
-			tree)
-				options='--revision --transaction --show-ids --full-paths'
-				;;
-			esac
+                    ;;
+                history)
+                    options='--revision --show-ids'
+                    ;;
+                propget | proplist)
+                    options='--revision --transaction --revprop'
+                    ;;
+                tree)
+                    options='--revision --transaction --show-ids --full-paths'
+                    ;;
+            esac
 
             options+=" --help"
             _comp_compgen -- -W "$options"

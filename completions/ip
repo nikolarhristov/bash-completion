@@ -78,7 +78,7 @@ _comp_cmd_ip()
         return
     fi
 
-	[[ $subcmd == help ]] && return
+    [[ $subcmd == help ]] && return
 
     case $cmd in
         l | link)
@@ -112,8 +112,8 @@ _comp_cmd_ip()
                                 ;;
                             txqueuelen | name | address | broadcast | mtu | netns | alias) ;;
 
-				*)
-					local c="arp dynamic multicast allmulticast
+                            *)
+                                local c="arp dynamic multicast allmulticast
                                     promisc trailers txqueuelen name address
                                     broadcast mtu netns alias"
                                 [[ $prev != @(up|down) ]] && c+=" up down"
@@ -237,13 +237,13 @@ _comp_cmd_ip()
             esac
             ;;
 
-	rule)
-		case $subcmd in
-		add | del | list | lst)
-			case $prev in
-			from | to | tos | dsfield | fwmark | uidrange | ipproto | sport | \
-				dport | priority | protocol | suppress_prefixlength | \
-				suppress_ifgroup | realms | nat | goto) ;;
+        rule)
+            case $subcmd in
+                add | del | list | lst)
+                    case $prev in
+                        from | to | tos | dsfield | fwmark | uidrange | ipproto | sport | \
+                            dport | priority | protocol | suppress_prefixlength | \
+                            suppress_ifgroup | realms | nat | goto) ;;
 
                         iif | oif)
                             _comp_compgen_available_interfaces -a
@@ -306,9 +306,9 @@ _comp_cmd_ip()
             esac
             ;;
 
-	tunnel)
-		case $subcmd in
-		show) ;;
+        tunnel)
+            case $subcmd in
+                show) ;;
 
                 add | change | del | prl | 6rd)
                     # TODO
@@ -362,9 +362,9 @@ _comp_cmd_ip()
             esac
             ;;
 
-	netns)
-		case $subcmd in
-		list | monitor) ;;
+        netns)
+            case $subcmd in
+                list | monitor) ;;
 
                 add | identify | list-id)
                     # TODO

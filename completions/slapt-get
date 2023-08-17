@@ -24,35 +24,35 @@ _comp_cmd_slapt_get()
         fi
     fi
 
-	local i t
-	# search for last action
-	#   (--install|--install-set|--remove|--show|--filelist)
-	for ((i = ${#words[@]} - 1; i > 0; i--)); do
-		if [[ ${words[i]} == --show ]]; then
-			t="all"
-			break
-		elif [[ ${words[i]} == -@(i|-install) ]]; then
-			t="avl"
-			break
-		elif [[ ${words[i]} == --install-set ]]; then
-			t="set"
-			break
-		elif [[ ${words[i]} == --@(remove|filelist) ]]; then
-			t="ins"
-			break
-		fi
-	done
+    local i t
+    # search for last action
+    #   (--install|--install-set|--remove|--show|--filelist)
+    for ((i = ${#words[@]} - 1; i > 0; i--)); do
+        if [[ ${words[i]} == --show ]]; then
+            t="all"
+            break
+        elif [[ ${words[i]} == -@(i|-install) ]]; then
+            t="avl"
+            break
+        elif [[ ${words[i]} == --install-set ]]; then
+            t="set"
+            break
+        elif [[ ${words[i]} == --@(remove|filelist) ]]; then
+            t="ins"
+            break
+        fi
+    done
 
-	local config="/etc/slapt-get/slapt-getrc" # default config location
-	# search for config
-	for ((i = ${#words[@]} - 1; i > 0; i--)); do
-		if [[ ${words[i]} == -@(c|-config) ]]; then
-			config="${words[i + 1]}"
-			__expand_tilde_by_ref config
-			break
-		fi
-	done
-	[[ -r $config ]] || return
+    local config="/etc/slapt-get/slapt-getrc" # default config location
+    # search for config
+    for ((i = ${#words[@]} - 1; i > 0; i--)); do
+        if [[ ${words[i]} == -@(c|-config) ]]; then
+            config="${words[i + 1]}"
+            __expand_tilde_by_ref config
+            break
+        fi
+    done
+    [[ -r $config ]] || return
 
     case $t in
         all) # --show

@@ -18,15 +18,15 @@ _comp_cmd_chronyc()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	case $prev in
-	--help | -*p)
-		return
-		;;
-	-*h)
-		_known_hosts_real -- "$cur"
-		return
-		;;
-	esac
+    case $prev in
+        --help | -*p)
+            return
+            ;;
+        -*h)
+            _known_hosts_real -- "$cur"
+            return
+            ;;
+    esac
 
     if [[ $cur == -* ]]; then
         _comp_compgen_usage
@@ -34,11 +34,11 @@ _comp_cmd_chronyc()
         return
     fi
 
-	local i args
-	args=0
-	for ((i = 1; i < cword; i++)); do
-		[[ ${words[i]} != -* && ${words[i - 1]} != @(-p|-h) ]] && ((args++))
-	done
+    local i args
+    args=0
+    for ((i = 1; i < cword; i++)); do
+        [[ ${words[i]} != -* && ${words[i - 1]} != @(-p|-h) ]] && ((args++))
+    done
 
     case $args in
         0)

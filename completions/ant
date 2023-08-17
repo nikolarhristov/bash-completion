@@ -4,7 +4,7 @@ _comp_cmd_ant__targets()
 {
     local line basedir
 
-	[[ $1 == */* ]] && basedir=${1%/*} || basedir=.
+    [[ $1 == */* ]] && basedir=${1%/*} || basedir=.
 
     # parse buildfile for targets
     while read -rd '>' line; do

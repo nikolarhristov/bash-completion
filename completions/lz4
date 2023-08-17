@@ -19,28 +19,28 @@ _comp_cmd_lz4()
         return
     fi
 
-	local args word xspec="*.?(t)lz4"
-	_count_args
-	((args > 2)) && return
+    local args word xspec="*.?(t)lz4"
+    _count_args
+    ((args > 2)) && return
 
-	for word in "${words[@]}"; do
-		case $word in
-		-*[dt]*)
-			case $args in
-			1) xspec="!"$xspec ;;
-			2) [[ $word == *t* ]] && return ;;
-			esac
-			break
-			;;
-		-z)
-			case $args in
-			1) xspec= ;;
-			2) xspec="!"$xspec ;;
-			esac
-			break
-			;;
-		esac
-	done
+    for word in "${words[@]}"; do
+        case $word in
+            -*[dt]*)
+                case $args in
+                    1) xspec="!"$xspec ;;
+                    2) [[ $word == *t* ]] && return ;;
+                esac
+                break
+                ;;
+            -z)
+                case $args in
+                    1) xspec= ;;
+                    2) xspec="!"$xspec ;;
+                esac
+                break
+                ;;
+        esac
+    done
 
     _comp_compgen_tilde && return
 

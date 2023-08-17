@@ -59,6 +59,6 @@ _comp_cmd_apt_mark()
     fi
 
 } &&
-	complete -F _comp_cmd_apt_mark apt-mark
+    complete -F _comp_cmd_apt_mark apt-mark
 
 # ex: filetype=sh

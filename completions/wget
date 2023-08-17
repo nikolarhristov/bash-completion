@@ -44,10 +44,10 @@ _comp_cmd_wget()
                 echo "${excludes[*]}"
             )
 
-		# prevopt is the previous options string used as a prefix
-		# to avoid COMPREPLY replacing them with the $lastopt completion
-		local lastopt=${cur/*,/} prevopt=
-		[[ $cur == *,* ]] && prevopt=${cur%,*},
+            # prevopt is the previous options string used as a prefix
+            # to avoid COMPREPLY replacing them with the $lastopt completion
+            local lastopt=${cur/*,/} prevopt=
+            [[ $cur == *,* ]] && prevopt=${cur%,*},
 
             _comp_compgen -c "$lastopt" -- -P "$prevopt" \
                 -X "@($excludes_str)" \

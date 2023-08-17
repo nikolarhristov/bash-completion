@@ -5,14 +5,14 @@ _comp_cmd_tshark()
     local cur prev words cword comp_args prefix
     _comp_initialize -n : -- "$@" || return
 
-	case $cur in
-	-o*)
-		prefix=-o
-		;;
-	-X*)
-		prefix=-X
-		;;
-	esac
+    case $cur in
+        -o*)
+            prefix=-o
+            ;;
+        -X*)
+            prefix=-X
+            ;;
+    esac
 
     case ${prefix:-$prev} in
         --*)
@@ -115,7 +115,7 @@ _comp_cmd_tshark()
             return
             ;;
 
-	esac
+    esac
 
     if [[ $cur == -* ]]; then
         _comp_compgen_help -- -h

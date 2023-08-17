@@ -67,19 +67,19 @@ _comp_cmd_iperf()
 
     [[ $was_split ]] && return
 
-	# Filter mode specific options
-	local i filter=cat
-	for i in "${words[@]}"; do
-		case $i in
-		-s | --server)
-			filter='command sed -e /^Client.specific/,/^\(Server.specific.*\)\?$/d'
-			;;
-		-c | --client)
-			filter='command sed -e /^Server.specific/,/^\(Client.specific.*\)\?$/d'
-			;;
-		esac
-	done
-	[[ $filter != cat ]] && filter+=' -e /--client/d -e /--server/d'
+    # Filter mode specific options
+    local i filter=cat
+    for i in "${words[@]}"; do
+        case $i in
+            -s | --server)
+                filter='command sed -e /^Client.specific/,/^\(Server.specific.*\)\?$/d'
+                ;;
+            -c | --client)
+                filter='command sed -e /^Server.specific/,/^\(Client.specific.*\)\?$/d'
+                ;;
+        esac
+    done
+    [[ $filter != cat ]] && filter+=' -e /--client/d -e /--server/d'
 
     _comp_compgen_help - <<<"$("$1" --help 2>&1 | $filter)"
     [[ ${COMPREPLY-} == *= ]] && compopt -o nospace

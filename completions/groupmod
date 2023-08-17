@@ -5,8 +5,8 @@ _comp_cmd_groupmod()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	# TODO: if -o/--non-unique is given, could complete on existing gids
-	#       with -g/--gid
+    # TODO: if -o/--non-unique is given, could complete on existing gids
+    #       with -g/--gid
 
     local noargopts='!(-*|*[gnp]*)'
     # shellcheck disable=SC2254

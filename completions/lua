@@ -5,11 +5,11 @@ _comp_cmd_lua()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	case $prev in
-	-e | -l | -v | -)
-		return
-		;;
-	esac
+    case $prev in
+        -e | -l | -v | -)
+            return
+            ;;
+    esac
 
     if [[ $cur == -* ]]; then
         _comp_compgen_help

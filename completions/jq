@@ -36,11 +36,11 @@ _comp_cmd_jq()
                 ;;
         esac
 
-	if [[ $cur == -* ]]; then
-		# Get jq's --help output and see whether it mentions --help
-		# jq's --help only shows some of its command-line options; some are not
-		# even listed in the man page!
-		local help_output=$("$1" --help 2>/dev/null)
+    if [[ $cur == -* ]]; then
+        # Get jq's --help output and see whether it mentions --help
+        # jq's --help only shows some of its command-line options; some are not
+        # even listed in the man page!
+        local help_output=$("$1" --help 2>/dev/null)
 
         if [[ $help_output == *--help* ]]; then
             # If the output of --help seems complete, use it
@@ -58,10 +58,10 @@ _comp_cmd_jq()
         return
     fi
 
-	local word
-	for word in "${words[@]}"; do
-		[[ $word != --?(json)args ]] || return
-	done
+    local word
+    for word in "${words[@]}"; do
+        [[ $word != --?(json)args ]] || return
+    done
 
     local args
     # TODO: DTRT with args taking 2 options

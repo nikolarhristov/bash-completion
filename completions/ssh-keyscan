@@ -1,10 +1,11 @@
 # ssh-keyscan(1) completion                                -*- shell-script -*-
 
-_comp_cmd_ssh_keyscan() {
-	local cur prev words cword comp_args
-	_comp_initialize -- "$@" || return
+_comp_cmd_ssh_keyscan()
+{
+    local cur prev words cword comp_args
+    _comp_initialize -- "$@" || return
 
-	local ipvx
+    local ipvx
 
     case $prev in
         -*4*)
@@ -31,8 +32,8 @@ _comp_cmd_ssh_keyscan() {
         return
     fi
 
-	_known_hosts_real ${ipvx-} -- "$cur"
+    _known_hosts_real ${ipvx-} -- "$cur"
 } &&
-	complete -F _comp_cmd_ssh_keyscan ssh-keyscan
+    complete -F _comp_cmd_ssh_keyscan ssh-keyscan
 
 # ex: filetype=sh

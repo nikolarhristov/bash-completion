@@ -44,19 +44,19 @@ _comp_cmd_slackpkg()
         return
     fi
 
-	local confdir="/etc/slackpkg"
-	local config="$confdir/slackpkg.conf"
+    local confdir="/etc/slackpkg"
+    local config="$confdir/slackpkg.conf"
 
-	[[ -r $config ]] || return
-	. "$config"
+    [[ -r $config ]] || return
+    . "$config"
 
-	local i action
-	for ((i = 1; i < ${#words[@]}; i++)); do
-		if [[ ${words[i]} != -* ]]; then
-			action="${words[i]}"
-			break
-		fi
-	done
+    local i action
+    for ((i = 1; i < cword; i++)); do
+        if [[ ${words[i]} != -* ]]; then
+            action="${words[i]}"
+            break
+        fi
+    done
 
     case "$action" in
         generate-template | search | file-search)

@@ -19,8 +19,8 @@ _comp_cmd_gm()
         return
     fi
 
-	local gmcmd=${words[1]}
-	[[ $gmcmd == time ]] && gmcmd=${words[2]}
+    local gmcmd=${words[1]}
+    [[ $gmcmd == time ]] && gmcmd=${words[2]}
 
     case $gmcmd in
         help)
@@ -32,8 +32,8 @@ _comp_cmd_gm()
             ;;
     esac
 
-	# TODO... defer some commands to the imagemagick "gm"less completions etc?
-	compopt -o default
+    # TODO... defer some commands to the imagemagick "gm"less completions etc?
+    compopt -o default
 } &&
     complete -F _comp_cmd_gm gm
 

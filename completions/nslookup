@@ -52,12 +52,12 @@ _comp_cmd_nslookup()
         return
     fi
 
-	local args
-	_count_args "="
-	if ((args <= 2)); then
-		_known_hosts_real -- "$cur"
-		[[ $args -eq 1 && $cur == @(|-) ]] && COMPREPLY+=(-)
-	fi
+    local args
+    _count_args "="
+    if ((args <= 2)); then
+        _known_hosts_real -- "$cur"
+        [[ $args -eq 1 && $cur == @(|-) ]] && COMPREPLY+=(-)
+    fi
 } &&
     complete -F _comp_cmd_nslookup nslookup
 

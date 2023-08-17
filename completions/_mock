@@ -8,18 +8,18 @@ _comp_cmd_mock()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local plugins='tmpfs root_cache yum_cache bind_mount ccache'
-	local cfgdir=/etc/mock count=0 i
+    local plugins='tmpfs root_cache yum_cache bind_mount ccache'
+    local cfgdir=/etc/mock count=0 i
 
-	for i in "${words[@]}"; do
-		((count == cword)) && break
-		if [[ $i == --configdir ]]; then
-			cfgdir="${words[count + 1]}"
-		elif [[ $i == --configdir=* ]]; then
-			cfgdir=${i/*=/}
-		fi
-		((count++))
-	done
+    for i in "${words[@]}"; do
+        ((count == cword)) && break
+        if [[ $i == --configdir ]]; then
+            cfgdir="${words[count + 1]}"
+        elif [[ $i == --configdir=* ]]; then
+            cfgdir=${i/*=/}
+        fi
+        ((count++))
+    done
 
     case $prev in
         -h | --help | --copyin | --copyout | --arch | -D | --define | --with | --without | \

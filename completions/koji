@@ -114,11 +114,11 @@ _comp_cmd_koji()
             return
         fi
 
-		# How many'th non-option arg (1-based) for $command are we completing?
-		local i nth=1
-		for ((i = commandix + 1; i < cword; i++)); do
-			[[ ${words[i]} == -* ]] || ((nth++))
-		done
+        # How many'th non-option arg (1-based) for $command are we completing?
+        local i nth=1
+        for ((i = commandix + 1; i < cword; i++)); do
+            [[ ${words[i]} == -* ]] || ((nth++))
+        done
 
         case $command in
             build | maven-build | win-build)

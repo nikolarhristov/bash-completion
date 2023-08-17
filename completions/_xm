@@ -17,9 +17,9 @@ _comp_cmd_xm()
 
     # TODO: split longopt
 
-	local args command commands options
+    local args command commands options
 
-	commands='console vncviewer create new delete destroy domid domname
+    commands='console vncviewer create new delete destroy domid domname
         dump-core list mem-max mem-set migrate pause reboot rename reset
         restore resume save shutdown start suspend sysrq trigger top unpause
         uptime usb-add usb-del vcpu-list vcpu-pin vcpu-set debug-keys dmesg
@@ -38,36 +38,36 @@ _comp_cmd_xm()
             cur=${cur/*=/}
         fi
 
-		command=${words[1]}
-		if [[ $cur == -* ]]; then
-			# possible options for the command
-			case $command in
-			create)
-				options='-c'
-				;;
-			dmesg)
-				options='--clear'
-				;;
-			list)
-				options='--long'
-				;;
-			reboot)
-				options='-w -a'
-				;;
-			shutdown)
-				options='-w -a -R -H'
-				;;
-			sched-credit)
-				options='-d -w -c'
-				;;
-			block-list | network-list | vtpm-list | vnet-list)
-				options='-l --long'
-				;;
-			getpolicy)
-				options='--dumpxml'
-				;;
-			new)
-				options='-h --help --help_config -q --quiet --path= -f=
+        command=${words[1]}
+        if [[ $cur == -* ]]; then
+            # possible options for the command
+            case $command in
+                create)
+                    options='-c'
+                    ;;
+                dmesg)
+                    options='--clear'
+                    ;;
+                list)
+                    options='--long'
+                    ;;
+                reboot)
+                    options='-w -a'
+                    ;;
+                shutdown)
+                    options='-w -a -R -H'
+                    ;;
+                sched-credit)
+                    options='-d -w -c'
+                    ;;
+                block-list | network-list | vtpm-list | vnet-list)
+                    options='-l --long'
+                    ;;
+                getpolicy)
+                    options='--dumpxml'
+                    ;;
+                new)
+                    options='-h --help --help_config -q --quiet --path= -f=
                         --defconfig= -F= --config= -b --dryrun -x --xmldryrun
                         -s --skipdtd -p --paused -c --console_autoconnect'
                     ;;

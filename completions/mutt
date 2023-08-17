@@ -34,30 +34,31 @@ _muttrc()
         shift
     done
 
-	if [[ ! $muttrc ]]; then
-		if [[ -f ~/.${muttcmd}rc ]]; then
-			muttrc=\~/.${muttcmd}rc
-		elif [[ -f ~/.${muttcmd}/${muttcmd}rc ]]; then
-			muttrc=\~/.${muttcmd}/${muttcmd}rc
-		fi
-	fi
-	printf "%s" "${muttrc-}"
+    if [[ ! $muttrc ]]; then
+        if [[ -f ~/.${muttcmd}rc ]]; then
+            muttrc=\~/.${muttcmd}rc
+        elif [[ -f ~/.${muttcmd}/${muttcmd}rc ]]; then
+            muttrc=\~/.${muttcmd}/${muttcmd}rc
+        fi
+    fi
+    printf "%s" "${muttrc-}"
 }
 
 # Recursively build list of sourced config files
 # @param $1...   Config file to process
 # @var[out] ret  List of config files
 # @return 0 if any conffiles are generated, 1 if none is generated.
-_comp_cmd_mutt__get_conffiles() {
-	local -a conffiles=()
-	local -A visited=()
-	local file
-	for file; do
-		_comp_dequote "$file"
-		_comp_cmd_mutt__get_conffiles__visit "$ret"
-	done
-	((${#conffiles[@]})) || return 1
-	ret=("${conffiles[@]}")
+_comp_cmd_mutt__get_conffiles()
+{
+    local -a conffiles=()
+    local -A visited=()
+    local file
+    for file; do
+        _comp_dequote "$file"
+        _comp_cmd_mutt__get_conffiles__visit "$ret"
+    done
+    ((${#conffiles[@]})) || return 1
+    ret=("${conffiles[@]}")
 }
 # Recursion function for _comp_cmd_mutt__get_conffiles
 # @var[ref] conffiles  List of config files found so far
@@ -68,14 +69,14 @@ _comp_cmd_mutt__get_conffiles__visit()
     visited[$1]=set
     conffiles+=("$1")
 
-	local -a newconffiles=($(command sed -n 's|^source[[:space:]]\{1,\}\([^[:space:]]\{1,\}\).*$|\1|p' "$1"))
-	((${#newconffiles[@]})) || return 0
+    local -a newconffiles=($(command sed -n 's|^source[[:space:]]\{1,\}\([^[:space:]]\{1,\}\).*$|\1|p' "$1"))
+    ((${#newconffiles[@]})) || return 0
 
-	local file
-	for file in "${newconffiles[@]}"; do
-		__expand_tilde_by_ref file
-		_comp_cmd_mutt__get_conffiles__visit "$file"
-	done
+    local file
+    for file in "${newconffiles[@]}"; do
+        __expand_tilde_by_ref file
+        _comp_cmd_mutt__get_conffiles__visit "$file"
+    done
 }
 
 # Recursively build list of sourced config files
@@ -95,8 +96,8 @@ _comp_cmd_mutt__aliases()
     local cur=$1 muttrc muttcmd=${words[0]}
     local -a conffiles aliases
 
-	muttrc=$(_muttrc)
-	[[ ! $muttrc ]] && return
+    muttrc=$(_muttrc)
+    [[ ! $muttrc ]] && return
 
     local ret
     _comp_cmd_mutt__get_conffiles "$muttrc" || return 0

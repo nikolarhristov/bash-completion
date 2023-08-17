@@ -5,8 +5,8 @@ _comp_cmd_useradd()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	# TODO: if -o/--non-unique is given, could complete on existing uids
-	#       with -u/--uid
+    # TODO: if -o/--non-unique is given, could complete on existing uids
+    #       with -u/--uid
 
     local word chroot="" has_chroot=""
     for word in "${words[@]}"; do
@@ -29,7 +29,7 @@ _comp_cmd_useradd()
             return
             ;;
         --gid | -${noargopts}g)
-            _gids
+            _comp_compgen_gids
             _comp_compgen -a -- -g
             return
             ;;

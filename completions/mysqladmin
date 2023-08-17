@@ -58,7 +58,7 @@ _comp_cmd_mysqladmin()
         kill password old-password ping processlist reload refresh shutdown
         status start-slave stop-slave variables version'
 
-	[[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
 } &&
     complete -F _comp_cmd_mysqladmin mysqladmin
 

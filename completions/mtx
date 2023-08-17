@@ -6,19 +6,19 @@ _comp_cmd_mtx()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local options tapes drives
+    local options tapes drives
 
-	options="-f nobarcode invert noattach --version inquiry noattach \
+    options="-f nobarcode invert noattach --version inquiry noattach \
         inventory status load unload eepos first last next"
 
-	tapes=$(mtx status 2>/dev/null |
-		awk '/Storage Element [0-9]+:Full/ { printf "%s ", $3 }')
-	tapes=${tapes//:Full/}
+    tapes=$(mtx status 2>/dev/null |
+        awk '/Storage Element [0-9]+:Full/ { printf "%s ", $3 }')
+    tapes=${tapes//:Full/}
 
-	drives=$(mtx status 2>/dev/null |
-		awk '/Data Transfer Element [0-9]+:(Full|Empty)/ { printf "%s ", $4 }')
-	drives=${drives//:Full/}
-	drives=${drives//:Empty/}
+    drives=$(mtx status 2>/dev/null |
+        awk '/Data Transfer Element [0-9]+:(Full|Empty)/ { printf "%s ", $4 }')
+    drives=${drives//:Full/}
+    drives=${drives//:Empty/}
 
     if ((cword > 1)); then
         case $prev in

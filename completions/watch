@@ -27,10 +27,10 @@ _comp_cmd_watch()
         break
     done
 
-	if ((offset > 0)); then
-		_comp_command_offset $offset
-		return
-	fi
+    if ((offset > 0)); then
+        _comp_command_offset $offset
+        return
+    fi
 
     # shellcheck disable=SC2254
     case $prev in

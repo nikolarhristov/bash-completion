@@ -5,10 +5,10 @@ _comp_cmd_ypmatch()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local map cmd=${1##*/}
+    local map cmd=${1##*/}
 
-	[[ $cmd == ypcat && $cword -gt 1 ]] && return
-	[[ $cmd == ypmatch && $cword -gt 2 ]] && return
+    [[ $cmd == ypcat && $cword -gt 1 ]] && return
+    [[ $cmd == ypmatch && $cword -gt 2 ]] && return
 
     if [[ $cmd == ypmatch && $cword -eq 1 && ${#words[@]} -eq 3 ]]; then
         map=${words[2]}

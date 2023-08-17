@@ -7,15 +7,15 @@ _comp_cmd_invoke_rc_d()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local sysvdir services options valid_options
+    local sysvdir services options valid_options
 
-	[[ -d /etc/rc.d/init.d ]] && sysvdir=/etc/rc.d/init.d ||
-		sysvdir=/etc/init.d
+    [[ -d /etc/rc.d/init.d ]] && sysvdir=/etc/rc.d/init.d ||
+        sysvdir=/etc/init.d
 
-	services=($sysvdir/!(README*|*.sh|$_comp_backup_glob))
-	services=(${services[@]#$sysvdir/})
-	options=(--help --quiet --force --try-anyway --disclose-deny --query
-		--no-fallback)
+    services=($sysvdir/!(README*|*.sh|$_comp_backup_glob))
+    services=(${services[@]#$sysvdir/})
+    options=(--help --quiet --force --try-anyway --disclose-deny --query
+        --no-fallback)
 
     if [[ $cword -eq 1 || $prev == --* ]]; then
         valid_options=($(

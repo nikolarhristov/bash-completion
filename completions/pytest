@@ -21,7 +21,7 @@ _comp_cmd_pytest()
             return
             ;;
         --import-mode)
-            _comp_compgen -- -W "prepend append"
+            _comp_compgen -- -W "prepend append importlib"
             return
             ;;
         --capture)
@@ -77,7 +77,7 @@ _comp_cmd_pytest()
             return
             ;;
         --pythonwarnings | -${noargopts}W)
-            _comp_xfunc python warning_actions
+            _comp_compgen -x python warning_actions
             return
             ;;
         --numprocesses | -${noargopts}n)

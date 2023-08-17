@@ -5,11 +5,11 @@ _comp_cmd_sha256sum()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	case $prev in
-	-h | --help | --version)
-		return
-		;;
-	esac
+    case $prev in
+        -h | --help | --version)
+            return
+            ;;
+    esac
 
     [[ $was_split ]] && return
 
@@ -18,8 +18,8 @@ _comp_cmd_sha256sum()
         return
     fi
 
-	local sumtype=${1##*/}
-	sumtype=${sumtype%sum}
+    local sumtype=${1##*/}
+    sumtype=${sumtype%sum}
 
     local opt
     for opt in "${words[@]}"; do

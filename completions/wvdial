@@ -14,7 +14,7 @@ _comp_cmd_wvdial()
 
     [[ $was_split ]] && return
 
-	local config i IFS=$'\n'
+    local config i IFS=$'\n'
 
     case $cur in
         -*)

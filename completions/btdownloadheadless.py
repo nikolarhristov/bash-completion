@@ -9,7 +9,7 @@ _comp_cmd_btdownload()
         --responsefile | --saveas)
             _comp_compgen_filedir
             return
-            ; ;
+            ;;
     esac
 
     if [[ $cur == -* ]]; then

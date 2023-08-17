@@ -5,11 +5,11 @@ _comp_cmd_jps()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	case $prev in
-	-J* | -help)
-		return
-		;;
-	esac
+    case $prev in
+        -J* | -help)
+            return
+            ;;
+    esac
 
     if [[ $cur == -* ]]; then
         # Not using _comp_compgen_usage because output has [-help] which does

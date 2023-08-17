@@ -12,20 +12,20 @@ _comp_cmd_perl()
     local cur prev words cword comp_args
     _comp_initialize -n : -- "$@" || return
 
-	local prefix="" temp optPrefix optSuffix
+    local prefix="" temp optPrefix optSuffix
 
-	# If option not followed by whitespace, reassign prev and cur
-	if [[ $cur == -?* ]]; then
-		temp=$cur
-		prev=${temp:0:2}
-		cur=${temp:2}
-		if [[ $prev == -d && $cur == t* ]]; then
-			prev=-dt
-			cur=${cur:1}
-		fi
-		optPrefix=-P$prev
-		optSuffix=-S/
-		prefix=$prev
+    # If option not followed by whitespace, reassign prev and cur
+    if [[ $cur == -?* ]]; then
+        temp=$cur
+        prev=${temp:0:2}
+        cur=${temp:2}
+        if [[ $prev == -d && $cur == t* ]]; then
+            prev=-dt
+            cur=${cur:1}
+        fi
+        optPrefix=-P$prev
+        optSuffix=-S/
+        prefix=$prev
 
         case $prev in
             -*[DeEiFl])
@@ -95,15 +95,15 @@ _comp_cmd_perldoc()
     local cur prev words cword comp_args
     _comp_initialize -n : -- "$@" || return
 
-	local prefix="" temp
+    local prefix="" temp
 
-	# completing an option (may or may not be separated by a space)
-	if [[ $cur == -?* ]]; then
-		temp=$cur
-		prev=${temp:0:2}
-		cur=${temp:2}
-		prefix=$prev
-	fi
+    # completing an option (may or may not be separated by a space)
+    if [[ $cur == -?* ]]; then
+        temp=$cur
+        prev=${temp:0:2}
+        cur=${temp:2}
+        prefix=$prev
+    fi
 
     # Prefer `perl` in the same dir in utility functions
     local pathcmd

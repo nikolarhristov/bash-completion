@@ -5,15 +5,15 @@ _comp_cmd_sudo()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local i mode=normal
-	[[ $1 == *sudoedit ]] && mode=edit
+    local i mode=normal
+    [[ $1 == *sudoedit ]] && mode=edit
 
     local noargopts='!(-*|*[uUgCp]*)'
     [[ $mode == normal ]] &&
         for ((i = 1; i <= cword; i++)); do
             if [[ ${words[i]} != -* ]]; then
                 local PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
-                local root_command=${words[i]}
+                local _comp_root_command=$1
                 _comp_command_offset $i
                 return
             fi

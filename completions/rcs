@@ -5,27 +5,27 @@ _comp_cmd_rcs()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local file dir i
+    local file dir i
 
-	file=${cur##*/}
-	dir=${cur%/*}
+    file=${cur##*/}
+    dir=${cur%/*}
 
-	# deal with relative directory
-	[[ $file == "$dir" ]] && dir=.
+    # deal with relative directory
+    [[ $file == "$dir" ]] && dir=.
 
     _comp_compgen -c "$dir/RCS/$file" -- -f
 
-	for i in ${!COMPREPLY[*]}; do
-		file=${COMPREPLY[i]##*/}
-		dir=${COMPREPLY[i]%RCS/*}
-		COMPREPLY[i]=$dir$file
-	done
+    for i in ${!COMPREPLY[*]}; do
+        file=${COMPREPLY[i]##*/}
+        dir=${COMPREPLY[i]%RCS/*}
+        COMPREPLY[i]=$dir$file
+    done
 
     _comp_compgen -aR -- -G "$dir/$file*,v"
 
-	for i in ${!COMPREPLY[*]}; do
-		COMPREPLY[i]=${COMPREPLY[i]%,v}
-	done
+    for i in ${!COMPREPLY[*]}; do
+        COMPREPLY[i]=${COMPREPLY[i]%,v}
+    done
 
     # default to files if nothing returned and we're checking in.
     # otherwise, default to directories

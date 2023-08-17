@@ -5,11 +5,11 @@ _comp_cmd_tox()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	# Complete defaults following a "--"
-	if [[ "${words[*]:0:cword} " == *\ --\ * && $cur != -- ]]; then
-		compopt -o bashdefault -o default
-		return
-	fi
+    # Complete defaults following a "--"
+    if [[ "${words[*]:0:cword} " == *\ --\ * && $cur != -- ]]; then
+        compopt -o bashdefault -o default
+        return
+    fi
 
     local noargopts='!(-*|*[nice]*)'
     # shellcheck disable=SC2254

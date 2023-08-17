@@ -49,34 +49,30 @@ _comp_cmd_module()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	if ((cword == 1)); then
-		# First parameter on line -- we expect it to be a mode selection
+    if ((cword == 1)); then
+        # First parameter on line -- we expect it to be a mode selection
 
-		local options
-		options="$(module help 2>&1 | command grep -E '^[[:space:]]*\+' |
-			awk '{print $2}' | command sed -e 's/|/ /g' | sort)"
+        local options
+        options="$(module help 2>&1 | command grep -E '^[[:space:]]*\+' |
+            awk '{print $2}' | command sed -e 's/|/ /g' | sort)"
 
         _comp_compgen -- -W "$options"
 
     elif ((cword == 2)); then
         case $prev in
             add | display | help | load | show | whatis)
-                # TODO:API: use generator call?
                 _comp_cmd_module__compgen_avail
                 ;;
             rm | switch | swap | unload | update)
-                # TODO:API: use generator call?
                 _comp_cmd_module__compgen_list
                 ;;
             unuse)
-                # TODO:API: use generator call?
                 _comp_cmd_module__compgen_path
                 ;;
         esac
     elif ((cword == 3)); then
         case ${words[1]} in
             swap | switch)
-                # TODO:API: use generator call?
                 _comp_cmd_module__compgen_avail
                 ;;
         esac

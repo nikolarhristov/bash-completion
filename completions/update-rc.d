@@ -7,14 +7,14 @@ _comp_cmd_update_rc_d()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local sysvdir services options
+    local sysvdir services options
 
-	[[ -d /etc/rc.d/init.d ]] && sysvdir=/etc/rc.d/init.d ||
-		sysvdir=/etc/init.d
+    [[ -d /etc/rc.d/init.d ]] && sysvdir=/etc/rc.d/init.d ||
+        sysvdir=/etc/init.d
 
-	services=($sysvdir/!(README*|*.sh|$_comp_backup_glob))
-	((${#services[@]})) && services=("${services[@]#$sysvdir/}")
-	options=(-f -n)
+    services=($sysvdir/!(README*|*.sh|$_comp_backup_glob))
+    ((${#services[@]})) && services=("${services[@]#$sysvdir/}")
+    options=(-f -n)
 
     if [[ $cword -eq 1 || $prev == -* ]]; then
         _comp_compgen -- -W '"${options[@]}" ${services[@]+"${services[@]}"}' \

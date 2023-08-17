@@ -5,9 +5,9 @@ _comp_cmd_man()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -n : -- "$@" || return
 
-	local comprsuffix=".@([glx]z|bz2|lzma|Z|zst)"
-	local manext="@([0-9]*([a-z])|[lnp]|man)?($comprsuffix)"
-	local mansect="@([0-9]*([a-z])|[lnp])"
+    local comprsuffix=".@([glx]z|bz2|lzma|Z|zst)"
+    local manext="@([0-9]*([a-z])|[lnp]|man)?($comprsuffix)"
+    local mansect="@([0-9]*([a-z])|[lnp])"
 
     local noargopts='!(-*|*[ClMSsPpLmerRE]*)'
     # shellcheck disable=SC2254
@@ -56,23 +56,23 @@ _comp_cmd_man()
         return
     fi
 
-	local manpath=$(manpath 2> /dev/null || command man -w 2> /dev/null)
-	if [[ ! $manpath ]]; then
-		# Note: Both "manpath" and "man -w" may be unavailable, in
-		# which case we determine the man paths based on the
-		# environment variable MANPATH.
-		manpath=:${MANPATH-}:
-		# Note: An empty path (represented by two consecutive colons
-		# or a preceding/trailing colon) represents the system man
-		# paths.
-		manpath=${manpath//::/':/usr/share/man:/usr/local/share/man:'}
-		manpath=${manpath:1:-1}
-	fi
+    local manpath=$(manpath 2>/dev/null || command man -w 2>/dev/null)
+    if [[ ! $manpath ]]; then
+        # Note: Both "manpath" and "man -w" may be unavailable, in
+        # which case we determine the man paths based on the
+        # environment variable MANPATH.
+        manpath=:${MANPATH-}:
+        # Note: An empty path (represented by two consecutive colons
+        # or a preceding/trailing colon) represents the system man
+        # paths.
+        manpath=${manpath//::/':/usr/share/man:/usr/local/share/man:'}
+        manpath=${manpath:1:-1}
+    fi
 
-	# determine manual section to search
-	local sect
-	# shellcheck disable=SC2053
-	[[ $prev == $mansect ]] && sect=$prev || sect='*'
+    # determine manual section to search
+    local sect
+    # shellcheck disable=SC2053
+    [[ $prev == $mansect ]] && sect=$prev || sect='*'
 
     _comp_split -F : manpath "$manpath"
     if ((${#manpath[@]})); then

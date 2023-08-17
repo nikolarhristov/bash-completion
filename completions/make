@@ -25,7 +25,7 @@ _make_target_extract_script()
         local output="\1\2"
     fi
 
-	cat <<EOF
+    cat <<EOF
     1,/^# * Make data base/           d;        # skip any makefile output
     /^# * Finished Make data base/,/^# * Make data base/{
                                       d;        # skip any makefile output
@@ -73,14 +73,14 @@ _make_target_extract_script()
       /^\.MAKE:/                  d;            # special target
 EOF
 
-	# don't complete with hidden targets unless we are doing a partial completion
-	if [[ ! ${prefix_pat} || ${prefix_pat} == */ ]]; then
-		cat <<EOF
+    # don't complete with hidden targets unless we are doing a partial completion
+    if [[ ! ${prefix_pat} || ${prefix_pat} == */ ]]; then
+        cat <<EOF
       /^${prefix_pat}[^a-zA-Z0-9]/d;            # convention for hidden tgt
 EOF
-	fi
+    fi
 
-	cat <<EOF
+    cat <<EOF
       h;                                        # hold target
       d;                                        # delete line
     }
@@ -143,7 +143,7 @@ _comp_cmd_make()
     local cur prev words cword was_split comp_args
     _comp_initialize -s -- "$@" || return
 
-	local makef makef_dir=("-C" ".") i
+    local makef makef_dir=("-C" ".") i
 
     local noargopts='!(-*|*[foWICmEDVxj]*)'
     # shellcheck disable=SC2254
@@ -197,18 +197,18 @@ _comp_cmd_make()
             fi
         done
 
-		# before we scan for targets, see if a Makefile name was
-		# specified with -f/--file/--makefile
-		for ((i = 1; i < ${#words[@]}; i++)); do
-			if [[ ${words[i]} == -@(f|-?(make)file) ]]; then
-				# Expand tilde expansion
-				local ret
-				_comp_dequote "${words[i + 1]-}" &&
-					[[ -f ${ret-} ]] &&
-					makef=(-f "$ret")
-				break
-			fi
-		done
+        # before we scan for targets, see if a Makefile name was
+        # specified with -f/--file/--makefile
+        for ((i = 1; i < ${#words[@]}; i++)); do
+            if [[ ${words[i]} == -@(f|-?(make)file) ]]; then
+                # Expand tilde expansion
+                local ret
+                _comp_dequote "${words[i + 1]-}" &&
+                    [[ -f ${ret-} ]] &&
+                    makef=(-f "$ret")
+                break
+            fi
+        done
 
         # recognise that possible completions are only going to be displayed so
         # only the base name is shown.
@@ -224,11 +224,11 @@ _comp_cmd_make()
         #     mode=-d # display-only mode
         # fi
 
-		local IFS=$' \t\n' script=$(_make_target_extract_script $mode "$cur")
-		COMPREPLY=($(LC_ALL=C \
-			$1 -npq __BASH_MAKE_COMPLETION__=1 \
-			${makef+"${makef[@]}"} "${makef_dir[@]}" .DEFAULT 2>/dev/null |
-			command sed -ne "$script"))
+        local IFS=$' \t\n' script=$(_make_target_extract_script $mode "$cur")
+        COMPREPLY=($(LC_ALL=C \
+            $1 -npq __BASH_MAKE_COMPLETION__=1 \
+            ${makef+"${makef[@]}"} "${makef_dir[@]}" .DEFAULT 2>/dev/null |
+            command sed -ne "$script"))
 
         _comp_cmd_make__truncate_non_unique_paths
 
@@ -238,7 +238,7 @@ _comp_cmd_make()
             [[ ${COMPREPLY-} == */ ]] && compopt -o nospace
         fi
 
-	fi
+    fi
 } &&
     complete -F _comp_cmd_make make gmake gnumake pmake colormake bmake
 

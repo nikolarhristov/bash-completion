@@ -34,13 +34,13 @@ _comp_cmd_sitecopy()
             return
             ;;
 
-	# only complete long options
-	-)
-		compopt -o nospace
-		COMPREPLY=(--)
-		return
-		;;
-	esac
+        # only complete long options
+        -)
+            compopt -o nospace
+            COMPREPLY=(--)
+            return
+            ;;
+    esac
 
     if [[ -r ~/.sitecopyrc ]]; then
         _comp_compgen_split -- "$("$1" -v |

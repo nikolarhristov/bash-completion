@@ -5,7 +5,7 @@ _comp_cmd_brctl()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local command=${words[1]}
+    local command=${words[1]}
 
     case $cword in
         1)

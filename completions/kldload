@@ -12,9 +12,9 @@ _comp_cmd_kldload()
         return
     fi
 
-	local moddirs modules i IFS=";"
-	moddirs=($(kldconfig -r 2>/dev/null))
-	_comp_unlocal IFS
+    local moddirs modules i IFS=";"
+    moddirs=($(kldconfig -r 2>/dev/null))
+    _comp_unlocal IFS
 
     compopt -o filenames
     for i in "${moddirs[@]}"; do

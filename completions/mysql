@@ -1,6 +1,7 @@
 # mysql(1) completion                                      -*- shell-script -*-
 
 # @since 2.12
+# TODO:API: make it a generator, replace by default
 _comp_xfunc_mysql_character_sets()
 {
     local -a charsets
@@ -89,13 +90,13 @@ _comp_cmd_mysql()
             return
             ;;
 
-	# only complete long options
-	-)
-		compopt -o nospace
-		COMPREPLY=(--)
-		return
-		;;
-	esac
+        # only complete long options
+        -)
+            compopt -o nospace
+            COMPREPLY=(--)
+            return
+            ;;
+    esac
 
     _comp_compgen_split -- "$(mysqlshow 2>/dev/null |
         command sed -ne '2d' -e 's/^|.\([^|]*\)|.*/\1/p')"

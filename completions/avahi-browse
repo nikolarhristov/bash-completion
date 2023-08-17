@@ -37,6 +37,6 @@ _comp_cmd_avahi_browse()
     _comp_compgen_split -- "$("$1" --dump-db --no-db-lookup)"
 
 } &&
-	complete -F _comp_cmd_avahi_browse avahi-browse avahi-browse-domains
+    complete -F _comp_cmd_avahi_browse avahi-browse avahi-browse-domains
 
 # ex: filetype=sh

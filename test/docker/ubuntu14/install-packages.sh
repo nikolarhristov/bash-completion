@@ -12,15 +12,15 @@ apt-get update
 apt-get -y upgrade
 
 apt-get -y --no-install-recommends install \
-	apt-file \
-	software-properties-common
+    apt-file \
+    software-properties-common
 
 apt-add-repository multiverse
 
 apt-file update
 
 excluded=$(
-	cat <<\EOF
+    cat <<\EOF
 arping
 bcron-run
 bison++
@@ -54,16 +54,16 @@ EOF
 )
 
 while read -r file; do
-	case $file in
-	/*) printf "%s\n" "$file" ;;
-	*) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
-	esac
+    case $file in
+        /*) printf "%s\n" "$file" ;;
+        *) printf "%s\n" {/usr,}/{,s}bin/"$file" ;;
+    esac
 done |
-	apt-file -lFf search - |
-	grep -vF "$excluded" |
-	xargs apt-get -y --no-install-recommends install
+    apt-file -lFf search - |
+    grep -vF "$excluded" |
+    xargs apt-get -y --no-install-recommends install
 
 # Required but not pulled in by dependencies:
 apt-get -y --no-install-recommends install \
-	libwww-perl \
-	postgresql-client
+    libwww-perl \
+    postgresql-client

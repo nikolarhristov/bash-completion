@@ -21,10 +21,10 @@ _comp_cmd_umount__reply_compgen_array()
         wlist+=$ret$'\n'
     done
 
-	# We also have to add another round of escaping to $cur.
-	local ecur="$cur"
-	ecur=${ecur//\\/\\\\}
-	ecur=${ecur//\'/\\\'}
+    # We also have to add another round of escaping to $cur.
+    local ecur="$cur"
+    ecur=${ecur//\\/\\\\}
+    ecur=${ecur//\'/\\\'}
 
     # Actually generate completions.
     _comp_compgen -lc "${ecur}" -- -W "$wlist"
@@ -109,7 +109,7 @@ _comp_cmd_umount()
                 jfs minix msdos ncpfs nfs nfs4 ntfs ntfs-3g proc qnx4 ramfs
                 reiserfs romfs squashfs smbfs sysv tmpfs ubifs udf ufs umsdos
                 usbfs vfat xfs'
-            _fstypes
+            _comp_compgen -a fstypes
             [[ $split ]] && COMPREPLY=(${COMPREPLY[@]/#/$prev,})
             return
             ;;

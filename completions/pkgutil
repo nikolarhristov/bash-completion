@@ -5,9 +5,9 @@ _comp_cmd_pkgutil__url2catalog()
 {
     local filename="$1"
 
-	filename="${filename##*://}"
-	filename="${filename//\//_}"
-	filename="/var/opt/csw/pkgutil/catalog.${filename}_$(uname -p)_$(uname -r)"
+    filename="${filename##*://}"
+    filename="${filename//\//_}"
+    filename="/var/opt/csw/pkgutil/catalog.${filename}_$(uname -p)_$(uname -r)"
 
     ret=$filename
 }

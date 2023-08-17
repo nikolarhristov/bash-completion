@@ -5,25 +5,25 @@ _comp_cmd_dpkg_source()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local options word action packopts unpackopts fields
+    local options word action packopts unpackopts fields
 
-	packopts="-c -l -F -V -T -D -U -W -E -sa -i -I -sk -sr -ss -sA -sK -sP \
+    packopts="-c -l -F -V -T -D -U -W -E -sa -i -I -sk -sr -ss -sA -sK -sP \
         -sU -sR"
-	unpackopts="-sp -sn -su"
-	options="-x -b --print-format --before-build --after-build --commit $packopts $unpackopts"
-	fields="Format Source Version Binary Maintainer Uploader Architecture \
+    unpackopts="-sp -sn -su"
+    options="-x -b --print-format --before-build --after-build --commit $packopts $unpackopts"
+    fields="Format Source Version Binary Maintainer Uploader Architecture \
             Standards-Version Build-Depends Files"
 
-	action=options
-	for word in "${words[@]:1}"; do
-		if [[ $word == -x ]]; then
-			action=unpack
-		elif [[ $word == -b ]]; then
-			action=pack
-		elif [[ $word == -h ]]; then
-			action=help
-		fi
-	done
+    action=options
+    for word in "${words[@]:1}"; do
+        if [[ $word == -x ]]; then
+            action=unpack
+        elif [[ $word == -b ]]; then
+            action=pack
+        elif [[ $word == -h ]]; then
+            action=help
+        fi
+    done
 
     case $action in
         unpack)

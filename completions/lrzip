@@ -5,7 +5,7 @@ _comp_cmd_lrzip()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local xspec="*.lrz"
+    local xspec="*.lrz"
 
     local noargopts='!(-*|*[SmwdoOLNp]*)'
     # shellcheck disable=SC2254

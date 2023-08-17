@@ -5,7 +5,7 @@ _comp_cmd_postsuper()
     local cur prev words cword comp_args
     _comp_initialize -- "$@" || return
 
-	local pval len
+    local pval len
 
     case $prev in
         -c)
