@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 ## Describe the bug
@@ -25,9 +24,10 @@ assignees: ''
 
 ## Versions (please complete the following information)
 
-- [ ] Operating system name/distribution and version:
-- [ ] bash version, `echo "$BASH_VERSION"`:
-- [ ] bash-completion version, `(IFS=.; echo "${BASH_COMPLETION_VERSINFO[*]}")`:
+-   [ ] Operating system name/distribution and version:
+-   [ ] bash version, `echo "$BASH_VERSION"`:
+-   [ ] bash-completion version,
+        `(IFS=.; echo "${BASH_COMPLETION_VERSINFO[*]}")`:
 
 ## Additional context
 

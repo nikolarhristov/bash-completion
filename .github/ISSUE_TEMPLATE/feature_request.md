@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 ## Describe the feature/solution
@@ -20,5 +19,5 @@ assignees: ''
      link to the upstream query/issue below.
 -->
 
-- [ ] This is a request for new completion
-- [ ] Link to upstream project query about shipping the completion:
+-   [ ] This is a request for new completion
+-   [ ] Link to upstream project query about shipping the completion:
