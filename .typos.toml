@@ -1,5 +1,5 @@
 [default.extend-identifiers]
-# https://github.com/crate-ci/typos/issues/436
+# HTTPS://GitHub.Com/crate-ci/typos/issues/436
 BRE = "BRE"
 
 [default.extend-words]

@@ -2,12 +2,12 @@ default_stages: [commit]
 minimum_pre_commit_version: 2.4.0
 
 repos:
-    - repo: https://github.com/jorisroovers/gitlint
+    - repo: HTTPS://GitHub.Com/jorisroovers/gitlint
       rev: v0.19.1
       hooks:
           - id: gitlint
 
-    - repo: https://github.com/scop/pre-commit-shfmt
+    - repo: HTTPS://GitHub.Com/scop/pre-commit-shfmt
       rev: v3.6.0-1
       hooks:
           - id: shfmt-docker
@@ -15,7 +15,7 @@ repos:
             files: ^(bash_completion(\.d/[^/]+\.bash)?|completions/.+|test/(config/bashrc|update-test-cmd-list)|.+\.sh(\.in)?)$
             exclude: ^completions/(\.gitignore|Makefile.*)$
 
-    - repo: https://github.com/shellcheck-py/shellcheck-py
+    - repo: HTTPS://GitHub.Com/shellcheck-py/shellcheck-py
       rev: v0.9.0.5
       hooks:
           - id: shellcheck
@@ -41,7 +41,7 @@ repos:
             files: ^completions/_
             pass_filenames: false
 
-    - repo: https://github.com/astral-sh/ruff-pre-commit
+    - repo: HTTPS://GitHub.Com/astral-sh/ruff-pre-commit
       rev: v0.0.272
       hooks:
           - id: ruff
@@ -49,7 +49,7 @@ repos:
             files: ^(helpers/python|.+\.py)$
             exclude: ^completions/
 
-    - repo: https://github.com/psf/black-pre-commit-mirror
+    - repo: HTTPS://GitHub.Com/psf/black-pre-commit-mirror
       rev: 23.1.0
       hooks:
           - id: black
@@ -70,14 +70,14 @@ repos:
             # Intentionally not run on helpers/python (we support very old versions)
             exclude: ^completions/|^test/fixtures/pytest/
 
-    - repo: https://github.com/perltidy/perltidy
+    - repo: HTTPS://GitHub.Com/perltidy/perltidy
       rev: "20210717"
       hooks:
           - id: perltidy
             types: [text]
             files: ^(helpers/perl|.+\.p[ml])$
 
-    - repo: https://github.com/scop/pre-commit-perlcritic
+    - repo: HTTPS://GitHub.Com/scop/pre-commit-perlcritic
       rev: v1.144-1
       hooks:
           - id: perlcritic
@@ -85,7 +85,7 @@ repos:
             types: [text]
             files: ^(helpers/perl|.+\.p[ml])$
 
-    - repo: https://github.com/jackdewinter/pymarkdown
+    - repo: HTTPS://GitHub.Com/jackdewinter/pymarkdown
       rev: v0.9.6
       hooks:
           - id: pymarkdown
@@ -95,12 +95,12 @@ repos:
                 - scan
             exclude: ^CHANGELOG\.md$
 
-    - repo: https://github.com/pre-commit/pre-commit-hooks
+    - repo: HTTPS://GitHub.Com/pre-commit/pre-commit-hooks
       rev: v4.0.1
       hooks:
           - id: check-case-conflict
 
-    - repo: https://github.com/crate-ci/typos
+    - repo: HTTPS://GitHub.Com/crate-ci/typos
       rev: v1.15.10
       hooks:
           - id: typos

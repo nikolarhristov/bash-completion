@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		make \
 		software-properties-common \
 		xvfb \
-	&& python3.4 -c "import urllib.request; urllib.request.urlretrieve('https://github.com/pyston/pyston/releases/download/pyston_2.3.1/pyston_2.3.1_portable_v2.tar.gz', '/tmp/pyston.tar.gz')" \
+	&& python3.4 -c "import urllib.request; urllib.request.urlretrieve('HTTPS://GitHub.Com/pyston/pyston/releases/download/pyston_2.3.1/pyston_2.3.1_portable_v2.tar.gz', '/tmp/pyston.tar.gz')" \
 	&& tar xCf /usr/local /tmp/pyston.tar.gz --strip-components=1
 
 ADD test-cmd-list.txt \

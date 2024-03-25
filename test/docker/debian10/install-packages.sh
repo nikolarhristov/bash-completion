@@ -49,7 +49,7 @@ systemd-cron
 EOF
 )
 
-# https://github.com/moby/moby/issues/1297
+# HTTPS://GitHub.Com/moby/moby/issues/1297
 echo "resolvconf resolvconf/linkify-resolvconf boolean false" |
 	debconf-set-selections
 

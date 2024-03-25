@@ -160,7 +160,7 @@ Also, please bear the following coding guidelines in mind:
 
 -   We use [Conventional Commits](https://www.conventionalcommits.org/) to
     format commit messages, with types and most other details from
-    [commitlint's config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
+    [commitlint's config-conventional](HTTPS://GitHub.Com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
     `gitlint` in our pre-commit config checks commit messages for conformance
     with these rules.
 
@@ -218,7 +218,7 @@ Also, please bear the following coding guidelines in mind:
     ```
 
 -   File bugs, enhancement, and pull requests at GitHub,
-    <https://github.com/scop/bash-completion>. Sending them to the developers
+    <HTTPS://GitHub.Com/scop/bash-completion>. Sending them to the developers
     might work too, but is really strongly discouraged as bits are more likely
     to fall through the cracks that way compared to the tracker. Just use
     GitHub. If that's not an option for some reason and you want to use email to

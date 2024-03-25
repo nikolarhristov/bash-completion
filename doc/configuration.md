@@ -81,7 +81,7 @@ export BASH_COMPLETION_COMPAT_IGNORE='@(acroread.sh|redefine_filedir)'
 -   <https://bugzilla.redhat.com/677446>
 -   <http://forums.adobe.com/thread/745833>
 -   <https://bugzilla.redhat.com/show_bug.cgi?id=1171396#c27>
--   <https://github.com/scop/bash-completion/pull/667>
+-   <HTTPS://GitHub.Com/scop/bash-completion/pull/667>
 
 Available since version 2.12.
 

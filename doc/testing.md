@@ -12,8 +12,8 @@ The test suite is written in Python, using [pytest](https://pytest.org/) and
 ## Coding style
 
 For the Python part, all of it is formatted using
-[Black](https://github.com/psf/black), and we also run
-[Ruff](https://github.com/charliermarsh/ruff) on it.
+[Black](HTTPS://GitHub.Com/psf/black), and we also run
+[Ruff](HTTPS://GitHub.Com/charliermarsh/ruff) on it.
 
 ## Installing dependencies
 
