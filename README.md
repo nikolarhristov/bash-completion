@@ -1,6 +1,6 @@
 # bash-completion
 
-[![CI](HTTPS://GitHub.Com/scop/bash-completion/actions/workflows/ci.yaml/badge.svg)](HTTPS://GitHub.Com/scop/bash-completion/actions/workflows/ci.yaml)
+[![CI](https://github.com/scop/bash-completion/actions/workflows/ci.yaml/badge.svg)](https://github.com/scop/bash-completion/actions/workflows/ci.yaml)
 
 ## Introduction
 

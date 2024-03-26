@@ -1,5 +1,5 @@
 # config file for bash-completion
-# HTTPS://GitHub.Com/scop/bash-completion
+# https://github.com/scop/bash-completion
 
 set (BASH_COMPLETION_VERSION "@VERSION@")
 

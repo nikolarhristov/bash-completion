@@ -21,6 +21,6 @@ class TestGrep:
         Test TZ doesn't trigger known variable value assignment completion.
 
         Not really a grep specific, but good to test somewhere.
-        Refs HTTPS://GitHub.Com/scop/bash-completion/issues/457
+        Refs https://github.com/scop/bash-completion/issues/457
         """
         assert "foo" in completion

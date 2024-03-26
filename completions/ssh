@@ -53,7 +53,7 @@ _comp_cmd_ssh__compgen_macs()
 # TODO:API: make it a generator
 _comp_xfunc_ssh_options()
 {
-    # curl --silent HTTPS://Raw.GitHubUserContent.Com/openssh/openssh-portable/master/ssh_config.5 | awk '$1==".It" && $2=="Cm" && $3!="Host" && $3!="Match" {print "        "$3}' | sort
+    # curl --silent https://Raw.GitHubUserContent.Com/openssh/openssh-portable/master/ssh_config.5 | awk '$1==".It" && $2=="Cm" && $3!="Host" && $3!="Match" {print "        "$3}' | sort
     local opts=(
         AddKeysToAgent AddressFamily BatchMode BindAddress BindInterface
         CanonicalDomains CanonicalizeFallbackLocal CanonicalizeHostname

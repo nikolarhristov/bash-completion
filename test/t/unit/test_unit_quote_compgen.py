@@ -68,7 +68,7 @@ class TestUnitQuoteCompgen:
     def test_github_issue_189_1(self, bash, functions):
         """Test error messages on a certain command line
 
-        Reported at HTTPS://GitHub.Com/scop/bash-completion/issues/189
+        Reported at https://github.com/scop/bash-completion/issues/189
 
         Syntax error messages should not be shown by completion on the
         following line:
@@ -82,7 +82,7 @@ class TestUnitQuoteCompgen:
     def test_github_issue_492_1(self, bash, functions):
         """Test unintended code execution on a certain command line
 
-        Reported at HTTPS://GitHub.Com/scop/bash-completion/pull/492
+        Reported at https://github.com/scop/bash-completion/pull/492
 
         Arbitrary commands could be unintendedly executed by
         _comp_quote_compgen.  In the following example, the command "touch
@@ -100,7 +100,7 @@ class TestUnitQuoteCompgen:
     def test_github_issue_492_2(self, bash, functions):
         """Test the file clear by unintended redirection on a certain command line
 
-        Reported at HTTPS://GitHub.Com/scop/bash-completion/pull/492
+        Reported at https://github.com/scop/bash-completion/pull/492
 
         The file "1.0" should not be created by completion on the following
         line:
@@ -146,8 +146,8 @@ class TestUnitQuoteCompgen:
     def test_github_issue_526_1(self, bash):
         r"""Regression tests for unprocessed escape sequences after quotes
 
-        Ref [1] HTTPS://GitHub.Com/scop/bash-completion/pull/492#discussion_r637213822
-        Ref [2] HTTPS://GitHub.Com/scop/bash-completion/pull/526
+        Ref [1] https://github.com/scop/bash-completion/pull/492#discussion_r637213822
+        Ref [2] https://github.com/scop/bash-completion/pull/526
 
         The escape sequences in the local variable of "value" in
         "_comp_quote_compgen" needs to be unescaped by passing it to printf as

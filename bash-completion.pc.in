@@ -8,5 +8,5 @@ helpersdir=${datadir}/@PACKAGE@/helpers
 
 Name: @PACKAGE@
 Description: programmable completion for the bash shell
-URL: HTTPS://GitHub.Com/scop/bash-completion
+URL: https://github.com/scop/bash-completion
 Version: @VERSION@
