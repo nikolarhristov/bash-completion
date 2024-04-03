@@ -64,7 +64,7 @@ whenever they return some completions.
 
 The above is functionally a shorthand for:
 
-```bash
+```sh
 if [[ ${#COMPREPLY[@]} -eq 1 && ${COMPREPLY[0]} == *= ]]; then
 	compopt -o nospace
 fi
