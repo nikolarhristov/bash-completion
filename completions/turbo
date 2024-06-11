@@ -1,3 +1,5 @@
+[2;35m$[0m [1;2mturbo[0m
+[2;35m$[0m [1;2mD:\Developer\node_modules\.bin\turbo[0m[1;2m completion bash[0m
 _turbo() {
     local i cur prev opts cmd
     COMPREPLY=()
@@ -42,11 +44,17 @@ _turbo() {
             turbo,run)
                 cmd="turbo__run"
                 ;;
+            turbo,scan)
+                cmd="turbo__scan"
+                ;;
             turbo,telemetry)
                 cmd="turbo__telemetry"
                 ;;
             turbo,unlink)
                 cmd="turbo__unlink"
+                ;;
+            turbo,watch)
+                cmd="turbo__watch"
                 ;;
             turbo__daemon,clean)
                 cmd="turbo__daemon__clean"
@@ -88,17 +96,13 @@ _turbo() {
 
     case "${cmd}" in
         turbo)
-            opts="-v -F -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --cache-dir --cache-workers --concurrency --continue --dry-run --single-package --force --framework-inference --global-deps --graph --env-mode --filter --scope --ignore --since --include-dependencies --no-deps --no-cache --[no-]daemon --no-daemon --output-logs --log-order --only --parallel --pkg-inference-root --profile --anon-profile --remote-only --remote-cache-read-only --summarize --log-prefix --experimental-space-id --help [TASKS]... [PASS_THROUGH_ARGS]... bin completion daemon generate telemetry info link login logout prune run unlink"
+            opts="-v -F -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --cache-workers --dry-run --graph --no-cache --[no-]daemon --no-daemon --profile --anon-profile --remote-cache-read-only --summarize --experimental-space-id --parallel --cache-dir --concurrency --continue --single-package --force --framework-inference --global-deps --env-mode --filter --output-logs --log-order --only --pkg-inference-root --remote-only --log-prefix --help [TASKS]... [PASS_THROUGH_ARGS]... bin completion daemon generate telemetry scan info link login logout prune run watch unlink"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -134,20 +138,44 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --cache-dir)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --cache-workers)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --concurrency)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --dry-run)
                     COMPREPLY=($(compgen -W "text json" -- "${cur}"))
+                    return 0
+                    ;;
+                --graph)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --profile)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --anon-profile)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --remote-cache-read-only)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --summarize)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --experimental-space-id)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --cache-dir)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --concurrency)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --force)
@@ -162,12 +190,8 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --graph)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --env-mode)
-                    COMPREPLY=($(compgen -W "infer loose strict" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "loose strict" -- "${cur}"))
                     return 0
                     ;;
                 --filter)
@@ -175,18 +199,6 @@ _turbo() {
                     return 0
                     ;;
                 -F)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --scope)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --ignore)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --since)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -202,32 +214,12 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --profile)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --anon-profile)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --remote-only)
-                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
-                    return 0
-                    ;;
-                --remote-cache-read-only)
-                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
-                    return 0
-                    ;;
-                --summarize)
                     COMPREPLY=($(compgen -W "true false" -- "${cur}"))
                     return 0
                     ;;
                 --log-prefix)
                     COMPREPLY=($(compgen -W "auto none task" -- "${cur}"))
-                    return 0
-                    ;;
-                --experimental-space-id)
-                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 *)
@@ -238,17 +230,13 @@ _turbo() {
             return 0
             ;;
         turbo__bin)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -292,17 +280,13 @@ _turbo() {
             return 0
             ;;
         turbo__completion)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help bash elvish fish powershell zsh"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help bash elvish fish powershell zsh"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -346,7 +330,7 @@ _turbo() {
             return 0
             ;;
         turbo__daemon)
-            opts="-v -h --idle-time --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help restart start status stop clean logs"
+            opts="-v -h --idle-time --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help restart start status stop clean logs"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -357,10 +341,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -404,17 +384,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__clean)
-            opts="-v -h --clean-logs --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --clean-logs --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -458,17 +434,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__logs)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -512,17 +484,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__restart)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -566,17 +534,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__start)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -620,17 +584,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__status)
-            opts="-v -h --json --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --json --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -674,17 +634,13 @@ _turbo() {
             return 0
             ;;
         turbo__daemon__stop)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -728,7 +684,7 @@ _turbo() {
             return 0
             ;;
         turbo__generate)
-            opts="-c -r -a -v -h --tag --config --root --args --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [GENERATOR_NAME] workspace run"
+            opts="-c -r -a -v -h --tag --config --root --args --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [GENERATOR_NAME] workspace run"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -763,10 +719,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -810,7 +762,7 @@ _turbo() {
             return 0
             ;;
         turbo__generate__run)
-            opts="-c -r -a -v -h --config --root --args --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [GENERATOR_NAME]"
+            opts="-c -r -a -v -h --config --root --args --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [GENERATOR_NAME]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -841,10 +793,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -888,7 +836,7 @@ _turbo() {
             return 0
             ;;
         turbo__generate__workspace)
-            opts="-n -b -c -d -t -r -p -v -h --name --empty --copy --destination --type --root --example-path --show-all-dependencies --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-n -b -c -d -t -r -p -v -h --name --empty --copy --destination --type --root --example-path --show-all-dependencies --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -946,10 +894,6 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --cpuprofile)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --cwd)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
@@ -990,17 +934,13 @@ _turbo() {
             return 0
             ;;
         turbo__info)
-            opts="-v -h --json --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [WORKSPACE]"
+            opts="-v -h --json --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [WORKSPACE]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1044,7 +984,7 @@ _turbo() {
             return 0
             ;;
         turbo__link)
-            opts="-v -h --no-gitignore --target --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --no-gitignore --target --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1055,10 +995,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1102,7 +1038,7 @@ _turbo() {
             return 0
             ;;
         turbo__login)
-            opts="-f -v -h --sso-team --force --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-f -v -h --sso-team --force --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1113,10 +1049,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1160,17 +1092,13 @@ _turbo() {
             return 0
             ;;
         turbo__logout)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --invalidate --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1214,7 +1142,7 @@ _turbo() {
             return 0
             ;;
         turbo__prune)
-            opts="-v -h --scope --docker --out-dir --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [SCOPE]..."
+            opts="-v -h --scope --docker --out-dir --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [SCOPE]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1229,10 +1157,6 @@ _turbo() {
                     return 0
                     ;;
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1276,26 +1200,50 @@ _turbo() {
             return 0
             ;;
         turbo__run)
-            opts="-F -v -h --cache-dir --cache-workers --concurrency --continue --dry-run --single-package --force --framework-inference --global-deps --graph --env-mode --filter --scope --ignore --since --include-dependencies --no-deps --no-cache --[no-]daemon --no-daemon --output-logs --log-order --only --parallel --pkg-inference-root --profile --anon-profile --remote-only --remote-cache-read-only --summarize --log-prefix --experimental-space-id --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [TASKS]... [PASS_THROUGH_ARGS]..."
+            opts="-F -v -h --cache-workers --dry-run --graph --no-cache --[no-]daemon --no-daemon --profile --anon-profile --remote-cache-read-only --summarize --experimental-space-id --parallel --cache-dir --concurrency --continue --single-package --force --framework-inference --global-deps --env-mode --filter --output-logs --log-order --only --pkg-inference-root --remote-only --log-prefix --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [TASKS]... [PASS_THROUGH_ARGS]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --cache-dir)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --cache-workers)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --concurrency)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --dry-run)
                     COMPREPLY=($(compgen -W "text json" -- "${cur}"))
+                    return 0
+                    ;;
+                --graph)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --profile)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --anon-profile)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --remote-cache-read-only)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --summarize)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --experimental-space-id)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --cache-dir)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --concurrency)
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --force)
@@ -1310,12 +1258,8 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --graph)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --env-mode)
-                    COMPREPLY=($(compgen -W "infer loose strict" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "loose strict" -- "${cur}"))
                     return 0
                     ;;
                 --filter)
@@ -1323,18 +1267,6 @@ _turbo() {
                     return 0
                     ;;
                 -F)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --scope)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --ignore)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --since)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1350,23 +1282,7 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --profile)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --anon-profile)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --remote-only)
-                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
-                    return 0
-                    ;;
-                --remote-cache-read-only)
-                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
-                    return 0
-                    ;;
-                --summarize)
                     COMPREPLY=($(compgen -W "true false" -- "${cur}"))
                     return 0
                     ;;
@@ -1374,15 +1290,57 @@ _turbo() {
                     COMPREPLY=($(compgen -W "auto none task" -- "${cur}"))
                     return 0
                     ;;
-                --experimental-space-id)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --api)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --cpuprofile)
+                --cwd)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --heap)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --login)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --remote-cache-timeout)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --team)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --token)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --trace)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --verbosity)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        turbo__scan)
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --api)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1426,17 +1384,13 @@ _turbo() {
             return 0
             ;;
         turbo__telemetry)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help enable disable status"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help enable disable status"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1480,17 +1434,13 @@ _turbo() {
             return 0
             ;;
         turbo__telemetry__disable)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1534,17 +1484,13 @@ _turbo() {
             return 0
             ;;
         turbo__telemetry__enable)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1588,17 +1534,13 @@ _turbo() {
             return 0
             ;;
         turbo__telemetry__status)
-            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --api)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --cpuprofile)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1642,7 +1584,7 @@ _turbo() {
             return 0
             ;;
         turbo__unlink)
-            opts="-v -h --target --version --skip-infer --no-update-notifier --api --color --cpuprofile --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
+            opts="-v -h --target --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1656,7 +1598,105 @@ _turbo() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --cpuprofile)
+                --cwd)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --heap)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --login)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --remote-cache-timeout)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --team)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --token)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --trace)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --verbosity)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        turbo__watch)
+            opts="-F -v -h --cache-dir --concurrency --continue --single-package --force --framework-inference --global-deps --env-mode --filter --output-logs --log-order --only --pkg-inference-root --remote-only --log-prefix --version --skip-infer --no-update-notifier --api --color --cwd --heap --login --no-color --preflight --remote-cache-timeout --team --token --trace --verbosity --check-for-update --__test-run --help [TASKS]... [PASS_THROUGH_ARGS]..."
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --cache-dir)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --concurrency)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --force)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --framework-inference)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --global-deps)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --env-mode)
+                    COMPREPLY=($(compgen -W "loose strict" -- "${cur}"))
+                    return 0
+                    ;;
+                --filter)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -F)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --output-logs)
+                    COMPREPLY=($(compgen -W "full none hash-only new-only errors-only" -- "${cur}"))
+                    return 0
+                    ;;
+                --log-order)
+                    COMPREPLY=($(compgen -W "auto stream grouped" -- "${cur}"))
+                    return 0
+                    ;;
+                --pkg-inference-root)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --remote-only)
+                    COMPREPLY=($(compgen -W "true false" -- "${cur}"))
+                    return 0
+                    ;;
+                --log-prefix)
+                    COMPREPLY=($(compgen -W "auto none task" -- "${cur}"))
+                    return 0
+                    ;;
+                --api)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -1702,4 +1742,8 @@ _turbo() {
     esac
 }
 
-complete -F _turbo -o nosort -o bashdefault -o default turbo
+if [[ "${BASH_VERSINFO[0]}" -eq 4 && "${BASH_VERSINFO[1]}" -ge 4 || "${BASH_VERSINFO[0]}" -gt 4 ]]; then
+    complete -F _turbo -o nosort -o bashdefault -o default turbo
+else
+    complete -F _turbo -o bashdefault -o default turbo
+fi
