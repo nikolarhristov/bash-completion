@@ -18,9 +18,7 @@ on:
 jobs:
     update-test-image:
         runs-on: ubuntu-latest
-        if:
-            github.repository_owner == 'scop' && github.ref ==
-            'refs/heads/master'
+        if: github.repository_owner == 'scop' && github.ref == 'refs/heads/main'
         strategy:
             matrix:
                 include:
@@ -30,13 +28,13 @@ jobs:
                     - dist: fedoradev
                     - dist: ubuntu14
         steps:
-            - uses: actions/checkout@v4.1.7
-            - uses: docker/login-action@v2
+            - uses: actions/checkout@v4
+            - uses: docker/login-action@v3
               with:
                   registry: ghcr.io
                   username: ${{github.repository_owner}}
                   password: ${{secrets.GITHUB_TOKEN}}
-            - uses: docker/build-push-action@v3
+            - uses: docker/build-push-action@v6
               with:
                   context: test
                   file: test/docker/${{matrix.dist}}/Dockerfile

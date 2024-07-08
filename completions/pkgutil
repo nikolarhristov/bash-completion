@@ -1,5 +1,8 @@
-# pkgutil completion                                        -*- shell-script -*-
+# pkgutil completion                                       -*- shell-script -*-
 # Copyright 2006 Yann Rouillard <yann@opencsw.org>
+
+# At least macOS pkgutil is different
+[[ $OSTYPE == *solaris* ]] || return 1
 
 _comp_cmd_pkgutil__url2catalog()
 {
@@ -9,7 +12,7 @@ _comp_cmd_pkgutil__url2catalog()
     filename="${filename//\//_}"
     filename="/var/opt/csw/pkgutil/catalog.${filename}_$(uname -p)_$(uname -r)"
 
-    ret=$filename
+    REPLY=$filename
 }
 
 _comp_cmd_pkgutil()
@@ -18,20 +21,20 @@ _comp_cmd_pkgutil()
     _comp_initialize -n : -- "$@" || return
 
     local command="" catalog_files configuration_files
-    declare -a configuration_files=(
+    local -a configuration_files=(
         "/opt/csw/etc/pkgutil.conf" "/etc/opt/csw/pkgutil.conf")
-    declare -a catalog_files=()
+    local -a catalog_files=()
 
-    local i=$cword ret
+    local i=$cword REPLY
     while ((i-- > 1)); do
         if [[ ${words[i]} == -@(t|-temp) ]]; then
             local url="${words[i + 1]}"
             _comp_cmd_pkgutil__url2catalog "$url"
-            catalog_files=("$ret")
+            catalog_files=("$REPLY")
         elif [[ ${words[i]} == --config ]]; then
-            local ret
+            local REPLY
             _comp_dequote "${words[i + 1]}"
-            [[ ${ret-} ]] && configuration_files=("$ret")
+            [[ ${REPLY-} ]] && configuration_files=("$REPLY")
         elif [[ ${words[i]} == -@([iurdacUS]|-install|-upgrade|-remove|-download|-available|-compare|-catalog|-stream) ]]; then
             command="${words[i]}"
         fi
@@ -73,20 +76,20 @@ _comp_cmd_pkgutil()
     if [[ $command && $cur != -* ]]; then
 
         local mirrors mirror_url
-        mirrors=$(awk -F= ' $1 ~ /^ *mirror *$/ { print $2 }' "${configuration_files[@]}")
+        mirrors=$(_comp_awk -F = ' $1 ~ /^ *mirror *$/ { print $2 }' "${configuration_files[@]}")
         mirrors=${mirrors:-http://mirror.opencsw.org/opencsw/testing}
         for mirror_url in $mirrors; do
             _comp_cmd_pkgutil__url2catalog "$mirror_url"
-            catalog_files+=("$ret")
+            catalog_files+=("$REPLY")
         done
 
         if [[ $command == -@([dius]|-download|-install|-upgrade|-stream) ]]; then
-            local packages_list=$(awk ' $0 ~ /BEGIN PGP SIGNATURE/ { exit } $1 ~ /^Hash:/ || $1 ~ /^ *(-|#|$)/ { next } { print $1 }' "${catalog_files[@]}")
+            local packages_list=$(_comp_awk ' $0 ~ /BEGIN PGP SIGNATURE/ { exit } $1 ~ /^Hash:/ || $1 ~ /^ *(-|#|$)/ { next } { print $1 }' "${catalog_files[@]}")
             _comp_compgen -- -W "${packages_list}"
 
         elif [[ $command == @(-r|--remove) ]]; then
             local packages_list=$(
-                pkginfo | awk ' $2 ~ /^CSW/ { printf ("%s|",$2) }'
+                pkginfo | _comp_awk ' $2 ~ /^CSW/ { printf ("%s|",$2) }'
             )
             packages_list=${packages_list%|}
             packages_list=$(nawk " \$3 ~ /^$packages_list\$/ { print \$1 }" "${catalog_files[@]}")

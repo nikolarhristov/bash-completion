@@ -2,16 +2,51 @@
 
 _comp_cmd_ip__iproute2_etc()
 {
-    _comp_compgen -a split -- "$(awk '!/#/ { print $2 }' "/etc/iproute2/$1" \
+    _comp_compgen -a split -- "$(_comp_awk '!/#/ { print $2 }' "/etc/iproute2/$1" \
         2>/dev/null)"
 }
 
 _comp_cmd_ip__netns()
 {
-    _comp_compgen_split -- "$(
+    local unquoted
+    _comp_split -l unquoted "$(
         {
             ${1-ip} -c=never netns list 2>/dev/null || ${1-ip} netns list
-        } | awk '{print $1}'
+        } | command sed -e 's/ (.*//'
+    )"
+    # namespace names can have spaces, so we quote all of them if needed
+    local ns quoted=()
+    for ns in "${unquoted[@]}"; do
+        local namespace
+        printf -v namespace '%q' "$ns"
+        quoted+=("$namespace")
+    done
+    ((${#quoted[@]})) && _comp_compgen -- -W '"${quoted[@]}"'
+}
+
+_comp_cmd_ip__link_types()
+{
+    _comp_compgen_split -- "$(
+        {
+            ${1-ip} -c=never link help || ${1-ip} link help
+        } 2>&1 | command sed -e \
+            '/TYPE := /,/}/!d' -e \
+            's/.*{//' -e \
+            's/}.*//' -e \
+            's/|/ /g'
+    )"
+}
+
+_comp_cmd_ip__neigh_states()
+{
+    _comp_compgen_split -- "$(
+        {
+            ${1-ip} -c=never neigh help || ${1-ip} neigh help
+        } 2>&1 | command sed -e \
+            '/STATE := /,/}/!d' -e \
+            's/.*{//' -e \
+            's/}.*//' -e \
+            's/|/ /g'
     )"
 }
 
@@ -43,11 +78,11 @@ _comp_cmd_ip()
     esac
 
     local subcword cmd="" has_cmd="" subcmd=""
-    for ((subcword = 1; subcword < ${#words[@]} - 1; subcword++)); do
+    for ((subcword = 1; subcword < cword; subcword++)); do
         [[ ${words[subcword]} == -b?(atch) ]] && return
         [[ $has_cmd ]] && subcmd=${words[subcword]} && break
         [[ ${words[subcword]} != -* &&
-            ${words[subcword - 1]} != -@(f?(amily)|rc?(vbuf)) ]] &&
+            ${words[subcword - 1]} != -@(f?(amily)|rc?(vbuf)|n?(etns)) ]] &&
             cmd=${words[subcword]} has_cmd=set
     done
 
@@ -66,7 +101,7 @@ _comp_cmd_ip()
             *)
                 _comp_compgen_split -- "help $(
                     {
-                        $1 -c=never help || $1 help
+                        "$1" -c=never help || "$1" help
                     } 2>&1 | command sed -e \
                         '/OBJECT := /,/}/!d' -e \
                         's/.*{//' -e \
@@ -86,22 +121,22 @@ _comp_cmd_ip()
                 add)
                     # TODO
                     ;;
-                delete)
-                    case $((cword - subcword)) in
-                        1)
-                            _comp_compgen_available_interfaces
-                            ;;
-                        2)
-                            _comp_compgen -- -W 'type'
-                            ;;
-                        3)
-                            [[ $prev == type ]] &&
-                                _comp_compgen -- -W 'vlan veth vcan dummy ifb
-                                    macvlan can'
-                            ;;
-                    esac
+                afstats)
+                    if [[ $prev == dev ]]; then
+                        _comp_compgen_available_interfaces
+                    else
+                        _comp_compgen -- -W 'dev'
+                    fi
                     ;;
-                set)
+                delete)
+                    if [[ $prev == type ]]; then
+                        _comp_cmd_ip__link_types "$1"
+                    else
+                        _comp_compgen_available_interfaces
+                        _comp_compgen -a -- -W 'type'
+                    fi
+                    ;;
+                set | change)
                     if ((cword - subcword == 1)); then
                         _comp_compgen_available_interfaces
                     else
@@ -132,9 +167,20 @@ _comp_cmd_ip()
                         _comp_cmd_ip__iproute2_etc group
                     fi
                     ;;
+                property)
+                    if ((cword - 1 == subcword)); then
+                        _comp_compgen -- -W 'add del'
+                    elif [[ $prev == dev ]]; then
+                        _comp_compgen_available_interfaces
+                    elif [[ $prev == altname ]]; then
+                        return
+                    else
+                        _comp_compgen -- -W 'dev altname'
+                    fi
+                    ;;
                 *)
                     ((cword == subcword)) &&
-                        _comp_compgen -- -W 'help add delete set show'
+                        _comp_compgen -- -W 'help add change delete set show property afstats'
                     ;;
             esac
             ;;
@@ -142,13 +188,24 @@ _comp_cmd_ip()
         a | addr | address)
             case $subcmd in
                 add | change | replace)
-                    if [[ $prev == dev ]]; then
-                        _comp_compgen_available_interfaces
-                    elif [[ $prev == scope ]]; then
-                        _comp_cmd_ip__iproute2_etc rt_scopes
-                    else
-                        : # TODO
-                    fi
+                    case $prev in
+                        dev | label)
+                            _comp_compgen_available_interfaces
+                            ;;
+                        scope)
+                            _comp_cmd_ip__iproute2_etc rt_scopes
+                            ;;
+                        broadcast | anycast | peer | metric)
+                            :
+                            ;;
+                        valid_lft | preferred_lft)
+                            _comp_compgen -- -W 'forever'
+                            ;;
+                        *)
+                            _comp_compgen -- -W 'anycast autojoin broadcast dev home label scope nodad metric mngtmpaddr
+			        noprefixroute valid_lft peer preferred_lft'
+                            ;;
+                    esac
                     ;;
                 del)
                     if [[ $prev == dev ]]; then
@@ -164,11 +221,13 @@ _comp_cmd_ip()
                         _comp_compgen_available_interfaces
                         _comp_compgen -a -- -W 'dev scope to label dynamic
                             permanent tentative deprecated dadfailed temporary
-                            primary secondary up'
+                            primary secondary up type'
                     elif [[ $prev == dev ]]; then
                         _comp_compgen_available_interfaces
                     elif [[ $prev == scope ]]; then
                         _comp_cmd_ip__iproute2_etc rt_scopes
+                    elif [[ $prev == type ]]; then
+                        _comp_cmd_ip__link_types "$1"
                     fi
                     ;;
                 *)
@@ -181,13 +240,16 @@ _comp_cmd_ip()
 
         addrlabel)
             case $subcmd in
-                list | add | del | flush)
+                add | del)
                     if [[ $prev == dev ]]; then
                         _comp_compgen_available_interfaces
+                    elif [[ $prev == prefix || $prev == label ]]; then
+                        : # TODO - Is there a way to complete these?
                     else
-                        : # TODO
+                        _comp_compgen -- -W 'dev prefix label'
                     fi
                     ;;
+                list | flush | help) ;;
                 *)
                     ((cword == subcword)) &&
                         _comp_compgen -- -W 'help list add del flush'
@@ -197,28 +259,58 @@ _comp_cmd_ip()
 
         r | route)
             case $subcmd in
-                list | flush)
-                    if [[ $prev == proto ]]; then
-                        _comp_cmd_ip__iproute2_etc rt_protos
-                    else
-                        : # TODO
-                    fi
+                list | flush | save)
+                    case "$prev" in
+                        proto)
+                            _comp_cmd_ip__iproute2_etc rt_protos
+                            ;;
+                        table)
+                            _comp_compgen -- -W 'local main default all'
+                            ;;
+                        scope)
+                            _comp_cmd_ip__iproute2_etc rt_scopes
+                            ;;
+                        root | match | exact | vrf)
+                            : # TODO: Can we complete vrf?
+                            ;;
+                        type)
+                            _comp_compgen -- -W 'unicast local broadcast multicast throw unreachable prohibit blackhole nat'
+                            ;;
+                        *)
+                            _comp_compgen -- -W 'root match exact table vrf proto type scope'
+                            ;;
+                    esac
                     ;;
                 get)
-                    # TODO
+                    case $prev in
+                        as | dport | from | sport | ipproto | vrf | to | tos | mark)
+                            : # TODO: Can we complete ipproto, tos, or vrf?
+                            ;;
+                        uid)
+                            _comp_compgen_uids
+                            ;;
+                        oif | iif | dev)
+                            _comp_compgen_available_interfaces -a
+                            ;;
+                        *)
+                            # TODO: 'iif' only works if also 'from' is specified
+                            _comp_compgen -- -W 'as connected dport from fibmatch
+			        iif ipproto mark notify oif sport to tos uid vrf'
+                            ;;
+                    esac
                     ;;
-                a | add | d | del | change | append | r | replace | monitor)
+                a | add | d | del | change | append | r | replace)
                     if [[ $prev == via ]]; then
                         _comp_compgen_split -- "$(
                             {
-                                $1 -c=never r 2>/dev/null || $1 r
+                                "$1" -c=never r 2>/dev/null || "$1" r
                             } | command sed -ne \
                                 's/.*via \([0-9.]*\).*/\1/p'
                         )"
                     elif [[ $prev == "$subcmd" ]]; then
                         _comp_compgen_split -- "table default $(
                             {
-                                $1 -c=never r 2>/dev/null || $1 r
+                                "$1" -c=never r 2>/dev/null || "$1" r
                             } | cut -d ' ' -f 1
                         )"
                     elif [[ $prev == dev ]]; then
@@ -232,7 +324,7 @@ _comp_cmd_ip()
                 *)
                     ((cword == subcword)) &&
                         _comp_compgen -- -W 'help list flush get add del change
-                            append replace monitor'
+                            append replace save showdump'
                     ;;
             esac
             ;;
@@ -274,14 +366,81 @@ _comp_cmd_ip()
                     ;;
             esac
             ;;
+        stats)
+            case "$subcmd" in
+                show)
+                    if [[ $prev == dev ]]; then
+                        _comp_compgen_available_interfaces
+                    elif [[ $prev == group ]]; then
+                        _comp_compgen -- -W "$(
+                            # stats command was added after color, should always have it
+                            "$1" -c=never stats help 2>&1 |
+                                command sed -e \
+                                    '/^GROUP := /,/}/!d' -e \
+                                    's/^GROUP := //g' -e \
+                                    '/:=/d' -e \
+                                    's/[{}|]//g'
+                        )"
+                    elif [[ $prev == subgroup || $prev == suite ]]; then
+                        : # TODO: complete subgroup and suite
+                    else
+                        _comp_compgen -- -W 'dev group subgroup suite'
+                    fi
+                    ;;
+                set)
+                    if [[ $prev == dev ]]; then
+                        _comp_compgen_available_interfaces
+                    elif [[ $prev == l3_stats ]]; then
+                        _comp_compgen -- -W 'on off'
+                    else
+                        _comp_compgen -- -W 'dev l3_stats'
+                    fi
+                    ;;
+                *)
+                    _comp_compgen -- -W 'show set help'
+                    ;;
+            esac
+            ;;
 
-        neigh)
+        n | neigh | neighbor | neighbour)
             case $subcmd in
                 add | del | change | replace)
-                    # TODO
+                    case $prev in
+                        lladdr)
+                            _comp_compgen_mac_addresses
+                            ;;
+                        nud)
+                            _comp_cmd_ip__neigh_states "$1"
+                            ;;
+                        dev)
+                            _comp_compgen_available_interfaces
+                            ;;
+                        protocol)
+                            _comp_cmd_ip__iproute2_etc rt_protos
+                            ;;
+                        proxy)
+                            :
+                            ;;
+                        *)
+                            _comp_compgen -- -W 'lladdr nud proxy dev router use managed extern_learn protocol'
+                            ;;
+                    esac
                     ;;
                 show | flush)
-                    # TODO
+                    case "$prev" in
+                        nud)
+                            _comp_cmd_ip__neigh_states "$1"
+                            ;;
+                        dev)
+                            _comp_compgen_available_interfaces
+                            ;;
+                        to | vrf) # TODO - Maybe we can complete vrf here?
+                            :
+                            ;;
+                        *)
+                            _comp_compgen -- -W 'proxy to nud vrf dev nomaster'
+                            ;;
+                    esac
                     ;;
                 *)
                     ((cword == subcword)) &&
@@ -306,7 +465,7 @@ _comp_cmd_ip()
             esac
             ;;
 
-        tunnel)
+        tun | tunnel)
             case $subcmd in
                 show) ;;
 
@@ -357,25 +516,65 @@ _comp_cmd_ip()
                 all) ;;
                 *)
                     ((cword == subcword)) &&
-                        _comp_compgen -- -W 'help all'
+                        _comp_compgen_split -- "help all $(
+                            {
+                                "$1" -c=never monitor help || "$1" monitor help
+                            } 2>&1 | command sed -e \
+                                '/OBJECTS := /,/[^|]$/!d' -e \
+                                's/OBJECTS := *//' -e \
+                                's/|//g'
+                        )"
                     ;;
             esac
             ;;
 
-        netns)
+        net | netns)
             case $subcmd in
                 list | monitor) ;;
 
                 add | identify | list-id)
                     # TODO
                     ;;
-                delete | exec | pids | set)
+                delete | pids | set)
                     [[ $prev == "$subcmd" ]] && _comp_cmd_ip__netns "$1"
+                    ;;
+                exec)
+                    local all_offset=0 i
+                    for ((i = 1; i <= cword; i++)); do
+                        case ${words[i]} in
+                            -a | -all)
+                                all_offset=1
+                                break
+                                ;;
+                        esac
+                    done
+                    if [[ $prev == "$subcmd" && $all_offset != 1 ]]; then
+                        _comp_cmd_ip__netns "$1"
+                    else
+                        local offset
+                        offset="$((subcword + 2 - all_offset))"
+                        _comp_command_offset "$offset"
+                    fi
                     ;;
                 *)
                     ((cword == subcword)) &&
-                        _comp_compgen -- -W 'help add delete exec identify list
+                        _comp_compgen -- -W 'help add attach delete exec identify list
                             list-id monitor pids set'
+                    ;;
+            esac
+            ;;
+
+        netconf)
+            case $subcmd in
+                show)
+                    if ((cword == subcword + 1)); then
+                        _comp_compgen -- -W 'dev'
+                    elif [[ $prev == dev ]]; then
+                        _comp_compgen_available_interfaces
+                    fi
+                    ;;
+                *)
+                    ((cword == subcword)) && _comp_compgen -- -W 'help show'
                     ;;
             esac
             ;;
@@ -387,9 +586,13 @@ _comp_cmd_ip()
                     ;;
                 *)
                     ((cword == subcword)) &&
-                        _comp_compgen -- -W 'state policy monitor'
+                        _comp_compgen -- -W 'help state policy monitor'
                     ;;
             esac
+            ;;
+        help) ;;
+        *)
+            _comp_compgen -- -W 'help'
             ;;
     esac
 } &&

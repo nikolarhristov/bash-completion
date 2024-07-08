@@ -3,15 +3,15 @@
     <target name="clean">
         <!-- ... -->
     </target>
-    <target
-        name="realclean" depends="clean">
-        <!-- ... -->
-    </target>
+<target
+    name="realclean" depends="clean">
+    <!-- ... -->
+	</target>
 
-    <target description="bar" name="init"></target>
-    <target
-        description="bar"
-        name='bashcomp'>
-        <!-- ... -->
-    </target>
+	<target description="bar" name="init"></target>
+<target
+description="bar"
+name='bashcomp' >
+<!-- ... -->
+</target>
 </project>

@@ -24,8 +24,9 @@ _comp_cmd_cppcheck()
                 split="set"
             fi
             _comp_compgen -- -W 'all warning style performance portability
-                information unusedFunction missingInclude'
-            [[ $split ]] && COMPREPLY=(${COMPREPLY[@]/#/"$prev,"})
+                information unusedFunction missingInclude' &&
+                [[ $split ]] &&
+                _comp_compgen -Rv COMPREPLY -- -P "$prev," -W '"${COMPREPLY[@]}"'
             return
             ;;
         --error-exitcode)
@@ -42,9 +43,9 @@ _comp_cmd_cppcheck()
             return
             ;;
         -j)
-            local ret
+            local REPLY
             _comp_get_ncpus
-            _comp_compgen -- -W "{1..$ret}"
+            _comp_compgen -- -W "{1..$REPLY}"
             return
             ;;
         --language | -x)

@@ -15,10 +15,10 @@ _comp_cmd_umount__reply_compgen_array()
     # argument.
     local i wlist
     for i in ${!COMPREPLY[*]}; do
-        local ret
-        printf -v ret %q "${COMPREPLY[i]}"
-        _comp_quote "$ret"
-        wlist+=$ret$'\n'
+        local REPLY
+        printf -v REPLY %q "${COMPREPLY[i]}"
+        _comp_quote "$REPLY"
+        wlist+=$REPLY$'\n'
     done
 
     # We also have to add another round of escaping to $cur.
@@ -110,7 +110,8 @@ _comp_cmd_umount()
                 reiserfs romfs squashfs smbfs sysv tmpfs ubifs udf ufs umsdos
                 usbfs vfat xfs'
             _comp_compgen -a fstypes
-            [[ $split ]] && COMPREPLY=(${COMPREPLY[@]/#/$prev,})
+            [[ $split ]] && ((${#COMPREPLY[@]})) &&
+                _comp_compgen -Rv COMPREPLY -- -P "$prev," -W '"${COMPREPLY[@]}"'
             return
             ;;
         -O)

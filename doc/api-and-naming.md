@@ -7,16 +7,24 @@ inject them to the `COMPREPLY` array variable, as required for completions to
 work.
 
 Most other functions make use of "output" variables, i.e. assign values to them.
-The most common one of these is named `ret`. Consult the commentary before each
-function in the source to find out the specific names. `local`izing output
-variables before invoking a function that populates them is the caller's
-responsibility. Note that if calling multiple functions that assign output to
-the same variable during one completion function run, each result should be
-copied to another variable between the calls to avoid it possibly being
-overwritten and lost on the next call. Also, the variables should also be
+The name of an output variable should be basically in lowercase. Consult the
+commentary before each function in the source to find out the specific names.
+`local`izing output variables before invoking a function that populates them is
+the caller's responsibility. Note that if calling multiple functions that assign
+output to the same variable during one completion function run, each result
+should be copied to another variable between the calls to avoid it possibly
+being overwritten and lost on the next call. The variables should also be
 ensured to be clear before each call that references the value, variable name,
 or their existence, typically by `unset -v`ing them when multiple such calls are
 used, to avoid them interfering with each other.
+
+The most common output variable is named `REPLY`. The use of the uppercase is
+unconventional, but this choice of the name is intended to be consistent with
+the value substitutions `${| func; }`, which is originally supported by mksh and
+will be supported by Bash >= 5.3. The value substitutions are replaced by the
+contents of the output variable `REPLY` set by `func`. Although we cannot
+currently assume Bash 5.3 in the codebase, we can switch to the value
+substitutions at the point Bash <= 5.2 disappears from the market.
 
 Everything in fallback completion files (ones starting with an underscore) is
 considered private and is to be named accordingly. Fallback files are not
@@ -39,17 +47,17 @@ cases is the bash-completion version the thing was deprecated in.
 Due to its nature, bash-completion adds a number of functions and variables in
 the shell's environment.
 
-|                                     | `bash_completion`       | `completions/*`                                                                       |
-| :---------------------------------- | :---------------------- | :------------------------------------------------------------------------------------ |
-| public configuration variables      | `BASH_COMPLETION_*`     | `BASH_COMPLETION_CMD_${Command^^}_${Config^^}`                                        |
-| private non-local variables         | `_comp__*`              | `_comp_cmd_${Command}__${Data}`                                                       |
-| private non-local mutable variables | `_comp__*_mut_*`        | `_comp_cmd_${Command}__mut_${Data}`                                                   |
-| exporter function local variables   | `_*` (not `_comp*`)     | `_*` (not `_comp*`)                                                                   |
-| public/exported functions           | `_comp_*`               | `_comp_cmd_${Command}` (functions for `complete -F`)                                  |
-|                                     |                         | `_comp_xfunc_${Command}_${Utility}` (functions for use with `_comp_xfunc`)            |
-|                                     | `_comp_compgen_${Name}` | `_comp_xfunc_${Command}_compgen_${Name}` (generators for use with `_comp_compgen -x`) |
-| private/internal functions          | `_comp__*`              | `_comp_cmd_${Command}__${Utility}` (utility functions)                                |
-|                                     |                         | `_comp_cmd_${Command}__compgen_${Name}` (generators for use with `_comp_compgen -i`)  |
+|                                     | `bash_completion`   | `completions/*`                                                                       |
+| :---------------------------------- | :------------------ | :------------------------------------------------------------------------------------ |
+| public configuration variables      | `BASH_COMPLETION_*` | `BASH_COMPLETION_CMD_${Command^^}_${Config^^}`                                        |
+| private non-local variables         | `_comp__*`          | `_comp_cmd_${Command}__${Data}`                                                       |
+| private non-local mutable variables | `_comp__*_mut_*`    | `_comp_cmd_${Command}__mut_${Data}`                                                   |
+| exporter function local variables   | `_*` (not `_comp*`) | `_*` (not `_comp*`)                                                                   |
+| public/exported functions           | `_comp_*`           | `_comp_xfunc_${Command}_${Utility}` (functions for use with `_comp_xfunc`)            |
+| - completers (for `complete -F`)    | `_comp_complete_*`  | `_comp_cmd_${Command}`                                                                |
+| - generators                        | `_comp_compgen_*`   | `_comp_xfunc_${Command}_compgen_${Name}` (generators for use with `_comp_compgen -x`) |
+| private/internal functions          | `_comp__*`          | `_comp_cmd_${Command}__${Utility}` (utility functions)                                |
+| - generators                        |                     | `_comp_cmd_${Command}__compgen_${Name}` (generators for use with `_comp_compgen -i`)  |
 
 `${Command}` refers to a command name (with characters not allowed in POSIX
 function or variable names replaced by an underscore), `${Config}` the name of a
@@ -148,14 +156,14 @@ calling `_comp_compgen` or other generators.
 To avoid conflicts with the options specified to `_comp_compgen`, one should not
 directly modify or reference the target variable. When post-filtering is needed,
 store them in a local array, filter them, and finally append them by
-`_comp_compgen -- -W '"${arr[@]}"'`. To split the output of commands and append
+`_comp_compgen -- -W '"${_arr[@]}"'`. To split the output of commands and append
 the results to the target variable, use `_comp_compgen_split -- "$(cmd ...)"`
 instead of using `_comp_split COMPREPLY "$(cmd ...)"`.
 
 A generator function should replace the existing content of the variable by
 default. When the appending behavior is favored, the caller should specify it
-through `_comp_compgen -a NAME`. The generator function do not need to process
-it because internal `_comp_compgen` calls automatically reflects the option `-a`
+through `_comp_compgen -a NAME`. The generator function does not need to process
+it because internal `_comp_compgen` calls automatically reflect the option `-a`
 specified to the outer calls of `_comp_compgen`.
 
 The exit status is implementation-defined.
@@ -178,3 +186,43 @@ Exported generators are defined with the names `_comp_xfunc_CMD_compgen_NAME`
 and called by `_comp_compgen [opts] -x CMD NAME args`. Internal generators are
 defined with the names `_comp_cmd_CMD__compgen_NAME` and called by
 `_comp_compgen [opts] -i CMD NAME args`.
+
+#### Local variables of generator and `_comp_compgen -U var`
+
+A generator should basically define local variables with the names starting with
+`_`. However, a generator sometimes needs to use local variable names that do
+not start with `_`. When the child generator call with a variable name (such as
+`local var; _comp_compgen -v var`) is used within the generator, the local
+variable can unexpectedly mask a local variable of the upper call.
+
+For example, the following call fails to obtain the result of generator `mygen1`
+because the array `arr` is masked by the same name of a local variable in
+`_comp_compgen_mygen1`.
+
+```bash
+# generator with a problem
+_comp_compgen_mygen1() {
+	local -a arr=(1 2 3)
+	_comp_compgen -av arr -- -W '4 5 6'
+	_comp_compgen_set "${arr[@]/#p/}"
+}
+
+_comp_compgen -v arr mygen1 # fails to get the result in array `arr`
+```
+
+To avoid this, a generator that defines a local variable with its name not
+starting with `_` can use the option `-U var` to unlocalize the variable on
+assigning the final result.
+
+```bash
+# properly designed generator
+_comp_compgen_mygen1() {
+	local -a arr=(1 2 3)
+	_comp_compgen -av arr -- -W '4 5 6'
+	_comp_compgen -U arr set "${arr[@]/#p/}"
+}
+```
+
+To avoid unexpected unlocalization of previous-scope variables, a generator
+should specify `-U var` to a child generator (that attempts to store results to
+the current target variable) at most once.

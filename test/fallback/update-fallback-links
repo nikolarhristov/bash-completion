@@ -13,7 +13,7 @@ for f in *; do
 done
 for f in ../../../completions/_*; do
 	if is_tracked_by_git "$f"; then
-		ln -sf $f ${f##*/_}
-		git add --verbose ${f##*/_}
+		ln -sf "$f" "${f##*/_}"
+		git add --verbose "${f##*/_}"
 	fi
 done

@@ -28,6 +28,9 @@
 /autoupdate
 /avahi-browse-domains
 /b2sum
+/_bao
+/_black
+/_blackd
 /bmake
 /bsdtar
 /btdownloadcurses.py
@@ -36,6 +39,7 @@
 /c++
 /cc
 /cdrecord
+/_chezmoi
 /chrome
 /chromium
 /ci
@@ -50,10 +54,12 @@
 /compare
 /compgen
 /composite
+/_conda
 /conjure
 /_constellation
 /_consul
 /cowthink
+/_crc
 /createdb
 /createuser
 /_cz
@@ -63,10 +69,12 @@
 /dfutool
 /_diesel
 /display
+/_dlv
 /_docker
 /dpkg-deb
 /dpkg-query
 /dpkg-reconfigure
+/_dprint
 /dropdb
 /dropuser
 /edquota
@@ -75,6 +83,7 @@
 /f95
 /filebucket
 /firefox-esr
+/_flask
 /freeciv-gtk2
 /freeciv-gtk3
 /freeciv-sdl
@@ -108,6 +117,7 @@
 /gpgv2
 /gssdp-device-sniffer
 /gtar
+/_gup
 /hciattach
 /hciconfig
 /hd
@@ -115,6 +125,7 @@
 /host
 /hping
 /hping3
+/_httpx
 /_hugo
 /iceweasel
 /identify
@@ -123,6 +134,7 @@
 /ifstatus
 /_ignite
 /import
+/_incus
 /_infracost
 /inotifywatch
 /insmod.static
@@ -131,6 +143,7 @@
 /javac
 /javadoc
 /_k3s
+/_kata-runtime
 /_kn
 /_kool
 /kplayer
@@ -147,6 +160,7 @@
 /ldapmodrdn
 /ldappasswd
 /ldapwhoami
+/_lefthook
 /_linkerd
 /links2
 /lintian-info
@@ -175,6 +189,7 @@
 /_metalctl
 /micropython
 /_minikube
+/_mise
 /mkisofs
 /_mmctl
 /mogrify
@@ -187,8 +202,11 @@
 /muttng
 /ncal
 /neomutt
+/_nerdctl
 /_nfpm
 /_nomad
+/_npm
+/_oc
 /_okteto
 /_op
 /_ory
@@ -202,6 +220,7 @@
 /pinfo
 /ping4
 /ping6
+/_pip3
 /pkg_deinstall
 /pkg_info
 /pkgconf
@@ -236,16 +255,14 @@
 /pylint-[23]
 /pytest-[23]
 /python2
-/python2.7
+/python2.*
 /python3
-/python3.[3456789]
-/python3.1[012]
+/python3.*
 /pypy
 /pypy3
 /pyston
 /pyston3
-/pyvenv-3.[456789]
-/pyvenv-3.1[012]
+/pyvenv-3.*
 /qemu-kvm
 /qemu-system-i386
 /qemu-system-x86_64
@@ -265,7 +282,6 @@
 /rpm2txz
 /rpmbuild
 /rpmbuild-md5
-/_rtx
 /s390-koji
 /sbcl-mt
 /scp
@@ -298,7 +314,11 @@
 /_tanzu-core
 /_tendermint
 /_terraform
+/_tkn
+/_tkn-pac
 /tightvncviewer
+/_todoist
+/_tofu
 /tracepath6
 /_trivy
 /typeset
@@ -334,4 +354,5 @@
 /xpovray
 /xvnc4viewer
 /ypcat
+/_zarf
 /_zitadel

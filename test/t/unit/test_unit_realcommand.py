@@ -13,10 +13,10 @@ class TestUnitRealCommand:
             bash,
             (
                 "__tester() { "
-                "local ret rc; "
+                "local REPLY rc; "
                 '_comp_realcommand "$1"; '
                 "rc=$?; "
-                'printf %s "$ret"; '
+                'printf %s "$REPLY"; '
                 "return $rc; "
                 "}"
             ),
@@ -26,7 +26,7 @@ class TestUnitRealCommand:
         """Test environment non-pollution, detected at teardown."""
         assert_bash_exec(
             bash,
-            "foo() { local ret=; _comp_realcommand bar; }; foo; unset -f foo",
+            "foo() { local REPLY=; _comp_realcommand bar; }; foo; unset -f foo",
             want_output=None,
         )
 
@@ -85,6 +85,14 @@ class TestUnitRealCommand:
         output = assert_bash_exec(
             bash,
             '! __tester "$PWD/bin/non-existent"',
+            want_output=False,
+        )
+        assert output.strip() == ""
+
+    def test_option_like_cmd_name(self, bash, functions):
+        output = assert_bash_exec(
+            bash,
+            "! __tester --non-existent",
             want_output=False,
         )
         assert output.strip() == ""

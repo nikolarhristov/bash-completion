@@ -9,14 +9,14 @@ _comp_cmd_povray()
     local povcur=$cur pfx oext defoext
     defoext=png # default output extension, if cannot be determined FIXME
 
-    _expand || return
+    _comp_expand || return
 
     case $povcur in
         [-+]I*)
             cur="${povcur#[-+]I}" # to confuse _comp_compgen_filedir
             pfx="${povcur%"$cur"}"
-            _comp_compgen_filedir pov
-            ((${#COMPREPLY[@]})) && COMPREPLY=("${COMPREPLY[@]/#/$pfx}")
+            _comp_compgen_filedir pov &&
+                _comp_compgen -Rv COMPREPLY -- -P "$pfx" -W '"${COMPREPLY[@]}"'
             return
             ;;
         [-+]O*)
@@ -31,28 +31,27 @@ _comp_cmd_povray()
                 *) oext=$defoext ;;
             esac
             # complete filename corresponding to previously specified +I
-            COMPREPLY=($(
-                IFS=$'\n'
-                command grep '^[-+]I' <<<"${words[*]}"
-            ))
-            COMPREPLY=(${COMPREPLY[@]#[-+]I})
-            COMPREPLY=(${COMPREPLY[@]/%.pov/.$oext})
+            _comp_compgen -Rv COMPREPLY -- -X '![-+]I*' -W '"${words[@]}"'
+            _comp_compgen -Rv COMPREPLY -- -X '' -W '"${COMPREPLY[@]#[-+]I}"'
+            local i
+            for i in "${!COMPREPLY[@]}"; do
+                COMPREPLY[i]=${COMPREPLY[i]/%.pov/".$oext"}
+            done
             cur="${povcur#[-+]O}" # to confuse _comp_compgen_filedir
             pfx="${povcur%"$cur"}"
-            _comp_compgen -a filedir $oext
-            ((${#COMPREPLY[@]})) && COMPREPLY=("${COMPREPLY[@]/#/$pfx}")
+            _comp_compgen -a filedir "$oext"
+            ((${#COMPREPLY[@]})) &&
+                _comp_compgen -Rv COMPREPLY -- -P "$pfx" -W '"${COMPREPLY[@]}"'
             return
             ;;
         *.ini\[ | *.ini\[*[^]]) # sections in .ini files
             cur="${povcur#*\[}"
             pfx="${povcur%\["$cur"}" # prefix == filename
-            [[ -r $pfx ]] || return
-            COMPREPLY=($(
-                command sed -e 's/^[[:space:]]*\[\('"$cur"'[^]]*\]\).*$/\1/' \
-                    -e 't' -e 'd' -- "$pfx"
-            ))
-            # to prevent [bar] expand to nothing.  can be done more easily?
-            ((${#COMPREPLY[@]})) && COMPREPLY=("${COMPREPLY[@]/#/${pfx}[}")
+            [[ -f $pfx && -r $pfx ]] || return
+            _comp_compgen_split -l -- "$(command sed -ne \
+                's/^[[:space:]]*\[\([^]]*\]\).*$/\1/p' -- "$pfx")" &&
+                # to prevent [bar] expand to nothing.  can be done more easily?
+                _comp_compgen -Rv COMPREPLY -- -P "${pfx}[" -W '"${COMPREPLY[@]}"'
             return
             ;;
         *)

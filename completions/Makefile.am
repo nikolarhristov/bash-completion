@@ -100,6 +100,7 @@ bashcomp_DATA = 2to3 \
 		ebtables \
 		ecryptfs-migrate-home \
 		_eject \
+		env \
 		eog \
 		ether-wake \
 		evince \
@@ -119,7 +120,6 @@ bashcomp_DATA = 2to3 \
 		firefox \
 		flake8 \
 		_flamegraph \
-		freebsd-update \
 		freeciv \
 		freeciv-server \
 		function \
@@ -208,14 +208,14 @@ bashcomp_DATA = 2to3 \
 		jshint \
 		json_xs \
 		jsonschema \
+		_jungle \
 		k3b \
 		kcov \
 		_keyring \
 		kill \
 		killall \
-		kldload \
-		kldunload \
 		koji \
+		_kontena \
 		ktutil \
 		larch \
 		lastlog \
@@ -299,6 +299,7 @@ bashcomp_DATA = 2to3 \
 		nslookup \
 		nsupdate \
 		ntpdate \
+		_nvm \
 		oggdec \
 		openssl \
 		opera \
@@ -316,21 +317,18 @@ bashcomp_DATA = 2to3 \
 		pidof \
 		pine \
 		ping \
+		_pip \
+		_pipenv \
 		pkg-config \
 		pkg-get \
-		pkg_delete \
 		pkgadd \
 		pkgrm \
 		pkgtool \
-		pkgutil \
 		plague-client \
 		pm-hibernate \
 		pm-is-supported \
 		pm-powersave \
 		pngfix \
-		portinstall \
-		portsnap \
-		portupgrade \
 		postcat \
 		postconf \
 		postfix \
@@ -372,6 +370,7 @@ bashcomp_DATA = 2to3 \
 		_reptyr \
 		resolvconf \
 		_rfkill \
+		_rg \
 		ri \
 		rmlist \
 		rmmod \
@@ -391,6 +390,7 @@ bashcomp_DATA = 2to3 \
 		screen \
 		scrub \
 		secret-tool \
+		set \
 		sh \
 		sha256sum \
 		shellcheck \
@@ -401,6 +401,7 @@ bashcomp_DATA = 2to3 \
 		smartctl \
 		smbclient \
 		snownews \
+		_sops \
 		sqlite3 \
 		ss \
 		ssh \
@@ -495,6 +496,26 @@ bashcomp_DATA = 2to3 \
 		zopfli \
 		zopflipng
 
+
+if SOLARIS
+bashcomp_DATA += pkgutil
+endif
+
+if BSD
+bashcomp_DATA += pkg_delete
+endif
+
+if FREEBSD
+bashcomp_DATA += \
+		freebsd-update \
+		kldload \
+		kldunload \
+		portinstall \
+		portsnap \
+		portupgrade
+endif
+
+
 EXTRA_DIST = $(bashcomp_DATA)
 
 CLEANFILES = \
@@ -539,6 +560,9 @@ CLEANFILES = \
 	autossh \
 	autoupdate \
 	avahi-browse-domains \
+	_bao \
+	_black \
+	_blackd \
 	bmake \
 	bsdtar \
 	btdownloadcurses.py \
@@ -547,6 +571,7 @@ CLEANFILES = \
 	c++ \
 	cc \
 	cdrecord \
+	_chezmoi \
 	chrome \
 	chromium \
 	ci \
@@ -561,10 +586,12 @@ CLEANFILES = \
 	compare \
 	compgen \
 	composite \
+	_conda \
 	conjure \
 	_constellation \
 	_consul \
 	cowthink \
+	_crc \
 	createdb \
 	createuser \
 	_cz \
@@ -574,10 +601,12 @@ CLEANFILES = \
 	dfutool \
 	_diesel \
 	display \
+	_dlv \
 	_docker \
 	dpkg-deb \
 	dpkg-query \
 	dpkg-reconfigure \
+	_dprint \
 	dropdb \
 	dropuser \
 	edquota \
@@ -586,6 +615,7 @@ CLEANFILES = \
 	f95 \
 	filebucket \
 	firefox-esr \
+	_flask \
 	freeciv-gtk2 \
 	freeciv-gtk3 \
 	freeciv-sdl \
@@ -631,6 +661,7 @@ CLEANFILES = \
 	gpgv2 \
 	gssdp-device-sniffer \
 	gtar \
+	_gup \
 	hciattach \
 	hciconfig \
 	hd \
@@ -638,6 +669,7 @@ CLEANFILES = \
 	host \
 	hping \
 	hping3 \
+	_httpx \
 	_hugo \
 	iceweasel \
 	identify \
@@ -646,6 +678,7 @@ CLEANFILES = \
 	ifstatus \
 	_ignite \
 	import \
+	_incus \
 	_infracost \
 	inotifywatch \
 	insmod.static \
@@ -654,6 +687,7 @@ CLEANFILES = \
 	javac \
 	javadoc \
 	_k3s \
+	_kata-runtime \
 	_kn \
 	_kool \
 	kplayer \
@@ -670,6 +704,7 @@ CLEANFILES = \
 	ldapmodrdn \
 	ldappasswd \
 	ldapwhoami \
+	_lefthook \
 	_linkerd \
 	links2 \
 	lintian-info \
@@ -714,6 +749,7 @@ CLEANFILES = \
 	_metalctl \
 	micropython \
 	_minikube \
+	_mise \
 	mkisofs \
 	_mmctl \
 	mogrify \
@@ -726,8 +762,11 @@ CLEANFILES = \
 	muttng \
 	ncal \
 	neomutt \
+	_nerdctl \
 	_nfpm \
 	_nomad \
+	_npm \
+	_oc \
 	_okteto \
 	_op \
 	_ory \
@@ -741,8 +780,7 @@ CLEANFILES = \
 	pinfo \
 	ping4 \
 	ping6 \
-	pkg_deinstall \
-	pkg_info \
+	_pip3 \
 	pkgconf \
 	pkill \
 	plzip \
@@ -794,6 +832,7 @@ CLEANFILES = \
 	python3.10 \
 	python3.11 \
 	python3.12 \
+	python3.13 \
 	pyvenv-3.4 \
 	pyvenv-3.5 \
 	pyvenv-3.6 \
@@ -803,6 +842,7 @@ CLEANFILES = \
 	pyvenv-3.10 \
 	pyvenv-3.11 \
 	pyvenv-3.12 \
+	pyvenv-3.13 \
 	qemu-kvm \
 	qemu-system-i386 \
 	qemu-system-x86_64 \
@@ -822,7 +862,6 @@ CLEANFILES = \
 	rpm2txz \
 	rpmbuild \
 	rpmbuild-md5 \
-	_rtx \
 	s390-koji \
 	sbcl-mt \
 	scp \
@@ -855,7 +894,11 @@ CLEANFILES = \
 	_tanzu-core \
 	_tendermint \
 	_terraform \
+	_tkn \
+	_tkn-pac \
 	tightvncviewer \
+	_todoist \
+	_tofu \
 	tracepath6 \
 	_trivy \
 	typeset \
@@ -891,6 +934,7 @@ CLEANFILES = \
 	xpovray \
 	xvnc4viewer \
 	ypcat \
+	_zarf \
 	_zitadel
 
 symlinks: $(DATA)
@@ -955,7 +999,7 @@ symlinks: $(DATA)
 	$(ss) freeciv-server \
 		civserver
 	$(ss) _gaiacli \
-		_gaiad _tendermint
+		_gaiad _npm _tendermint
 	$(ss) gcc \
 		c++ cc f77 f95 g++ g++-5 g++-6 g++-7 g++-8 g77 g95 gcc-5 \
 		gcc-6 gcc-7 gcc-8 gccgo gccgo-5 gccgo-6 gccgo-7 gccgo-8 gcj \
@@ -972,10 +1016,13 @@ symlinks: $(DATA)
 		_allero \
 		_arduino-cli \
 		_buf \
+		_chezmoi \
 		_cilium \
 		_cloudquery \
 		_constellation \
+		_crc \
 		_datree \
+		_dlv \
 		_docker \
 		_gardenctl \
 		_gh-label \
@@ -983,8 +1030,10 @@ symlinks: $(DATA)
 		_go-licenses \
 		_gopherjs \
 		_goreleaser \
+		_gup \
 		_helm \
 		_hugo \
+		_incus \
 		_ignite \
 		_istioctl \
 		_k3s \
@@ -994,14 +1043,18 @@ symlinks: $(DATA)
 		_kubeadm \
 		_kubectl \
 		_kubescape \
+		_lefthook \
 		_linkerd \
 		_mattermost \
 		_metalctl \
 		_minikube \
+		_mise \
 		_mmctl \
 		_moldy \
 		_multi-gitter \
+		_nerdctl \
 		_nfpm \
+		_oc \
 		_okteto \
 		_op \
 		_ory \
@@ -1011,16 +1064,18 @@ symlinks: $(DATA)
 		_qrpc \
 		_random \
 		_rclone \
-		_rtx \
 		_skaffold \
 		_sshi \
 		_ssh-inscribe \
 		_tanzu \
 		_tanzu-core \
+		_tkn \
+		_tkn-pac \
 		_trivy \
 		_upctl \
 		_vacuum \
 		_virtctl \
+		_zarf \
 		_zitadel
 	$(ss) gpgv \
 		gpgv2
@@ -1081,7 +1136,7 @@ symlinks: $(DATA)
 	$(ss) mcrypt \
 		mdecrypt
 	$(ss) _mdbook \
-		_deno _diesel _starship
+		_deno _diesel _dprint _starship
 	$(ss) mplayer \
 		gmplayer kplayer mencoder mplayer2
 	$(ss) mutt \
@@ -1097,6 +1152,7 @@ symlinks: $(DATA)
 		_ansible-playbook \
 		_ansible-pull \
 		_ansible-vault \
+		_conda \
 		_cz
 	$(ss) nslookup \
 		host
@@ -1108,10 +1164,16 @@ symlinks: $(DATA)
 		alpine
 	$(ss) ping \
 		ping4 ping6
+	$(ss) _pip \
+		_pip3
+	$(ss) _pipenv \
+		_black _blackd _flask _httpx
 	$(ss) pkg-config \
 		pkgconf
+if BSD
 	$(ss) pkg_delete \
 		pkg_deinstall pkg_info
+endif
 	$(ss) pgrep \
 		pkill
 	$(ss) pm-hibernate \
@@ -1134,10 +1196,10 @@ symlinks: $(DATA)
 	$(ss) python \
 		micropython pypy pypy3 pyston pyston3 python2 python2.7 \
 		python3 python3.3  python3.4 python3.5 python3.6 python3.7 \
-		python3.8 python3.9 python3.10 python3.11 python3.12
+		python3.8 python3.9 python3.10 python3.11 python3.12 python3.13
 	$(ss) pyvenv \
 		pyvenv-3.4 pyvenv-3.5 pyvenv-3.6 pyvenv-3.7 pyvenv-3.8 \
-		pyvenv-3.9 pyvenv-3.10 pyvenv-3.11 pyvenv-3.12
+		pyvenv-3.9 pyvenv-3.10 pyvenv-3.11 pyvenv-3.12 pyvenv-3.13
 	$(ss) qdbus \
 		dcop
 	$(ss) qemu \
@@ -1156,6 +1218,8 @@ symlinks: $(DATA)
 		sbcl-mt
 	$(ss) sha256sum \
 		b2sum md5sum shasum sha1sum sha224sum sha384sum sha512sum
+	$(ss) _sops \
+		_kata-runtime _todoist
 	$(ss) ssh \
 		autossh scp sftp sidedoor slogin
 	$(ss) sudo \
@@ -1167,7 +1231,7 @@ symlinks: $(DATA)
 	$(ss) update-alternatives \
 		alternatives
 	$(ss) _vault \
-		_consul _nomad _packer _terraform
+		_bao _consul _nomad _packer _terraform _tofu
 	$(ss) vipw \
 		vigr
 	$(ss) vncviewer \
@@ -1192,9 +1256,9 @@ install-data-hook: ss = $(SETUP_SYMLINKS) $(DESTDIR)$(bashcompdir)
 install-data-hook: symlinks
 
 check-local:
-	ret=0; \
+	REPLY=0; \
 	for file in $(bashcomp_DATA); do \
 		$${bashcomp_bash:-$${BASH:-bash}} \
-			-O extglob -n $(srcdir)/$$file || ret=$$?; \
+			-O extglob -n $(srcdir)/$$file || REPLY=$$?; \
 	done; \
-	exit $$ret
+	exit $$REPLY

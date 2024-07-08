@@ -74,7 +74,7 @@ incompatibility when the user uses their own version of bash-completion instead
 of the systemwide version. To suppress these files one can set the following
 value:
 
-```sh
+```bash
 export BASH_COMPLETION_COMPAT_IGNORE='@(acroread.sh|redefine_filedir)'
 ```
 

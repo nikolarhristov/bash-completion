@@ -19,5 +19,5 @@ ADD test-cmd-list.txt \
 	docker/alpine/install-packages.sh \
 	/tmp/
 
-RUN /tmp/install-packages.sh \
-	&& rm -r /tmp/*
+RUN /tmp/install-packages.sh &&
+	rm -r /tmp/*

@@ -8,20 +8,20 @@ repos:
           - id: gitlint
 
     - repo: https://github.com/scop/pre-commit-shfmt
-      rev: v3.6.0-1
+      rev: v3.8.0-1
       hooks:
-          - id: shfmt-docker
+          - id: shfmt
             types: [text]
-            files: ^(bash_completion(\.d/[^/]+\.bash)?|completions/.+|test/(config/bashrc|update-test-cmd-list)|.+\.sh(\.in)?)$
+            files: ^(bash_completion(\.d/[^/]+\.bash)?|completions/.+|test/(config/bashrc|fallback/update-fallback-links|runLint|update-test-cmd-list)|.+\.sh(\.in)?)$
             exclude: ^completions/(\.gitignore|Makefile.*)$
 
     - repo: https://github.com/shellcheck-py/shellcheck-py
-      rev: v0.9.0.5
+      rev: v0.10.0.1
       hooks:
           - id: shellcheck
             args: [-f, gcc]
             types: [text]
-            files: ^(bash_completion(\.d/[^/]+\.bash)?|completions/.+|test/(config/bashrc|update-test-cmd-list)|.+\.sh(\.in)?)$
+            files: ^(bash_completion(\.d/[^/]+\.bash)?|completions/.+|test/(config/bashrc|fallback/update-fallback-links|runLint|update-test-cmd-list)|.+\.sh(\.in)?)$
             exclude: ^completions/(\.gitignore|Makefile.*)$
             require_serial: false # We disable SC1090 anyway, so parallel is ok
 
@@ -42,17 +42,13 @@ repos:
             pass_filenames: false
 
     - repo: https://github.com/astral-sh/ruff-pre-commit
-      rev: v0.0.272
+      rev: v0.4.3
       hooks:
           - id: ruff
             types: [text]
             files: ^(helpers/python|.+\.py)$
             exclude: ^completions/
-
-    - repo: https://github.com/psf/black-pre-commit-mirror
-      rev: 23.1.0
-      hooks:
-          - id: black
+          - id: ruff-format
             types: [text]
             files: ^(helpers/python|.+\.py)$
             exclude: ^completions/
@@ -63,7 +59,7 @@ repos:
             name: mypy
             language: python
             additional_dependencies:
-                - venv-run==0.1.0
+                - venv-run==0.2.0
             entry: venv-run mypy
             args: [--config-file=test/setup.cfg]
             types: [python]
@@ -71,7 +67,7 @@ repos:
             exclude: ^completions/|^test/fixtures/pytest/
 
     - repo: https://github.com/perltidy/perltidy
-      rev: "20210717"
+      rev: "20240202"
       hooks:
           - id: perltidy
             types: [text]
@@ -86,7 +82,7 @@ repos:
             files: ^(helpers/perl|.+\.p[ml])$
 
     - repo: https://github.com/jackdewinter/pymarkdown
-      rev: v0.9.6
+      rev: v0.9.19
       hooks:
           - id: pymarkdown
             entry: pymarkdown
@@ -96,12 +92,12 @@ repos:
             exclude: ^CHANGELOG\.md$
 
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.0.1
+      rev: v4.6.0
       hooks:
           - id: check-case-conflict
 
     - repo: https://github.com/crate-ci/typos
-      rev: v1.15.10
+      rev: v1.21.0
       hooks:
           - id: typos
             exclude: ^(CHANGELOG\.md|test/(test-cmd-list\.txt|fixtures/.+))$

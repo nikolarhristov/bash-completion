@@ -102,9 +102,10 @@ anything else there.
 with extensions that are legitimate in my environment. Do I have to disable
 completion for that command in order to complete on the files that I need to?**
 
-A. No. Use `M-/` to (in the words of the bash man page) attempt file name
-completion on the text to the left of the cursor. This will circumvent any file
-type restrictions put in place by the bash completion code.
+A. No. If needed just once in a while, use `M-/` to (in the words of the bash
+man page) attempt file name completion on the text to the left of the cursor.
+This will circumvent any file type restrictions put in place by the bash
+completion code. If needed more regularly, see the next question:
 
 **Q. How can I override a completion shipped by bash-completion?**
 
@@ -136,9 +137,10 @@ code for this package. Where should I put it to be sure that interactive bash
 shells will find it and source it?**
 
 A. [ Disclaimer: Here, how to make the completion code visible to
-bash-completion is explained. We do not require always making the completion
-code visible to bash-completion. In what condition the completion code is
-installed should be determined at the author/maintainers' own discretion. ]
+bash-completion is explained. We do not require always making the
+completion code visible to bash-completion. In what condition the completion
+code is installed should be determined at the author/maintainers' own
+discretion. ]
 
 Install it in one of the directories pointed to by bash-completion's `pkgconfig`
 file variables. There are two alternatives:

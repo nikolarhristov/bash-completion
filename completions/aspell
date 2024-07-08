@@ -5,13 +5,12 @@ _comp_cmd_aspell__dictionary()
     local datadir aspell=$1
     datadir=$("$aspell" config data-dir 2>/dev/null || echo /usr/lib/aspell)
     # First, get aliases (dicts dump does not list them)
-    COMPREPLY=($datadir/*.alias)
-    if ((${#COMPREPLY[@]})); then
+    if _comp_expand_glob COMPREPLY '"$datadir"/*.alias'; then
         COMPREPLY=("${COMPREPLY[@]%.alias}")
         COMPREPLY=("${COMPREPLY[@]#$datadir/}")
     fi
     # Then, add the canonical dicts
-    COMPREPLY+=($("$aspell" dicts 2>/dev/null))
+    _comp_split -a COMPREPLY "$("$aspell" dicts 2>/dev/null)"
     ((${#COMPREPLY[@]})) &&
         _comp_compgen -- -X '\*' -W '"${COMPREPLY[@]}"'
 }
@@ -36,7 +35,7 @@ _comp_cmd_aspell()
             ;;
         --mode)
             _comp_compgen_split -- "$("$1" modes 2>/dev/null |
-                awk '{ print $1 }')"
+                _comp_awk '{ print $1 }')"
             return
             ;;
         --sug-mode)
@@ -53,7 +52,7 @@ _comp_cmd_aspell()
             ;;
         --add-filter | --rem-filter)
             _comp_compgen_split -- "$("$1" filters 2>/dev/null |
-                awk '{ print $1 }')"
+                _comp_awk '{ print $1 }')"
             return
             ;;
     esac

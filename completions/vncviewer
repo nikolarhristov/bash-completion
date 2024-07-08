@@ -2,18 +2,18 @@
 
 _comp_cmd_vncviewer__bootstrap()
 {
-    local fname ret
+    local fname REPLY
     _comp_realcommand vncviewer
-    case $ret in
+    case $REPLY in
         *xvnc4viewer) fname=_comp_cmd_xvnc4viewer ;;
         *tightvncviewer) fname=_comp_cmd_tightvncviewer ;;
-        *) fname=_known_hosts ;;
+        *) fname=_comp_complete_known_hosts ;;
     esac
 
     # Install real completion for subsequent completions
+    unset -f "$FUNCNAME"
     complete -F $fname vncviewer
     $fname "$@" # Generate completions once for now
-    unset -f "$FUNCNAME"
 } &&
     complete -F _comp_cmd_vncviewer__bootstrap vncviewer
 
@@ -32,7 +32,7 @@ _comp_cmd_tightvncviewer()
             return
             ;;
         -via)
-            _known_hosts_real -- "$cur"
+            _comp_compgen_known_hosts -- "$cur"
             return
             ;;
     esac
@@ -43,7 +43,7 @@ _comp_cmd_tightvncviewer()
             -truecolour -truecolor -depth -compresslevel -quality -nojpeg
             -nocursorshape -x11cursor'
     else
-        _known_hosts_real -- "$cur"
+        _comp_compgen_known_hosts -- "$cur"
     fi
 } &&
     complete -F _comp_cmd_tightvncviewer tightvncviewer
@@ -68,7 +68,7 @@ _comp_cmd_xvnc4viewer()
             return
             ;;
         -via)
-            _known_hosts_real -- "$cur"
+            _comp_compgen_known_hosts -- "$cur"
             return
             ;;
     esac
@@ -83,15 +83,15 @@ _comp_cmd_xvnc4viewer()
             WMDecorationWidth ZlibLevel)
         [[ $cur == --* ]] && dash=-- || dash=-
 
-        local IFS=$' \t\n' reset=$(shopt -p nocasematch)
-        shopt -s nocasematch
-        local option
-        COMPREPLY=($(for option in "${options[@]}"; do
-            [[ $dash$option == "$cur"* ]] && printf '%s\n' "$dash$option"
-        done))
-        $reset
+        _comp_split COMPREPLY "$(
+            shopt -s nocasematch
+            local option
+            for option in "${options[@]}"; do
+                [[ $dash$option == "$cur"* ]] && printf '%s\n' "$dash$option"
+            done
+        )"
     else
-        _known_hosts_real -- "$cur"
+        _comp_compgen_known_hosts -- "$cur"
     fi
 } &&
     complete -F _comp_cmd_xvnc4viewer xvnc4viewer

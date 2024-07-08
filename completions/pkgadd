@@ -40,15 +40,14 @@ _comp_cmd_pkgadd()
             else
                 local -a pkginst_list
                 if [[ -d $device ]]; then
-                    _comp_expand_glob pkginst_list '"$device"/*/pkginfo'
-                    if ((${#pkginst_list[@]})); then
+                    if _comp_expand_glob pkginst_list '"$device"/*/pkginfo'; then
                         pkginst_list=("${pkginst_list[@]#"$device/"}")
                         pkginst_list=("${pkginst_list[@]%/pkginfo}")
                     fi
                 else
-                    local ret
+                    local REPLY
                     _comp_dequote "$device"
-                    _comp_split -l pkginst_list "$(strings "${ret-}" |
+                    _comp_split -l pkginst_list "$(strings "${REPLY-}" |
                         command sed -n 's/^PKG=//p' | sort -u)"
                 fi
                 ((${#pkginst_list[@]})) &&

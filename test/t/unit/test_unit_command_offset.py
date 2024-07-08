@@ -12,7 +12,8 @@ def join(words):
 
 @pytest.mark.bashcomp(
     cmd=None,
-    ignore_env=r"^[+-]COMPREPLY=",
+    cwd="_command_offset",
+    ignore_env=r"^[+-](COMPREPLY|REPLY)=",
 )
 class TestUnitCommandOffset:
     wordlist = sorted(["foo", "bar"])
@@ -44,6 +45,8 @@ class TestUnitCommandOffset:
             bash, "complete -W %s 'cmd!'" % quote(join(self.wordlist))
         )
         assert_bash_exec(bash, 'complete -W \'"$word1" "$word2"\' cmd6')
+
+        assert_bash_exec(bash, "complete -C ./completer cmd7")
 
     def test_1(self, bash, functions):
         assert_complete(bash, 'cmd1 "/tmp/aaa bbb" ')
@@ -78,6 +81,21 @@ class TestUnitCommandOffset:
         """
         assert assert_complete(bash, "meta %s " % cmd) == expected_completion
 
+    @pytest.mark.parametrize(
+        "cmd,expected_completion",
+        [
+            ("cmd7 ", wordlist),
+            ("cmd7 l", ["line\\^Jtwo", "long"]),
+            ("cmd7 lo", ["ng"]),
+            ("cmd7 line", ["\\^Jtwo"]),
+            ("cmd7 cont1", ["cont10", "cont11\\"]),
+        ],
+    )
+    def test_3(self, bash, functions, cmd, expected_completion):
+        got = assert_complete(bash, f"cmd1 {cmd}")
+        assert got == assert_complete(bash, cmd)
+        assert got == expected_completion
+
     def test_cmd_quoted(self, bash, functions):
         assert assert_complete(bash, "meta 'cmd2' ") == self.wordlist
 
@@ -95,7 +113,7 @@ class TestUnitCommandOffset:
         assert_bash_exec(
             bash,
             "_comp_test_reassemble() {"
-            "    local IFS=$' \\t\\n' ret;"
+            "    local IFS=$' \\t\\n' REPLY;"
             '    COMP_LINE=$1; _comp_split COMP_WORDS "$2"; COMP_CWORD=$((${#COMP_WORDS[@]}-1));'
             "    _comp__reassemble_words = words cword;"
             "}",
@@ -103,9 +121,9 @@ class TestUnitCommandOffset:
         assert_bash_exec(
             bash,
             "_comp_test_1() {"
-            '    local COMP_WORDS COMP_LINE COMP_CWORD words cword ret; _comp_test_reassemble "$1" "$2";'
+            '    local COMP_WORDS COMP_LINE COMP_CWORD words cword REPLY; _comp_test_reassemble "$1" "$2";'
             '    _comp__find_original_word "$3";'
-            '    echo "$ret";'
+            '    echo "$REPLY";'
             "}",
         )
 
