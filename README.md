@@ -267,7 +267,7 @@ Linux systems.
 If you don't have such a cron job, make one:
 
 ```shell
-#!/bin/sh
+#!/bin/bash
 
 rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\n' 2>&1 \
 	| sort > /var/log/rpmpkgs

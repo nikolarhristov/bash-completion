@@ -1,4 +1,4 @@
-#!/bin/sh -eux
+#!/bin/bash -eux
 # shellcheck shell=sh
 
 if [ "${BSD-}" ]; then
