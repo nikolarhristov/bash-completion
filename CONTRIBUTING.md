@@ -41,8 +41,8 @@ Don't be disappointed if it does or doesn't happen instantly.
 
 Also, please bear the following coding guidelines in mind:
 
--   See the related documents, [API and naming](doc/api-and-naming.md) and
-    [Coding style guide](doc/styleguide.md), for information about conventions
+-   See the related documents, [`API and naming`](doc/api-and-naming.md) and
+    [`Coding style guide`](doc/styleguide.md), for information about conventions
     to follow related to those topics.
 
 -   Do not use Perl, Ruby, Python etc. to do text processing unless the command
@@ -158,9 +158,9 @@ Also, please bear the following coding guidelines in mind:
 -   Make small, incremental commits that do one thing. Don't cram unrelated
     changes into a single commit.
 
--   We use [Conventional Commits](https://www.conventionalcommits.org/) to
+-   We use [`Conventional Commits`](https://www.conventionalcommits.org/) to
     format commit messages, with types and most other details from
-    [commitlint's config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
+    [`commitlint's config-conventional`](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
     `gitlint` in our pre-commit config checks commit messages for conformance
     with these rules.
 

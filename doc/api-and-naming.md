@@ -74,7 +74,7 @@ their name as well as the name of the command.
 Public configuration variables are shell ones that affect the runtime behavior
 of various completions. As a rule of thumb, we lean towards not providing
 customizability but rather strive to provide great completion behavior out of
-the box. But there are some, see [configuration](configuration.md).
+the box. But there are some, see [`configuration`](configuration.md).
 
 Variables and functions whose name contains a double underscore (`__`) anywhere
 in their name are private implementation details, not part of the stable API,
