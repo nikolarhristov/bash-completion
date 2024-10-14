@@ -3561,7 +3561,7 @@
     ([`4f13792`](https://www.github.com/scop/bash-completion/commit/4f13792b4fe87ebfcd6d9bbe15c9813f2a1b2a94))
 -   travis: Run tests with --all to get some more useful output
     ([`d04af62`](https://www.github.com/scop/bash-completion/commit/d04af6260a7cfcb1c521298eae346bec9303bfc0))
--   travis: Install more packages for [0-9][ab]\* test coverage
+-   travis: Install more packages for [`0-9`][ab]\* test coverage
     ([`0cec990`](https://www.github.com/scop/bash-completion/commit/0cec99072d36ffe68bec89e4e668ec94b4534929))
 -   test suite: Use unsupported instead of xfail for modinfo/modprobe cases
     ([`501c106`](https://www.github.com/scop/bash-completion/commit/501c10692dfcf744dbf333d78e0ed933b9dc51a8))
