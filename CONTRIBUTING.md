@@ -158,9 +158,9 @@ Also, please bear the following coding guidelines in mind:
 -   Make small, incremental commits that do one thing. Don't cram unrelated
     changes into a single commit.
 
--   We use [`Conventional Commits`](https://www.conventionalcommits.org/) to
+-   We use [`Conventional Commits`](HTTPS://www.conventionalcommits.org/) to
     format commit messages, with types and most other details from
-    [`commitlint's config-conventional`](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
+    [`commitlint's config-conventional`](HTTPS://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
     `gitlint` in our pre-commit config checks commit messages for conformance
     with these rules.
 
@@ -178,9 +178,9 @@ Also, please bear the following coding guidelines in mind:
     if there's no other sane way to do what you're doing. The "Shell and
     Utilities" volume of the POSIX specification is a good starting reference
     for portable use of various utilities, see
-    <https://pubs.opengroup.org/onlinepubs/9699919799/>.
+    <HTTPS://pubs.opengroup.org/onlinepubs/9699919799/>.
 
--   Use an editor that supports EditorConfig, see <https://editorconfig.org/>,
+-   Use an editor that supports EditorConfig, see <HTTPS://editorconfig.org/>,
     and format source code according to our settings.
 
 -   Read the existing source code for examples of how to solve particular
@@ -207,7 +207,7 @@ Also, please bear the following coding guidelines in mind:
     python3 -m pip install -r test/requirements-dev.txt
     ```
 
--   Install pre-commit and set it up, see <https://pre-commit.com/>. That'll run
+-   Install pre-commit and set it up, see <HTTPS://pre-commit.com/>. That'll run
     a bunch of linters and the like, the same as the bash-completion CI does.
     Running it locally and fixing found issues before commit/push/PR reduces
     some roundtrips with the review. After installing it, enable it for stages
@@ -218,7 +218,7 @@ Also, please bear the following coding guidelines in mind:
     ```
 
 -   File bugs, enhancement, and pull requests at GitHub,
-    <https://github.com/scop/bash-completion>. Sending them to the developers
+    <HTTPS://github.com/scop/bash-completion>. Sending them to the developers
     might work too, but is really strongly discouraged as bits are more likely
     to fall through the cracks that way compared to the tracker. Just use
     GitHub. If that's not an option for some reason and you want to use email to

@@ -1,18 +1,18 @@
 # bash-completion
 
-[![CI](https://github.com/scop/bash-completion/actions/workflows/ci.yaml/badge.svg)](https://github.com/scop/bash-completion/actions/workflows/ci.yaml)
+[![CI](HTTPS://github.com/scop/bash-completion/actions/workflows/ci.yaml/badge.svg)](HTTPS://github.com/scop/bash-completion/actions/workflows/ci.yaml)
 
 ## Introduction
 
 bash-completion is a collection of command line command completions for the
-[`Bash shell`](https://www.gnu.org/software/bash/), collection of helper functions
+[`Bash shell`](HTTPS://www.gnu.org/software/bash/), collection of helper functions
 to assist in creating new completions, and set of facilities for loading
 completions automatically on demand, as well as installing them.
 
 ## 🚀 Installation
 
 The easiest way to install this software is to use a package; refer to
-[`Repology`](https://repology.org/project/bash-completion) for a comprehensive
+[`Repology`](HTTPS://repology.org/project/bash-completion) for a comprehensive
 list of operating system distributions, package names, and available versions.
 
 Depending on the package, you may still need to source it from either
@@ -319,7 +319,7 @@ lists.
 A. Absolutely not. zsh has an extremely sophisticated completion system that
 offers many features absent from the bash implementation. Its users often cannot
 resist pointing this out. More information can be found at
-<https://www.zsh.org/>.
+<HTTPS://www.zsh.org/>.
 
 **Q. What is the search order for the completion file of each target command?**
 
