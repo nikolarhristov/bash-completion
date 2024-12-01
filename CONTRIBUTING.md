@@ -158,9 +158,9 @@ Also, please bear the following coding guidelines in mind:
 -   Make small, incremental commits that do one thing. Don't cram unrelated
     changes into a single commit.
 
--   We use [`Conventional Commits`](HTTPS://www.conventionalcommits.org/) to
+-   We use [`Conventional Commits`](https://www.conventionalcommits.org/) to
     format commit messages, with types and most other details from
-    [`commitlint's config-conventional`](HTTPS://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
+    [`commitlint's config-conventional`](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
     `gitlint` in our pre-commit config checks commit messages for conformance
     with these rules.
 

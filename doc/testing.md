@@ -6,13 +6,13 @@ The bash-completion package contains an automated test suite. Running the tests
 should help verifying that bash-completion works as expected. The tests are also
 very helpful in uncovering software regressions at an early stage.
 
-The test suite is written in Python, using [`pytest`](HTTPS://pytest.org/) and
-[`pexpect`](HTTPS://pexpect.readthedocs.io/).
+The test suite is written in Python, using [`pytest`](https://pytest.org/) and
+[`pexpect`](https://pexpect.readthedocs.io/).
 
 ## Coding style
 
 For the Python part, all of it is checked and formatted using
-[`Ruff`](HTTPS://docs.astral.sh/ruff/).
+[`Ruff`](https://docs.astral.sh/ruff/).
 
 ## Installing dependencies
 
