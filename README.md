@@ -9,7 +9,7 @@ bash-completion is a collection of command line command completions for the
 to assist in creating new completions, and set of facilities for loading
 completions automatically on demand, as well as installing them.
 
-## 🚀 Installation
+## Installation 🚀
 
 The easiest way to install this software is to use a package; refer to
 [`Repology`](https://repology.org/project/bash-completion) for a comprehensive
