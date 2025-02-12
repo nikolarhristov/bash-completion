@@ -1,6 +1,6 @@
 ## [`2.14.0`](HTTPS://GitHub.Com/scop/bash-completion/compare/2.13.0...2.14.0) (2024-05-09)
 
-### Features
+### Feature
 
 -   **bao:** add 3rd party fallback completion loader
     ([`af7fbb9`](HTTPS://GitHub.Com/scop/bash-completion/commit/af7fbb97b470abce4025144fe4676c38cf4514d4))
@@ -43,7 +43,7 @@
 -   **zarf:** add 3rd party fallback completion loader
     ([`032f0f0`](HTTPS://GitHub.Com/scop/bash-completion/commit/032f0f0f35b53856c3be642bb3101a4d01c81aee))
 
-### Bug Fixes
+### Fix
 
 -   **_comp_{compgen,xfunc}:** use `declare -F --` for arbitrary funcs
     ([`8998491`](HTTPS://GitHub.Com/scop/bash-completion/commit/899849127707f6d616d5312c0efab0092b8caea8))
@@ -76,7 +76,7 @@
 
 ## [`2.13.0`](HTTPS://GitHub.Com/scop/bash-completion/compare/2.12.0...2.13.0) (2024-04-03)
 
-### Features
+### Feature
 
 -   **curl:** Complete protocols for --proto-default
     ([`7051379`](HTTPS://GitHub.Com/scop/bash-completion/commit/7051379e448147407c3fe43c89872dafb76ebb27))
@@ -101,7 +101,7 @@
 -   **xmllint,xmlwf:** also suggest \*.rss files
     ([`a89cde2`](HTTPS://GitHub.Com/scop/bash-completion/commit/a89cde2216b1634521b4a264b2dbc5cda7522061))
 
-### Bug Fixes
+### Fix
 
 -   **available_interfaces:** fix regression of unwanted trailing colons
     ([`c2f83e0`](HTTPS://GitHub.Com/scop/bash-completion/commit/c2f83e0436208ef2bfa9c762bc28ff6374ba0c73))
@@ -126,7 +126,7 @@
 
 ## [`2.12.0`](HTTPS://GitHub.Com/scop/bash-completion/compare/v2.11.0...2.12.0) (2024-02-21)
 
-### Features
+### Feature
 
 -   **\_comp_backup_glob:** add `ucf` generated backup files
     ([`351be1c`](HTTPS://GitHub.Com/scop/bash-completion/commit/351be1c81ecd97135d3df64475a93d57526d5630))
@@ -253,7 +253,7 @@
 -   **xrandr:** comma separated `--setmonitor` third argument
     ([`8a76f3d`](HTTPS://GitHub.Com/scop/bash-completion/commit/8a76f3d75db290302f94ea732e01a9afd25c2c24))
 
-### Bug Fixes
+### Fix
 
 -   **\_\_load_completion:** quoted compspec for variants
     ([`#1008`](HTTPS://GitHub.Com/scop/bash-completion/issues/1008))
